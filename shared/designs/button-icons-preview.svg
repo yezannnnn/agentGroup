@@ -1,0 +1,141 @@
+<svg width="500" height="600" viewBox="0 0 500 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <rect width="500" height="600" fill="#F8FAFC"/>
+
+  <!-- 标题 -->
+  <text x="20" y="40" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="600" fill="#1E293B">按钮图标预览</text>
+  <rect x="20" y="55" width="460" height="1" fill="#E2E8F0"/>
+
+  <!-- 1. 返回按钮 -->
+  <text x="20" y="95" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500" fill="#64748B">1. 返回按钮</text>
+  <rect x="20" y="110" width="48" height="48" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+  <g transform="translate(32, 122)">
+    <path d="M19 12H5M12 19l-7-7 7-7" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+
+  <!-- 2. 设置按钮 -->
+  <text x="150" y="95" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500" fill="#64748B">2. 设置按钮</text>
+  <rect x="150" y="110" width="48" height="48" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+  <g transform="translate(162, 122)">
+    <circle cx="12" cy="12" r="3" stroke="#333333" stroke-width="2" fill="none"/>
+    <path d="M12 1v3M12 20v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M1 12h3M20 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" stroke="#333333" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 3. 麦克风按钮 -->
+  <text x="280" y="95" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500" fill="#64748B">3. 麦克风</text>
+  <circle cx="304" cy="134" r="24" fill="#F3F4F6"/>
+  <g transform="translate(292, 122)">
+    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" stroke="#667eea" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8" stroke="#667eea" stroke-width="2" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- 4. 语音播放 -->
+  <text x="400" y="95" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500" fill="#64748B">4. 语音播放</text>
+  <circle cx="424" cy="134" r="20" fill="rgba(102,126,234,0.1)"/>
+  <g transform="translate(414, 124)">
+    <polygon points="8 5 8 15 16 10" fill="#667eea"/>
+  </g>
+
+  <!-- 分割线 -->
+  <rect x="20" y="180" width="460" height="1" fill="#E2E8F0"/>
+
+  <!-- 发送按钮选项 -->
+  <text x="20" y="210" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="600" fill="#1E293B">发送按钮图标选项</text>
+  <text x="20" y="230" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#94A3B8">背景: #F3F4F6 | 图标: #667eea</text>
+
+  <!-- 第一排 -->
+  <!-- A: 箭头向上 -->
+  <circle cx="60" cy="290" r="28" fill="#F3F4F6"/>
+  <g transform="translate(48, 278)">
+    <path d="M12 19V5M5 12l7-7 7 7" stroke="#667eea" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+  <text x="60" y="335" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B" text-anchor="middle">箭头向上</text>
+
+  <!-- B: 纸飞机(斜) -->
+  <circle cx="140" cy="290" r="28" fill="#F3F4F6"/>
+  <g transform="translate(128, 278)">
+    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+  <text x="140" y="335" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B" text-anchor="middle">纸飞机(斜)</text>
+
+  <!-- C: 导航箭头 -->
+  <circle cx="220" cy="290" r="28" fill="#F3F4F6"/>
+  <g transform="translate(208, 278)">
+    <path d="m3 11l19-9l-9 19l-2-8z" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+  <text x="220" y="335" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B" text-anchor="middle">导航箭头</text>
+
+  <!-- D: 箭头向右 -->
+  <circle cx="300" cy="290" r="28" fill="#F3F4F6"/>
+  <g transform="translate(288, 278)">
+    <path d="M5 12h14M12 5l7 7-7 7" stroke="#667eea" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+  <text x="300" y="335" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B" text-anchor="middle">箭头向右</text>
+
+  <!-- E: 实心三角 -->
+  <circle cx="380" cy="290" r="28" fill="#F3F4F6"/>
+  <g transform="translate(368, 278)">
+    <polygon points="8 5 8 19 20 12" fill="#667eea"/>
+  </g>
+  <text x="380" y="335" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B" text-anchor="middle">实心三角</text>
+
+  <!-- F: 圆角三角 -->
+  <circle cx="460" cy="290" r="28" fill="#F3F4F6"/>
+  <g transform="translate(448, 278)">
+    <path d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18a1 1 0 000-1.69L9.54 5.98A.998.998 0 008 6.82z" fill="#667eea"/>
+  </g>
+  <text x="460" y="335" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B" text-anchor="middle">圆角三角</text>
+
+  <!-- 第二排 -->
+  <!-- G: 简洁发送 -->
+  <circle cx="60" cy="400" r="28" fill="#F3F4F6"/>
+  <g transform="translate(48, 388)">
+    <path d="M5 12l4-4v3h8v2h-8v3l-4-4z" fill="#667eea"/>
+  </g>
+  <text x="60" y="445" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B" text-anchor="middle">简洁箭头</text>
+
+  <!-- H: 圆圈箭头 -->
+  <circle cx="140" cy="400" r="28" fill="#F3F4F6"/>
+  <g transform="translate(128, 388)">
+    <circle cx="12" cy="12" r="10" stroke="#667eea" stroke-width="2" fill="none"/>
+    <path d="M8 12h8M13 9l3 3-3 3" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+  <text x="140" y="445" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B" text-anchor="middle">圆圈箭头</text>
+
+  <!-- I: 转角箭头 -->
+  <circle cx="220" cy="400" r="28" fill="#F3F4F6"/>
+  <g transform="translate(208, 388)">
+    <path d="m10 9l5-5l5 5" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M4 20h7a4 4 0 0 0 4-4V4" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+  <text x="220" y="445" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B" text-anchor="middle">转角箭头</text>
+
+  <!-- J: 双箭头 -->
+  <circle cx="300" cy="400" r="28" fill="#F3F4F6"/>
+  <g transform="translate(288, 388)">
+    <path d="M13 5l6 6-6 6M7 5l6 6-6 6" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+  <text x="300" y="445" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B" text-anchor="middle">双箭头</text>
+
+  <!-- K: 上传箭头 -->
+  <circle cx="380" cy="400" r="28" fill="#F3F4F6"/>
+  <g transform="translate(368, 388)">
+    <path d="M12 17V3M5 10l7-7 7 7" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M20 21H4" stroke="#667eea" stroke-width="2" stroke-linecap="round" fill="none"/>
+  </g>
+  <text x="380" y="445" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B" text-anchor="middle">上传箭头</text>
+
+  <!-- L: 对话气泡 -->
+  <circle cx="460" cy="400" r="28" fill="#F3F4F6"/>
+  <g transform="translate(448, 388)">
+    <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+  <text x="460" y="445" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B" text-anchor="middle">对话气泡</text>
+
+  <!-- 推荐标注 -->
+  <rect x="20" y="480" width="460" height="1" fill="#E2E8F0"/>
+  <text x="20" y="510" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="500" fill="#667eea">推荐选项：</text>
+  <text x="20" y="535" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#64748B">• 箭头向上 - 类似 iMessage，简洁明了</text>
+  <text x="20" y="555" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#64748B">• 导航箭头 - 方向感强，现代感</text>
+  <text x="20" y="575" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#64748B">• 实心三角 - 简洁醒目，辨识度高</text>
+</svg>
