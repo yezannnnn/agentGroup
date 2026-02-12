@@ -1,0 +1,14 @@
+# 系统文件
+.DS_Store
+**/.DS_Store
+
+# 个人配置
+*/.claude/settings.local.json
+
+# shared目录：保留框架，忽略具体内容
+shared/status.json
+shared/token-*.md
+shared/SIMPLIFICATION-SUMMARY.md
+shared/docs/*.md
+shared/tasks/*.md
+shared/reviews/*.md
