@@ -1,0 +1,19 @@
+name: test-project
+description: Test project for unit tests
+version: 1.0.0
+
+repo:
+  owner: testuser
+  name: test-repo
+
+tasks:
+  sources:
+    - type: github-issues
+      labels: ['test', 'todo']
+    - type: markdown
+      path: docs/tasks.md
+      pattern: '- \[ \] (.+)'
+
+settings:
+  auto_track: true
+  log_level: debug

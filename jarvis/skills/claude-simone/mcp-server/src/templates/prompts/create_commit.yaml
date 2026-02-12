@@ -1,0 +1,92 @@
+name: create_commit
+description: Create a git commit with optional issue linkage and risk-based approval
+arguments:
+  - name: issue
+    description: Issue number this commit relates to
+    required: false
+template: |
+  # Create Git Commit
+  
+  **IMPORTANT:** Follow from Top to Bottom - don't skip anything!
+  
+  **CREATE A TODO LIST** with exactly these 5 items:
+  
+  1. Gather git repository status
+  2. Analyze staged and unstaged changes
+  3. Relate changes to issue (if provided)
+  4. Generate conventional commit message
+  5. Create commit with appropriate approval
+  
+  ## 1 · Gather git repository status
+  
+  Check the git repository status to identify:
+  - Staged files ready for commit
+  - Unstaged modified files
+  - Untracked files
+  
+  ## 2 · Analyze staged and unstaged changes
+  
+  Review the actual changes in detail to determine:
+  - What functionality was added/modified/removed
+  - Whether changes belong together or should be split
+  - If there are uncommitted files that should be included
+  
+  {{#if issue}}
+  ## 3 · Relate changes to issue {{issue}}
+  
+  {{> github}}
+  
+  Fetch issue #{{issue}} details to understand the requirements.
+  
+  Analyze:
+  - Which changes directly relate to issue #{{issue}}
+  - Which changes are unrelated and might need separate commits
+  - Whether all issue requirements are addressed
+  {{else}}
+  ## 3 · Relate changes to issue (if provided)
+  
+  No issue number provided. Analyze changes for logical grouping.
+  {{/if}}
+  
+  ## 4 · Generate conventional commit message
+  
+  Create a commit message following Conventional Commits format:
+  
+  **Format**: `type(scope): description`
+  
+  **Types**:
+  - feat: New feature
+  - fix: Bug fix
+  - docs: Documentation only
+  - style: Code style (formatting, semicolons, etc)
+  - refactor: Code restructuring without behavior change
+  - perf: Performance improvements
+  - test: Adding/updating tests
+  - chore: Maintenance tasks
+  
+  {{#if issue}}
+  Include `#{{issue}}` in the commit message body.
+  {{/if}}
+  
+  ## 5 · Create commit with appropriate approval
+  
+  {{#if (lt project.riskLevel 5)}}
+  Present the commit message for user approval:
+  
+  ```
+  Proposed commit message:
+  [Show generated message]
+  
+  Proceed with commit? (y/n)
+  ```
+  
+  Only commit after explicit approval.
+  {{else}}
+  Create the commit with the generated message and report the outcome.
+  {{/if}}
+  
+  ✅ **Result**: [Describe the actual outcome - commit hash, message, and any issues]
+  
+  🔎 **Scope**: [Describe what was changed - components, features, or issues affected]
+  
+  💬 **Summary**: [Explain the impact of the changes and why they were made]

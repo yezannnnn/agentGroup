@@ -1,0 +1,15 @@
+{{!-- Pre-PR merge conflict detection --}}
+
+## Check for Merge Conflicts
+
+Before creating the PR, ensure your branch can be cleanly merged:
+
+1. Fetch the latest changes from {{#if github.defaultBranch}}{{github.defaultBranch}}{{else}}main{{/if}}
+2. Check if your branch would have conflicts when merging into the target branch
+
+If conflicts are detected:
+- Consider rebasing your branch on the latest {{#if github.defaultBranch}}{{github.defaultBranch}}{{else}}main{{/if}}
+- Resolve any conflicts that arise
+- Push the updated branch
+
+Ensure your branch is ready for a clean merge before creating the PR.

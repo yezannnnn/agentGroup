@@ -1,0 +1,32 @@
+.featureCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  border-radius: var(--ifm-card-border-radius);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  transition: all 0.2s ease-in-out;
+  height: 100%; /* Ensure cards in a row have same height */
+  text-decoration: none !important; /* Remove underline from Link */
+  color: inherit !important; /* Inherit text color */
+}
+
+.featureCard:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--ifm-global-shadow-md);
+  text-decoration: none !important;
+}
+
+.featureIcon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}

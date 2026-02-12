@@ -1,0 +1,42 @@
+{{!-- Development tools commands based on project configuration --}}
+{{#if tooling}}
+## Development Commands
+
+{{#if tooling.test}}
+**Run tests:**
+```bash
+{{tooling.test.command}}
+```
+{{#if tooling.test.watch}}Watch mode: `{{tooling.test.watch}}`{{/if}}
+{{#if tooling.test.coverage}}Coverage: `{{tooling.test.coverage}}`{{/if}}
+{{/if}}
+
+{{#if tooling.lint}}
+**Check code quality:**
+```bash
+{{tooling.lint.command}}
+```
+{{#if tooling.lint.autofix}}Auto-fix: `{{tooling.lint.autofix}}`{{/if}}
+{{/if}}
+
+{{#if tooling.format}}
+**Format code:**
+```bash
+{{tooling.format.command}}
+```
+{{/if}}
+
+{{#if tooling.typecheck}}
+**Type checking:**
+```bash
+{{tooling.typecheck.command}}
+```
+{{/if}}
+
+{{#if tooling.build}}
+**Build project:**
+```bash
+{{tooling.build.command}}
+```
+{{/if}}
+{{/if}}

@@ -1,0 +1,105 @@
+name: create_changelog
+description: Generate humanized changelog entries for version releases
+arguments:
+  - name: version_type
+    description: Type of version bump (patch, minor, major)
+    required: false
+    default: 'patch'
+template: |
+  # Create Changelog Entry
+
+  **IMPORTANT:** Follow from Top to Bottom - don't skip anything!
+
+  **CREATE A TODO LIST** with exactly these 6 items:
+
+  1. Validate version type
+  2. Generate raw changelog
+  3. Analyze commit entries
+  4. Humanize the entries
+  5. Update changelog file
+  6. Prepare release summary
+
+  ## 1 · Validate version type
+
+  {{#if version_type}}
+  Version type: "{{version_type}}"
+  {{else}}
+  Using default: "patch"
+  {{/if}}
+
+  **VERIFY** version type is one of: patch, minor, major
+
+  Version bump guidelines:
+  - **Patch** (0.1.0 → 0.1.1): Bug fixes, docs, small improvements
+  - **Minor** (0.1.0 → 0.2.0): New features, significant improvements
+  - **Major** (0.x.y → 1.0.0): Breaking changes, major milestones
+
+  ## 2 · Generate raw changelog
+
+  Generate raw changelog entries from conventional commits since the last release.
+
+  ## 3 · Analyze commit entries
+
+  **READ** the CHANGELOG.md file and **IDENTIFY**:
+  - New entries under [Unreleased] section
+  - Commit types (feat, fix, chore, etc.)
+  - Related changes that can be grouped
+  - Technical details to simplify
+
+  **CATEGORIZE** into Keep a Changelog sections:
+  - Added (new features)
+  - Changed (changes in existing functionality)
+  - Deprecated (soon-to-be removed features)
+  - Removed (now removed features)
+  - Fixed (bug fixes)
+  - Security (vulnerability fixes)
+
+  ## 4 · Humanize the entries
+
+  **TRANSFORM** technical commits into user-friendly descriptions:
+
+  Guidelines:
+  - Start with a verb (Added, Fixed, Updated, etc.)
+  - Focus on user impact, not implementation
+  - Remove technical jargon
+  - Combine related small changes
+  - Explain the benefit when relevant
+
+  Examples:
+  - ❌ "feat(tools): implement SQLite database connection with better-sqlite3"
+  - ✅ "Added activity logging to track development progress"
+
+  - ❌ "fix(config): resolve path resolution issue in nested contexts"
+  - ✅ "Fixed configuration loading for nested project structures"
+
+  {{#if (eq version_type "patch")}}
+  **FOCUS** on stability improvements and bug fixes
+  {{else if (eq version_type "minor")}}
+  **HIGHLIGHT** new features and capabilities
+  {{else}}
+  **EMPHASIZE** breaking changes and provide migration notes
+  {{/if}}
+
+  ## 5 · Update changelog file
+
+  **EDIT** the CHANGELOG.md:
+  1. Replace technical entries with humanized versions
+  2. Group related changes together
+  3. Order by importance to users
+  4. Update [Unreleased] header with version and date:
+     ```
+     ## [{{new_version}}] - {{current_date}}
+     ```
+
+  ## 6 · Prepare release summary
+
+  **CREATE** a brief release summary highlighting:
+  - Main theme of the release
+  - Top 3-5 changes
+  - Any breaking changes or migration needs
+
+  ✅ **Result**: [Describe actual outcome - what was updated and any issues]
+
+  🔎 **Scope**: [Describe scope - number of entries humanized, version type]
+
+  💬 **Summary**: [Explain what was done - how changelog was updated and prepared for release]

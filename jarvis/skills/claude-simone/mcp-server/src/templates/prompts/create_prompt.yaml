@@ -1,0 +1,175 @@
+name: create_prompt
+description: Generate a new prompt following Simone style guide
+arguments:
+  - name: prompt_name
+    description: Name of the prompt to create using underscores (e.g., review_code, deploy_app)
+    required: false
+template: |
+  # Create New Simone Prompt
+
+  **IMPORTANT:** Follow from Top to Bottom - don't skip anything!
+
+  **CREATE A TODO LIST** with exactly these 7 items:
+
+  1. Gather prompt requirements
+  2. Analyze prompt purpose
+  3. Define TODO structure
+  4. Create detailed sections
+  5. Add conditional logic
+  6. Define output format
+  7. Generate and save prompt
+
+  ## 1 · Gather prompt requirements
+
+  {{#if prompt_name}}
+  Creating prompt: "{{prompt_name}}"
+  {{else}}
+  Ask the user: "What prompt do you want to create? Use underscores (e.g., 'review_code', 'deploy_app')"
+  {{/if}}
+
+  **CRITICAL:** Interview the user to understand:
+  - What is the main purpose of this prompt?
+  - What are the key steps? (aim for 5-9 main actions)
+  - What information needs to be gathered from the user?
+  - What should the output look like?
+  - Are there risk-level based behaviors?
+  - What could go wrong and how should it be handled?
+
+  ## 2 · Analyze prompt purpose
+
+  Based on user input, determine:
+  - **Action verb**: CREATE, REVIEW, ANALYZE, UPDATE, etc.
+  - **Target object**: issue, code, project, commit, etc.
+  - **Required context**: What project info is needed?
+  - **Dependencies**: Other prompts or tools required?
+
+  ## 3 · Define TODO structure
+
+  Create a numbered list of 5-9 high-level steps that:
+  1. Start with gathering/validating input
+  2. Include necessary research/analysis
+  3. Cover the main action
+  4. Include verification/quality checks
+  5. End with structured output
+
+  **VERIFICATION:** Each TODO item must be:
+  - A single, clear action
+  - Independently verifiable as complete
+  - Essential to the prompt's purpose
+
+  ## 4 · Create detailed sections
+
+  For each TODO item, write a detailed section following this pattern:
+
+  ```
+  ## N · [Action verb + specific task]
+
+  [Clear, imperative instructions]
+
+  [For each argument used, consider what happens when it's missing:
+  - Ask the user for the value?
+  - Use a default behavior?
+  - Search for the information?]
+  
+  [CRITICAL: Only reference actual commands/tools that exist
+  - No pseudocode
+  - No made-up function names
+  - Verify commands exist in the codebase]
+
+  [Specific steps with real commands or descriptive actions]
+  ```
+
+  ## 5 · Add conditional logic
+
+  Identify where behavior should change based on:
+  - **Risk level**: Use comparison helpers (lt, lte, gt, gte)
+  - **Project type**: Use context length or specific flags
+  - **Available tools**: Use feature helpers for optional capabilities
+
+  Example patterns:
+  ```handlebars
+  {{#if (lt project.riskLevel 5)}}
+  Ask user: "Should I proceed with [action]?"
+  {{else}}
+  Proceed with [action] and report results
+  {{/if}}
+  ```
+
+  ### Using Partials
+
+  Include these partials to keep prompts DRY:
+
+  1. **GitHub operations**: Use `{{> github}}` then describe the operation
+     ```handlebars
+     {{> github}}
+     
+     Create a pull request with title "[Type]: Description"
+     ```
+
+  2. **Quality checks**: Use command partials
+     ```handlebars
+     {{> quality-checks}}
+     ```
+     Or individual checks: `{{> lint}}`, `{{> test}}`, `{{> typecheck}}`
+
+  IMPORTANT: Don't create detailed tool instructions - the LLM knows how to use tools. Just tell it which tool is available via partials.
+
+  ## 6 · Define output format
+
+  Every prompt MUST end with:
+
+  ```
+  ✅ **Result**: [What was accomplished]
+
+  🔎 **Scope**: [Specific items affected]
+
+  💬 **Summary**: [One paragraph explanation]
+  ```
+
+  **CRITICAL OUTPUT RULES:**
+  - NO "Next steps" section with commands
+  - Each section provides unique information
+  - No pseudocode or non-existent features
+
+  ## 7 · Generate and save prompt
+
+  **PRE-GENERATION CHECKLIST:**
+  □ All referenced commands exist in codebase
+  □ Every argument has a missing-case strategy
+  □ No invented functions or variables
+  □ Output sections don't duplicate information
+  □ No "Next steps" with fake commands
+
+  Create the complete prompt YAML:
+
+  ```yaml
+  name: {{prompt_name}}
+  description: [Clear, concise description]
+  arguments:
+    - name: [optional_arg]
+      description: [What this argument provides]
+      required: false
+  template: |
+    # [Action Verb] [Object]
+    
+    **IMPORTANT:** Follow from Top to Bottom - don't skip anything!
+    
+    **CREATE A TODO LIST** with exactly these [N] items:
+    
+    1. [First step]
+    2. [Second step]
+    ...
+    N. [Final step]
+    
+    [Detailed sections for each TODO item]
+    
+    [Standard output format]
+  ```
+
+  Save to: `.simone/prompts/{{prompt_name}}.yaml`
+
+  ✅ **Result**: [Describe actual outcome - prompt name created and location]
+
+  🔎 **Scope**: [Describe what was created - prompt type and key features]
+
+  💬 **Summary**: [Explain what was generated - number of steps, key features included, and how it follows the style guide]

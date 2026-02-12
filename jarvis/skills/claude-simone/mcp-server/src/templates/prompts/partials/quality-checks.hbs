@@ -1,0 +1,18 @@
+{{!-- Quality checks for all contexts --}}
+{{#if contexts}}
+Ensure code quality by running available checks:
+
+{{#each contexts}}
+{{#if this.tooling}}
+Commands for context "{{this.name}}" ({{this.path}}):
+{{#if this.tooling.lint.enabled}}- Lint: `{{this.tooling.lint.command}}`{{#if this.tooling.lint.autofix}} (autofix: `{{this.tooling.lint.autofix}}`){{/if}}{{/if}}
+{{#if this.tooling.typecheck.enabled}}- Typecheck: `{{this.tooling.typecheck.command}}`{{/if}}
+{{#if this.tooling.test.enabled}}- Test: `{{this.tooling.test.command}}`{{#if this.tooling.test.coverage}} (coverage: `{{this.tooling.test.coverage}}`){{/if}}{{/if}}
+
+{{/if}}
+{{/each}}
+
+Run the appropriate commands based on what code you modified.
+{{else}}
+Check for any project-specific quality commands (lint, typecheck, test) and run them.
+{{/if}}

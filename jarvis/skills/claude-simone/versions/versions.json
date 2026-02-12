@@ -1,0 +1,33 @@
+{
+  "$schema": "./versions.schema.json",
+  "description": "Central version tracking for all Simone components",
+  "updated": "2025-07-22",
+  "components": {
+    "legacy": {
+      "name": "Simone Legacy",
+      "version": "0.3.5",
+      "type": "git-tag",
+      "tagPrefix": "legacy/v",
+      "path": "./legacy",
+      "description": "Original directory-based command system"
+    },
+    "hello-simone": {
+      "name": "hello-simone",
+      "version": "0.6.1",
+      "type": "npm",
+      "tagPrefix": "hello/v",
+      "path": "./hello-simone",
+      "packageName": "hello-simone",
+      "description": "NPM installer for Simone (supports both MCP and legacy)"
+    },
+    "mcp-server": {
+      "name": "simone-mcp",
+      "version": "0.1.0",
+      "type": "npm",
+      "tagPrefix": "mcp/v",
+      "path": "./mcp-server",
+      "packageName": "simone-mcp",
+      "description": "Model Context Protocol server implementation"
+    }
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "name": "simone-mcp",
+  "version": "0.4.0",
+  "description": "MCP server for Simone - AI-powered project and task management",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "bin": {
+    "simone-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "dev:build": "tsup --watch",
+    "build": "tsup",
+    "test": "vitest",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,md}\"",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist coverage",
+    "prepare": "husky",
+    "release:patch": "npm version patch && pnpm changelog && git add CHANGELOG.md && git commit -m 'docs: update changelog'",
+    "release:minor": "npm version minor && pnpm changelog && git add CHANGELOG.md && git commit -m 'docs: update changelog'",
+    "release:major": "npm version major && pnpm changelog && git add CHANGELOG.md && git commit -m 'docs: update changelog'",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "changelog:full": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "simone",
+    "ai",
+    "task-management",
+    "project-management"
+  ],
+  "author": "Helmi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Helmi/claude-simone.git",
+    "directory": "mcp-server"
+  },
+  "bugs": {
+    "url": "https://github.com/Helmi/claude-simone/issues"
+  },
+  "homepage": "https://github.com/Helmi/claude-simone/tree/main/mcp-server#readme",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "packageManager": "pnpm@9.15.2",
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@eslint/js": "^9.32.0",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/handlebars": "^4.1.0",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^24.0.13",
+    "@typescript-eslint/eslint-plugin": "^8.38.0",
+    "@typescript-eslint/parser": "^8.38.0",
+    "@vitest/coverage-v8": "^3.2.4",
+    "conventional-changelog-cli": "^5.0.0",
+    "eslint": "^9.32.0",
+    "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
+    "rimraf": "^6.0.1",
+    "tsup": "^8.5.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.15.1",
+    "better-sqlite3": "^12.2.0",
+    "handlebars": "^4.7.8",
+    "js-yaml": "^4.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

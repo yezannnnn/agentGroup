@@ -1,0 +1,28 @@
+{
+  "name": "claude-simone",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Monorepo for Simone components - Legacy, MCP Server, and NPM installer",
+  "type": "module",
+  "scripts": {
+    "version:list": "node versions/version-manager.js list",
+    "version:sync": "node versions/version-manager.js sync",
+    "version:tag": "node versions/version-manager.js tag",
+    "version:migrate": "node versions/version-manager.js migrate-tags",
+    "tag:legacy": "node versions/version-manager.js tag legacy",
+    "tag:mcp": "node versions/version-manager.js tag mcp-server",
+    "tag:hello": "node versions/version-manager.js tag hello-simone",
+    "lint:md": "markdownlint-cli2 \"**/*.md\" \"!node_modules\" \"!**/node_modules\"",
+    "lint:md:fix": "markdownlint-cli2 \"**/*.md\" \"!node_modules\" \"!**/node_modules\" --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Helmi/claude-simone.git"
+  },
+  "author": "Helmi",
+  "license": "MIT",
+  "devDependencies": {
+    "markdownlint": "^0.38.0",
+    "markdownlint-cli2": "^0.18.1"
+  }
+}

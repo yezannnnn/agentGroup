@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Simone Version Tracking Schema",
+  "type": "object",
+  "required": ["components", "updated"],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "updated": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "components": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["name", "version", "type", "tagPrefix", "path"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Display name of the component"
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$",
+            "description": "Current semantic version"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["npm", "git-tag"],
+            "description": "Release type - npm package or git tag only"
+          },
+          "tagPrefix": {
+            "type": "string",
+            "pattern": "^[a-z-]+/v$",
+            "description": "Git tag prefix for this component"
+          },
+          "path": {
+            "type": "string",
+            "description": "Relative path to component directory"
+          },
+          "packageName": {
+            "type": "string",
+            "description": "NPM package name (required for type=npm)"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

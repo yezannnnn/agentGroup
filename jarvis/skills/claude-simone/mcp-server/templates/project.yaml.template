@@ -1,0 +1,85 @@
+# Simone Project Configuration
+# This file defines your project structure, tooling, and methodology
+# For single projects, you'll have one context. For monorepos, multiple contexts.
+
+project:
+  name: "<FILL:project-name>"
+  description: "<FILL:brief-project-description>"
+  type: "single"  # Options: single, monorepo
+  riskLevel: 5  # 1-10 scale: 1=very careful, 5=balanced, 10=autopilot mode
+
+# Contexts define different parts of your project
+# For single projects, you'll typically have one context
+# For monorepos, you'll have multiple contexts (one per package/service)
+contexts:
+  - name: "main"  # Context identifier
+    path: "./"     # Relative path from project root
+    description: "<FILL:what-this-context-contains>"
+    
+    # Technology stack for this context
+    stack:
+      language: "<FILL:primary-language>"
+      framework:
+        name: "<FILL:framework-name-or-none>"
+        version: "<FILL:version-or-latest>"
+        enabled: true
+      database:
+        type: "<FILL:database-type-or-none>"
+        orm: "<FILL:orm-name-or-none>"
+        enabled: false
+      styling:
+        system: "<FILL:styling-system-or-none>"
+        enabled: false
+    
+    # Available commands for this context
+    tooling:
+      lint:
+        enabled: false
+        command: "<FILL:lint-command>"
+        autofix: "<FILL:autofix-command>"
+      test:
+        enabled: false
+        command: "<FILL:test-command>"
+        coverage: "<FILL:coverage-command>"
+        watch: "<FILL:watch-command>"
+      format:
+        enabled: false
+        command: "<FILL:format-command>"
+        check: "<FILL:check-command>"
+      build:
+        enabled: false
+        command: "<FILL:build-command>"
+      commit:
+        enabled: true
+        command: "git commit"
+    
+    # Development methodology
+    methodology:
+      development: "none"  # Options: tdd, bdd, none
+      architecture: "none"  # Options: clean, mvc, microservices, none
+      workflow: "github-flow"  # Options: gitflow, github-flow, trunk-based, none
+
+# Shared configuration across all contexts
+shared:
+  tooling:
+    commit:
+      enabled: true
+      command: "git commit"
+  methodology:
+    workflow: "github-flow"
+
+# GitHub integration
+github:
+  tool: "cli"  # Options: cli, mcp
+  repository: "<FILL:owner/repo>"
+  defaultBranch: "<FILL:main-or-master>"
+  defaultLabels: []  # Labels to auto-apply to new issues
+
+# Optional features configuration
+features:
+  pr_review_wait:
+    enabled: false  # Wait for and check PR review status
+    initial_wait: 30    # Seconds before first check
+    poll_interval: 30   # Seconds between checks
+    timeout: 600        # Max wait time (10 minutes)
+    auto_merge: false   # Auto-merge if approved

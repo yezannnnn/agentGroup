@@ -1,0 +1,10 @@
+name: test_prompt
+description: Test prompt for unit tests
+template: test-template
+arguments:
+  - name: testArg
+    description: Test argument
+    required: true
+  - name: optionalArg
+    description: Optional test argument
+    required: false

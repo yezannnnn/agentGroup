@@ -1,0 +1,45 @@
+# OS generated files
+.DS_Store
+._*
+
+# Editor directories and files
+.cursor/
+.idea
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Environment files
+.env
+.env.local
+
+# Node
+node_modules/
+pnpm-debug.log*
+
+# Build outputs
+dist/
+coverage/
+
+# Logs
+*.log
+
+# Local usage only
+.simone
+
+# Claude specific
+.claude-trace/
+CLAUDE.local.md
+*.local.*
+
+# MCP configuration
+.mcp.json
+
+# Temporary Project management
+TODO.md
+DEVINFO.md
+repo-reorganization.md
+
+# Worktrees
+/.worktrees/
+GEMINI.md

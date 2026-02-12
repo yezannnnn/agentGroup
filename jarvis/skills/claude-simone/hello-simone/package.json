@@ -1,0 +1,44 @@
+{
+  "name": "hello-simone",
+  "version": "0.6.3",
+  "description": "Installer for Simone - AI-powered project management system",
+  "type": "module",
+  "bin": {
+    "hello-simone": "index.js"
+  },
+  "files": [
+    "index.js",
+    "install-mcp.js",
+    "install-legacy.js",
+    "utils.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node index.js --dry-run"
+  },
+  "keywords": [
+    "simone",
+    "ai",
+    "project-management",
+    "mcp",
+    "claude",
+    "installer"
+  ],
+  "author": "Helmi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Helmi/claude-simone.git",
+    "directory": "hello-simone"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.0.0",
+    "inquirer": "^10.0.0",
+    "ora": "^8.0.1"
+  }
+}

@@ -1,0 +1,69 @@
+name: Publish to NPM
+
+on:
+  push:
+    tags:
+      - 'mcp/v*'
+      - 'hello/v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Determine component from tag
+        id: component
+        run: |
+          if [[ "${{ github.ref }}" =~ ^refs/tags/mcp/v ]]; then
+            echo "component=mcp-server" >> $GITHUB_OUTPUT
+            echo "package=@helmi/simone-mcp" >> $GITHUB_OUTPUT
+            echo "version=${GITHUB_REF#refs/tags/mcp/v}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" =~ ^refs/tags/hello/v ]]; then
+            echo "component=hello-simone" >> $GITHUB_OUTPUT
+            echo "package=hello-simone" >> $GITHUB_OUTPUT
+            echo "version=${GITHUB_REF#refs/tags/hello/v}" >> $GITHUB_OUTPUT
+          else
+            echo "Unknown tag format"
+            exit 1
+          fi
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Verify version matches
+        working-directory: ./${{ steps.component.outputs.component }}
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          TAG_VERSION="${{ steps.component.outputs.version }}"
+          if [ "$PACKAGE_VERSION" != "$TAG_VERSION" ]; then
+            echo "Error: Package version ($PACKAGE_VERSION) doesn't match tag version ($TAG_VERSION)"
+            exit 1
+          fi
+
+      - name: Install dependencies
+        working-directory: ./${{ steps.component.outputs.component }}
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        working-directory: ./${{ steps.component.outputs.component }}
+        run: pnpm build
+
+      - name: Publish to NPM
+        working-directory: ./${{ steps.component.outputs.component }}
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

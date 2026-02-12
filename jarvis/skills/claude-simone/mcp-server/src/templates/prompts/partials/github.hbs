@@ -1,0 +1,10 @@
+{{!-- GitHub integration instructions based on configuration --}}
+{{#if github}}
+{{#if (eq github.tool "mcp")}}
+Use the GitHub MCP server tools (authentication handled automatically).
+{{else}}
+Use the GitHub CLI (`gh` command).
+{{/if}}
+Repository: `{{github.repository}}`
+{{#if github.defaultLabels}}Default labels: {{#each github.defaultLabels}}`{{this}}`{{#unless @last}}, {{/unless}}{{/each}}{{/if}}
+{{/if}}

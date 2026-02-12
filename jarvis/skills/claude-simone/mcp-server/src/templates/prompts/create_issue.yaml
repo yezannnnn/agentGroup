@@ -1,0 +1,148 @@
+name: create_issue
+description: Create a comprehensive GitHub issue with proper context and structure
+arguments:
+  - name: title
+    description: Brief title for the issue
+    required: false
+  - name: related_issue
+    description: Related issue number if connected
+    required: false
+template: |
+  # Create GitHub Issue
+  
+  **IMPORTANT:** Follow from Top to Bottom - don't skip anything!
+  
+  **CREATE A TODO LIST** with exactly these 7 items:
+  
+  1. Gather issue details and context
+  2. Analyze project structure and relevance  
+  3. Research codebase for technical context
+  4. Assess complexity and scope
+  5. Structure issue content
+  6. Apply GitHub metadata
+  7. Create the GitHub issue
+  
+  ## 1 · Gather issue details and context
+  
+  {{#if title}}
+  Using provided title: "{{title}}"
+  {{else}}
+  Ask the user: "What is the new issue about? Provide a brief title and detailed description."
+  {{/if}}
+  
+  Interview the user to understand:
+  - Core problem or feature request
+  - Expected behavior or outcome
+  - Current behavior (if applicable)
+  - Is this connected to other entities (issues, PRs, milestones)?
+  {{#if related_issue}}
+  - Connected to issue #{{related_issue}}
+  {{/if}}
+  
+  ## 2 · Analyze project structure and relevance
+  
+  Read {{PROJECT_PATH}}/README.md and key documentation files to understand:
+  - Project purpose and architecture
+  - Technology stack and dependencies
+  - Development conventions
+  
+  
+  Evaluate if the user input makes sense in the project context:
+  {{#if (lt project.riskLevel 5)}}
+  If unclear, ask the user for clarification about project fit
+  {{else if (lte project.riskLevel 7)}}
+  Research the web for similar implementations and patterns
+  Ask the user if critical context is still missing
+  {{else}}
+  Document any assumptions about project integration
+  {{/if}}
+  
+  ## 3 · Research codebase for technical context
+  
+  Search the codebase to identify:
+  - Related files and components
+  - Existing implementations to build upon
+  - Potential conflicts or dependencies
+  - Code patterns to follow
+  
+  Search the codebase using appropriate tools to find relevant code patterns.
+  
+  List all files that will be affected by this issue.
+  
+  ## 4 · Assess complexity and scope
+  
+  Calculate complexity score (1-10):
+  - 1-3: Simple changes, single file
+  - 4-6: Multiple files, moderate logic
+  - 7-8: Architectural changes, multiple components
+  - 9-10: Major refactoring, system-wide impact
+  
+  If complexity score is greater than 5:
+  - Consider if this should be split into multiple issues
+  - Identify logical breakpoints
+  - Suggest sub-issues if appropriate
+  - Confirm approach with user
+  - Add research links for complex implementations
+  
+  ## 5 · Structure issue content
+  
+  Structure the issue content with appropriate sections based on the issue type and complexity:
+  
+  - **Description**: [Clear statement of the problem or feature]
+  - **Context**: Include project area, related issues{{#if related_issue}} like #{{related_issue}}{{/if}}, and complexity assessment
+  - **Technical Details**: List affected files and components with explanations
+  - **Requirements**: [Detailed requirements suitable for implementation]
+  - **Implementation Steps**: [Create numbered checklist of specific actions]
+  - **Acceptance Criteria**: [Define testable completion criteria]
+  {{#if (gt complexity 5)}}
+  - **Additional Resources**: [Include helpful links and documentation]
+  {{/if}}
+  
+  ## 6 · Apply GitHub metadata
+  
+  {{> github}}
+  
+  Fetch existing labels from the repository:
+  ```bash
+  gh label list --repo {{github.repository}} --limit 100
+  ```
+  
+  Select one or more labels that match this issue from the available labels.
+  {{#if github.defaultLabels}}
+  If the GitHub API fails, use these default labels: {{#each github.defaultLabels}}`{{this}}`{{#unless @last}}, {{/unless}}{{/each}}
+  {{/if}}
+  
+  ## 7 · Create the GitHub issue
+  
+  Create the issue with:
+  - Title: "{{title}}"
+  - Body: [Issue content from step 5]
+  - Labels: [Selected labels from step 6]
+  
+  Create the issue using the title, body, and labels defined above.
+  
+  {{#if related_issue}}
+  After creating the issue, link it to issue #{{related_issue}} by adding a comment that references the new issue number.
+  {{/if}}
+  
+  {{#if github.github_projects.enabled}}
+  ### Add Issue to GitHub Project
+  
+  Add the newly created issue to the project at the configured status:
+  ```bash
+  gh project item-add {{github.github_projects.project_id}} --owner {{github.repository}} --url [ISSUE_URL]
+  ```
+  
+  Then update its status to the new issue status:
+  ```bash
+  gh project item-edit --id [ITEM_ID] --field-id [STATUS_FIELD_ID] --project-id {{github.github_projects.project_id}} --single-select-option-id [{{github.github_projects.new_issue_status}}_ID]
+  ```
+  
+  The issue is now tracked in the project at status: `{{github.github_projects.new_issue_status}}`
+  {{/if}}
+  
+  ✅ **Result**: [Describe the actual outcome - issue number created and any relevant details]
+  
+  🔎 **Scope**: [Describe the scope - complexity score, number of affected files, and project areas]
+  
+  💬 **Summary**: [Provide an honest summary of what was created, including the issue title, key requirements, and whether all necessary information was gathered]

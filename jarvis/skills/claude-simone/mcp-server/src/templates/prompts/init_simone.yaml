@@ -1,0 +1,212 @@
+name: init_simone
+description: Initialize or update Simone configuration for your project
+arguments: []
+template: |
+  # Initialize Simone Configuration
+  
+  **IMPORTANT:** Follow from Top to Bottom - don't skip anything!
+  
+  **CREATE A TODO LIST** with exactly these 7 items:
+  
+  1. Check existing Simone files
+  2. Analyze project structure
+  3. Setup or update configuration
+  4. Create or update constitution
+  5. Create or update architecture document
+  6. Verify Git and GitHub setup
+  7. Complete initialization
+  
+  ## 1 · Check existing Simone files
+  
+  Check for the existence of these files in {{PROJECT_PATH}}/.simone/:
+  - project.yaml (or project.yaml.template)
+  - constitution.md (or constitution.md.template)
+  - architecture.md (or architecture.md.template)
+  
+  Also check if {{PROJECT_PATH}}/CLAUDE.md exists (project-level Claude instructions).
+  
+  Document what exists and what's missing.
+  
+  If all core files exist (project configuration, constitution, architecture), get input from the user about what they want to update - configuration, constitution, architecture, or everything.
+  
+  ## 2 · Analyze project structure
+  
+  Use parallel Task agents to examine different folders simultaneously and understand:
+  - What is the project about?
+  - What programming language(s) is/are being used?
+  - What framework(s) is/are used?
+  - Which databases?
+  - Is there any existing documentation/specification/guides?
+  - Available scripts/commands
+  - Directory organization and structure
+  
+  Determine if this project contains multiple independent packages/services or is a single unified codebase.
+  
+  If multiple packages/services detected, identify each as a separate context.
+  
+  Gather comprehensive information about the project's nature and technical stack.
+  
+  ## 3 · Setup or update configuration
+  
+  If project.yaml exists:
+  - Read the existing configuration and verify/update
+  
+  If project.yaml does not exist:
+  - Check if project.yaml.template exists
+  - If template exists, copy it to project.yaml
+  - If no template, create new project.yaml
+  
+  Fill in or update the configuration based on project analysis:
+  
+  - project.name: Project name from analysis or get from user
+  - project.description: What the project is about
+  - project.type: Set to "monorepo" if multiple packages detected, otherwise "single"
+  - project.riskLevel: Get user preference for automation level (1-10 scale):
+    - 1-3: Very careful, always ask for confirmation
+    - 4-6: Balanced, confirm major changes
+    - 7-10: More autonomous, minimal confirmations
+  
+  For contexts configuration:
+  - Single unified codebase: Create one context
+  - Multiple packages/services: Create one context for each
+  - Analyze each context's technology stack separately
+  
+  For each context, configure:
+  - stack: language, framework, database based on that context's code
+  - tooling: commands specific to that context
+  - methodology: development approach for that context
+  
+  Configure shared settings that apply across all contexts.
+  
+  - github: Set tool to "cli" and detect repository from git remote
+  
+  For features configuration:
+  - Ask user: "Would you like to enable optional features?"
+  - If yes, explain the feature:
+    - **PR review wait**: Automatically wait for and check PR review status
+  - Based on user preferences, configure:
+    ```yaml
+    features:
+      pr_review_wait:
+        enabled: [true/false based on user preference]
+        initial_wait: 30    # seconds before first check
+        poll_interval: 30   # seconds between checks
+        timeout: 600        # max wait time (10 minutes)
+        auto_merge: false   # whether to auto-merge if approved
+    ```
+  
+  Write the updated project.yaml file.
+  
+  ## 4 · Create or update constitution
+  
+  If constitution.md exists:
+  - Read it and ask if user wants to update any section
+  
+  If constitution.md does not exist:
+  - Check if constitution.md.template exists
+  - If template exists, copy it to constitution.md
+  - If no template, create new constitution.md
+  
+  Fill in the constitution by:
+  1. **Project info**: Get name and one-line description from user
+  2. **Tech stack**: Detect language, framework, package manager from project files
+  3. **Structure**: List key directories (only important ones like src/, tests/, etc.)
+  4. **Essential commands**: Detect from package.json/Makefile/etc or ask user:
+     - How to run the project
+     - How to run tests
+     - How to build/compile
+  5. **Critical rules**: Ask user: "What are the MUST-FOLLOW rules for this project?"
+     - Only include rules that are truly critical
+     - Examples: "Never commit directly to main", "All code must be TypeScript"
+  
+  Keep it CONCISE - this gets included in every prompt!
+  
+  ## 5 · Create or update architecture document
+  
+  If architecture.md exists:
+  - Read it and get feedback from the user about needed updates
+  
+  If architecture.md does not exist:
+  - Check if architecture.md.template exists
+  - If template exists, copy it to architecture.md
+  - If no template, create new architecture.md
+  
+  Analyze the codebase structure and organization.
+  
+  For projects with multiple packages/services, document how they interact and relate to each other.
+  
+  Get input from the user about the system architecture and design decisions.
+  
+  Create or update comprehensive architecture documentation based on analysis and user input.
+  
+  ## 6 · Verify Git and GitHub setup
+  
+  Check Git repository status and GitHub integration.
+  
+  If anything is missing or misconfigured, get confirmation from the user before making changes.
+  
+  Update project.yaml with correct GitHub settings if needed.
+  
+  ### GitHub Projects Integration (Optional)
+  
+  Ask the user: "Would you like to integrate GitHub Projects for idea capture and work queue management?"
+  
+  If yes:
+  
+  1. **Find or create project**:
+     - List existing projects: `gh project list --owner [owner]`
+     - If no suitable project exists, get user confirmation to create new one
+     - Create project if needed: `gh project create --owner [owner] --title "[Project Name]"`
+  
+  2. **Discover available statuses**:
+     - Get project field data: `gh api graphql -f query='query{node(id:"[PROJECT_ID]"){...on ProjectV2{fields(first:20){nodes{...on ProjectV2SingleSelectField{name options{name}}}}}}}'`
+     - Extract status field options
+     - Display available statuses to user
+  
+  3. **Configure status mappings**:
+     - Ask user to map statuses for:
+       - idea_status: Where draft ideas are captured (e.g., "Ideas", "Draft")
+       - work_status: Where to pull work items from (e.g., "Ready", "Todo")
+       - new_issue_status: Where newly created issues go (e.g., "Backlog", "New")
+  
+  4. **Update configuration**:
+     ```yaml
+     github:
+       repository: owner/repo
+       tool: cli
+       github_projects:
+         enabled: true
+         project_id: PVT_[ID]
+         idea_status: [selected status]
+         work_status: [selected status]
+         new_issue_status: [selected status]
+         available_statuses: [list of discovered statuses]
+     ```
+  
+  ## 7 · Complete initialization
+  
+  Check if {{PROJECT_PATH}}/CLAUDE.md exists:
+  
+  If CLAUDE.md exists:
+  - Ask the user: "Would you like to add activity logging instructions to your CLAUDE.md file?"
+  - If yes, append this section to CLAUDE.md:
+    ```
+    ## Activity Logging
+    
+    You have access to the `log_activity` tool. Use it to record your activities after every activity that is relevant for the project. This helps track development progress and understand what has been done.
+    ```
+  
+  If CLAUDE.md does not exist:
+  - Inform the user: "No CLAUDE.md file found in your project. Please run Claude Code's project initialization to create this file first, then re-run Simone init to add activity logging instructions."
+  
+  Summarize what was created or updated and any manual steps needed.
+  
+  Use log_activity to record the initialization/update:
+  - activity: "Initialized or updated Simone configuration for project"
+  - tool_name: "init_simone"
+  - tags: ["configuration", "setup"]
+  - files_affected: List all created/modified files
+  
+  ✅ **Result**: [Describe what was actually done - initialized or updated, which files were created]
+  
+  💬 **Summary**: [Explain what was completed - configuration created/updated, documentation prepared, and current status]

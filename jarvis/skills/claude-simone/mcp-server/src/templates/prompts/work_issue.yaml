@@ -1,0 +1,184 @@
+name: work_issue
+description: Work on a GitHub issue from start to finish including implementation and pull request
+arguments:
+  - name: issue
+    description: Issue number to work on
+    required: false
+template: |
+  # Work GitHub Issue
+  
+  **IMPORTANT:** Follow from Top to Bottom - don't skip anything!
+  
+  **CREATE A TODO LIST** with exactly these 6 items:
+  
+  1. Fetch and understand issue content
+  2. Assess information quality and gather missing details
+  3. Create detailed implementation plan
+  4. Setup development branch
+  5. Implement the solution
+  6. Prepare and create pull request
+  
+  ## 1 · Fetch and understand issue content
+  
+  {{#if issue}}
+  Fetching issue #{{issue}} content
+  {{else}}
+  {{#if github.github_projects.enabled}}
+  ### Check GitHub Projects Work Queue
+  
+  Query items from the work queue status:
+  ```bash
+  gh project item-list {{github.github_projects.project_id}} --owner {{github.repository}} --format json | jq '.items[] | select(.status == "{{github.github_projects.work_status}}")'
+  ```
+  
+  If work items are found:
+  - List them with their titles and descriptions
+  - Ask the user which item they want to work on
+  - Get the associated issue number if the item is linked to an issue
+  
+  If no work items are found or user doesn't select one:
+  {{/if}}
+  Ask the user what they want to work on.
+  {{/if}}
+  
+  {{> github}}
+  
+  {{#if issue}}
+  Fetch issue #{{issue}} details to understand the requirements.
+  {{else}}
+  Once an issue is selected, fetch its details to understand the requirements.
+  {{/if}}
+  
+  Read the issue content carefully and identify:
+  - Core problem or feature to implement
+  - Technical requirements listed
+  - Acceptance criteria
+  - Referenced files or components
+  - Any linked issues or context
+  
+  Read all comments on the issue:
+  - Fetch and read issue comments
+  - Consider them as additional context
+  - Comments may contain clarifications, edge cases, or updated requirements
+  - Weigh comments in but don't take them as absolute requirements
+  
+  Check if local repository is synchronized with remote:
+  - Verify if the local branch is up to date
+  - If not synchronized, ask user to choose between:
+    - Pull/fetch latest changes
+    - Work from current point and branch off
+  - Ensure all remote work is included before starting
+  
+  ## 2 · Assess information quality and gather missing details
+  
+  Evaluate the issue information completeness:
+  - Are implementation steps clear?
+  - Are affected files identified?
+  - Is the expected behavior well-defined?
+  - Are there edge cases to consider?
+  
+  {{#if (lt project.riskLevel 5)}}
+  If critical information is missing, ask the user for clarification.
+  {{else if (gte project.riskLevel 5)}}
+  Use research tools to fill knowledge gaps:
+  - Search the codebase for related implementations
+  - Review similar past issues and PRs
+  - Check documentation for architectural patterns
+  
+  {{#if (lt project.riskLevel 10)}}
+  If questions remain after research, ask the user for clarification
+  {{else}}
+  Document any assumptions you're making based on project context
+  {{/if}}
+  {{/if}}
+  
+  ## 3 · Create detailed implementation plan
+  
+  Based on the issue requirements and codebase analysis, create a step-by-step plan:
+  
+  1. List all files that need to be modified or created
+  2. For each file, specify the changes needed
+  3. Identify the order of implementation
+  4. Note any dependencies between changes
+  5. Consider testing requirements
+  
+  Follow the project's development principles and conventions.
+  
+  {{#if (lt project.riskLevel 5)}}
+  Present the implementation plan to the user and ask if the approach looks good.
+  {{else}}
+  Proceed with the implementation plan
+  {{/if}}
+  
+  ## 4 · Setup development branch
+  
+  Determine branch type based on issue labels:
+  - If labeled as "bug" or fixing existing functionality: `bugfix/`
+  - If labeled as "feature" or "enhancement": `feature/`
+  - Otherwise, analyze issue content to determine appropriate prefix
+  
+  Create a descriptive branch name based on the issue.
+  
+  Ensure you're on the correct branch before starting implementation.
+  
+  ## 5 · Implement the solution
+  
+  Work through your implementation plan systematically:
+  
+  - Start with the foundational changes first
+  - Implement each file modification according to the plan
+  - Follow existing code patterns and style
+  - Add necessary imports and dependencies
+  - Handle error cases appropriately
+  
+  After each significant step in your plan:
+  - Log the activity using the log_activity tool
+  - Verify the changes work as expected
+  - Run any relevant tests or build commands
+  
+  Continue implementation until all items in your plan are completed.
+  
+  {{> quality-checks}}
+  
+  {{#unless features.workflow.autoCommit}}
+  ## Manual Testing Checkpoint
+  
+  ✅ **Implementation complete!** The code changes have been implemented but not yet committed.
+  
+  **Please test the changes manually before proceeding.**
+  
+  When you're ready to commit and create a pull request, confirm by saying "proceed with commit" or similar.
+  
+  **Pause here and wait for user confirmation before continuing to step 6.**
+  {{/unless}}
+  
+  ## 6 · Prepare and create pull request
+  
+  Stage and commit your changes.
+  
+  Create a commit with a descriptive message.
+  
+  Push the branch to remote.
+  
+  Define PR details:
+  - Title: "[Type]: Brief description"
+  - Body should include:
+    - Summary section with "Closes #{{issue}}"
+    - Reference to issue #{{issue}} for automatic cross-linking
+    - Changes made with any decisions or trade-offs
+    - Testing performed and edge cases considered
+    - Any potential issues needing review
+  
+  Create the pull request with the title and body defined above, ensuring it links to issue #{{issue}}.
+  
+  After successfully creating the pull request, switch back to the base branch:
+  - Detect the base branch (the branch this feature/fix branch was created from)
+  - Use `git merge-base HEAD origin/master` or check tracking info to identify base branch
+  - Run: `git checkout [base-branch]`
+  - Confirm you're back on the base branch
+  
+  ✅ **Result**: [Describe actual outcome of implementation and pull request creation]
+  
+  🔎 **Scope**: Modified [N] files, added [N] lines, removed [N] lines
+  
+  💬 **Summary**: [Provide honest summary of what was accomplished, any issues encountered, and current status of the implementation]

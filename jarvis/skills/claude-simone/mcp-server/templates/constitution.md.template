@@ -1,0 +1,41 @@
+# Project Constitution
+
+## Project
+- **Name**: [PROJECT NAME]
+- **Description**: [ONE LINE DESCRIPTION - WHAT DOES THIS PROJECT DO?]
+
+## Tech Stack
+- **Language**: [PRIMARY LANGUAGE]
+- **Framework**: [PRIMARY FRAMEWORK]
+- **Package Manager**: [npm/yarn/pnpm/pip/etc]
+
+## Structure
+```
+[KEY DIRECTORIES AND THEIR PURPOSE]
+Example:
+src/          - Application source code
+tests/        - Test files
+docs/         - Documentation
+```
+
+## Essential Commands
+```bash
+# Run
+[HOW TO RUN THE PROJECT]
+
+# Test
+[HOW TO RUN TESTS]
+
+# Build
+[HOW TO BUILD/COMPILE]
+```
+
+## Critical Rules
+[USER DEFINED RULES THAT MUST ALWAYS BE FOLLOWED]
+<!--
+Examples:
+- NEVER modify production database directly
+- Always use TypeScript, no plain JavaScript
+- All PRs require tests
+- Follow existing code style
+-->

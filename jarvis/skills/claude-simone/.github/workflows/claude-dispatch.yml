@@ -1,0 +1,25 @@
+name: Claude Code Dispatch
+
+on:
+  repository_dispatch:
+    types: [claude-dispatch]
+
+jobs:
+  claude-dispatch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 1
+
+    - name: Run Claude Code
+      id: claude
+      uses: anthropics/claude-code-action@eap
+      with:
+        mode: 'remote-agent'

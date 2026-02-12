@@ -1,0 +1,101 @@
+name: check_activity
+description: Analyze development activity and generate comprehensive summary
+arguments:
+  - name: period
+    description: Time period (today, yesterday, 7d, 30d)
+    required: false
+    default: "today"
+template: |
+  # Check Development Activity
+
+  **IMPORTANT:** Follow from Top to Bottom - don't skip anything!
+
+  **CREATE A TODO LIST** with exactly these 5 items:
+
+  1. Validate time period
+  2. Query activity database
+  3. Analyze activity patterns
+  4. Generate summary report
+  5. Present findings and insights
+
+  ## 1 · Validate time period
+
+  {{#if period}}
+  Using period: "{{period}}"
+  {{else}}
+  Using default period: "today"
+  {{/if}}
+
+  **VERIFY** the period is one of: today, yesterday, 7d, 30d
+  
+  If invalid, default to "today" and inform the user.
+
+  ## 2 · Query activity database
+
+  **READ** the SQLite database at `.simone/simone.db`
+
+  Date range calculations:
+  - today: `date('now', 'localtime')`
+  - yesterday: `date('now', '-1 day', 'localtime')`
+  - 7d: `date('now', '-7 days', 'localtime')`
+  - 30d: `date('now', '-30 days', 'localtime')`
+
+  Query the activity_log table for activities within the specified date range, ordered by most recent first.
+
+  ## 3 · Analyze activity patterns
+
+  **CALCULATE** the following metrics:
+  - Total activities count
+  - Success vs failure rate
+  - Most active tools (top 5)
+  - Most common activity types
+  - Peak activity hours (if applicable)
+  - Tag distribution
+
+  {{#if (or (eq period "7d") (eq period "30d"))}}
+  Create a daily breakdown showing activity trends over time.
+  {{/if}}
+
+  ## 4 · Generate summary report
+
+  **ORGANIZE** findings into these sections:
+
+  ### Overview
+  - Period: {{period}}
+  - Total activities: [count]
+  - Success rate: [percentage]
+  - Most active tool: [tool_name]
+
+  ### Activity Breakdown
+  Group by activity type and show:
+  - Count per type
+  - Success rate per type
+  - Most recent example
+
+  ### Tag Analysis
+  - Most used tags (top 10)
+  - Untagged activities percentage
+
+  ### Failed Activities
+  {{#if failures}}
+  List any failed activities with:
+  - Timestamp
+  - Tool used
+  - Error message
+  {{else}}
+  No failures found! 🎉
+  {{/if}}
+
+  ## 5 · Present findings and insights
+
+  **WRITE** a narrative analysis covering:
+  - Productivity patterns observed
+  - Main focus areas based on activity
+  - Notable accomplishments
+  - Potential improvements or concerns
+
+  ✅ **Result**: [Describe what was analyzed and the time period covered]
+
+  🔎 **Scope**: [Describe scope - number of activities analyzed, data source]
+
+  💬 **Summary**: [Provide key findings, patterns, and recommendations based on the activity data]
