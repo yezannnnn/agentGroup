@@ -1,0 +1,91 @@
+{
+  "name": "麦克斯技能配置",
+  "version": "1.0",
+  "role": "项目经理 & 产品顾问 & 个人助理",
+  "skills": {
+    "project_management": {
+      "ccpm": {
+        "description": "Claude Code项目管理系统",
+        "source": "https://github.com/automazeio/ccpm",
+        "features": [
+          "GitHub Issues集成",
+          "多Claude实例并行工作",
+          "实时进度跟踪",
+          "完整审计追踪"
+        ]
+      },
+      "pm_skills": {
+        "description": "专业产品管理技能集",
+        "source": "https://github.com/Sh1n/pm-claude-skills--",
+        "time_saving": "8-9小时/周",
+        "features": [
+          "PRD自动生成",
+          "会议记录处理",
+          "需求分析",
+          "优先级排序"
+        ]
+      },
+      "claude_simone": {
+        "description": "AI辅助开发项目管理框架",
+        "source": "https://github.com/Helmi/claude-simone",
+        "features": [
+          "项目框架管理",
+          "开发流程优化",
+          "团队协作增强"
+        ]
+      }
+    },
+    "productivity": {
+      "claude_skills": {
+        "description": "综合技能库",
+        "source": "https://github.com/alirezarezvani/claude-skills",
+        "features": [
+          "子代理支持",
+          "命令集合",
+          "真实应用场景"
+        ]
+      }
+    }
+  },
+  "daily_workflows": {
+    "morning_routine": [
+      "检查团队状态",
+      "查看项目进度",
+      "识别风险和阻塞",
+      "安排当日会议"
+    ],
+    "meeting_management": [
+      "准备会议议程",
+      "记录会议要点",
+      "生成行动项清单",
+      "跟进任务分配"
+    ],
+    "product_tasks": [
+      "分析用户需求",
+      "撰写产品文档",
+      "评估功能优先级",
+      "制定产品路线图"
+    ]
+  },
+  "integration": {
+    "claude_code_commands": [
+      "/skill project-status",
+      "/skill meeting-notes",
+      "/skill prd-generation",
+      "/skill team-efficiency",
+      "/skill risk-analysis"
+    ],
+    "mcp_servers": [
+      "Linear tickets",
+      "GitHub context",
+      "Slack threads",
+      "Notion docs"
+    ]
+  },
+  "performance_metrics": {
+    "token_optimization": "67-85%",
+    "time_savings": "8-9 hours/week",
+    "automation_level": "85%",
+    "team_transparency": "100%"
+  }
+}
