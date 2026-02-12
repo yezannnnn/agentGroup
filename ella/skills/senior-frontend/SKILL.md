@@ -1,6 +1,10 @@
 ---
 name: senior-frontend
 description: Frontend development skill for React, Next.js, TypeScript, and Tailwind CSS applications. Use when building React components, optimizing Next.js performance, analyzing bundle sizes, scaffolding frontend projects, implementing accessibility, or reviewing frontend code quality.
+source: SkillsMP技能市场 - 前端开发专家技能包
+author: aiGroup团队定制
+version: v1.0
+license: MIT
 ---
 
 # Senior Frontend

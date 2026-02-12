@@ -1,6 +1,10 @@
 ---
 name: senior-qa
 description: This skill should be used when the user asks to "generate tests", "write unit tests", "analyze test coverage", "scaffold E2E tests", "set up Playwright", "configure Jest", "implement testing patterns", or "improve test quality". Use for React/Next.js testing with Jest, React Testing Library, and Playwright.
+source: SkillsMP技能市场 - 高级QA工程师技能包
+author: aiGroup团队定制
+version: v1.0
+license: MIT
 ---
 
 # Senior QA Engineer

@@ -1,6 +1,10 @@
 ---
 name: tdd-guide
 description: Test-driven development workflow with test generation, coverage analysis, and multi-framework support
+source: SkillsMP技能市场 - TDD测试驱动开发指南
+author: aiGroup团队定制
+version: v1.0
+license: MIT
 triggers:
   - generate tests
   - analyze coverage

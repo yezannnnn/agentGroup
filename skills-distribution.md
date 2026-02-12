@@ -1,5 +1,7 @@
 # aiGroup技能分发配置
 
+> **声明**：本项目集成的技能包来自多个开源社区和SkillsMP技能市场，我们感谢所有原作者的贡献。所有技能均标注了来源、作者和许可证信息，请遵守相应的使用条款。
+
 ## 🎯 技能分配策略
 
 ### 👨‍💼 麦克斯 (Max) - 项目管理技能
@@ -100,12 +102,54 @@ claude --project kyle
 | 贾维斯 | 2个框架 + 多技能 | 全栈开发、架构 | 开发质量提升 |
 | 凯尔 | 2个技能集 | 质量保证、测试 | 测试覆盖率提升 |
 
+## 📝 技能来源与引用
+
+### 麦克斯技能来源
+- **CCPM项目管理系统**
+  - 来源：[automazeio/ccpm](https://github.com/automazeio/ccpm)
+  - 作者：automaze.io
+  - 许可证：MIT License
+
+- **PM Claude技能集**
+  - 来源：[mohitagw15856/pm-claude-skills](https://github.com/mohitagw15856/pm-claude-skills)
+  - 作者：mohitagw15856
+  - 许可证：MIT License
+
+### 艾拉技能来源
+- **Senior Frontend技能包**
+  - 来源：SkillsMP技能市场 - 前端开发专家技能包
+  - 作者：aiGroup团队定制
+  - 许可证：MIT License
+
+### 贾维斯技能来源
+- **Claude Simone框架**
+  - 来源：[Helmi/claude-simone](https://github.com/Helmi/claude-simone)
+  - 作者：Helmi
+  - 许可证：查看原仓库
+
+- **工程团队技能集**
+  - 来源：[alirezarezvani/claude-skills/engineering-team](https://github.com/alirezarezvani/claude-skills/engineering-team)
+  - 作者：alirezarezvani
+  - 许可证：查看原仓库
+
+### 凯尔技能来源
+- **Senior QA技能包**
+  - 来源：SkillsMP技能市场 - 高级QA工程师技能包
+  - 作者：aiGroup团队定制
+  - 许可证：MIT License
+
+- **TDD指导技能包**
+  - 来源：SkillsMP技能市场 - TDD测试驱动开发指南
+  - 作者：aiGroup团队定制
+  - 许可证：MIT License
+
 ## 🔧 维护说明
 
 - 各AI的技能独立管理，不会相互干扰
 - 技能更新只影响对应AI
 - 可以独立为每个AI添加新技能
 - 符合职责边界原则
+- 所有技能均标注了来源和许可证信息
 
 ## ⚠️ 注意事项
 
@@ -113,3 +157,5 @@ claude --project kyle
 - 跨AI使用技能需要切换项目
 - 确保技能与AI职责匹配
 - 定期更新和维护技能库
+- 遵守各技能的许可证要求
+- 引用外部技能时保持来源标注
