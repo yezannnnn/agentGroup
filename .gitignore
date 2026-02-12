@@ -9,6 +9,7 @@
 shared/status.json
 shared/token-*.md
 shared/SIMPLIFICATION-SUMMARY.md
-shared/docs/*.md
+shared/docs/*
+shared/designs/*
 shared/tasks/*.md
 shared/reviews/*.md
