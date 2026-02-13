@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "description": "基于文件修改时间戳的通知缓存机制",
+    "last_global_update": "2026-02-13T00:00:00Z"
+  },
+  "ai_agents": {
+    "max": {
+      "last_check_timestamp": "2026-02-13T12:00:00Z",
+      "last_notification_mtime": 0,
+      "unread_count": 0,
+      "last_read_notification_id": null
+    },
+    "ella": {
+      "last_check_timestamp": "2026-02-13T12:00:00Z",
+      "last_notification_mtime": 0,
+      "unread_count": 0,
+      "last_read_notification_id": null
+    },
+    "jarvis": {
+      "last_check_timestamp": "2026-02-13T12:00:00Z",
+      "last_notification_mtime": 0,
+      "unread_count": 0,
+      "last_read_notification_id": null
+    },
+    "kyle": {
+      "last_check_timestamp": "2026-02-13T12:00:00Z",
+      "last_notification_mtime": 0,
+      "unread_count": 0,
+      "last_read_notification_id": null
+    }
+  },
+  "file_mtimes": {
+    "notifications.json": 0,
+    "status.json": 0,
+    "tasks/todos.md": 0,
+    "tasks/meetings.md": 0,
+    "tasks/projects.md": 0
+  },
+  "check_strategy": {
+    "description": "检查策略配置",
+    "full_check_interval_hours": 24,
+    "quick_check_files": [
+      "notifications.json",
+      "status.json"
+    ],
+    "periodic_check_files": [
+      "tasks/todos.md",
+      "tasks/meetings.md",
+      "tasks/projects.md"
+    ]
+  }
+}

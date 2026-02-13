@@ -1,0 +1,123 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "description": "事件驱动的团队通知系统",
+    "notification_retention_days": 30
+  },
+  "notifications": [
+    {
+      "id": "notif_001",
+      "timestamp": "2026-02-13T10:30:00Z",
+      "priority": "high",
+      "type": "task_assignment",
+      "from": "max",
+      "to": "jarvis",
+      "subject": "紧急Bug修复任务",
+      "content": {
+        "task_id": "bug_20260213_001",
+        "file": "frontend/src/components/LoginForm.vue",
+        "issue": "登录按钮在特定场景下无响应",
+        "expected_behavior": "点击登录按钮应触发验证并提交",
+        "hint": "检查 handleLogin 方法的事件绑定"
+      },
+      "actions": [
+        {
+          "label": "查看任务",
+          "action": "read_file",
+          "target": "../shared/tasks/todos.md"
+        },
+        {
+          "label": "确认接收",
+          "action": "update_status",
+          "target": "../shared/status.json"
+        }
+      ],
+      "read_by": [],
+      "acknowledged_by": [],
+      "expires_at": "2026-03-15T10:30:00Z"
+    },
+    {
+      "id": "notif_002",
+      "timestamp": "2026-02-13T11:00:00Z",
+      "priority": "normal",
+      "type": "review_request",
+      "from": "jarvis",
+      "to": "kyle",
+      "subject": "新功能开发完成，请求测试",
+      "content": {
+        "feature": "用户注册流程优化",
+        "files_changed": [
+          "frontend/src/views/Register.vue",
+          "backend/api/auth.js"
+        ],
+        "test_checklist": [
+          "验证邮箱格式检查",
+          "测试密码强度提示",
+          "确认验证码发送功能",
+          "检查注册成功后的跳转"
+        ],
+        "deployment_branch": "feature/register-optimization"
+      },
+      "actions": [
+        {
+          "label": "开始测试",
+          "action": "update_status",
+          "target": "../shared/status.json"
+        },
+        {
+          "label": "查看代码",
+          "action": "git_checkout",
+          "target": "feature/register-optimization"
+        }
+      ],
+      "read_by": [],
+      "acknowledged_by": [],
+      "expires_at": "2026-03-15T11:00:00Z"
+    },
+    {
+      "id": "notif_003",
+      "timestamp": "2026-02-13T14:00:00Z",
+      "priority": "low",
+      "type": "information",
+      "from": "max",
+      "to": "all",
+      "subject": "每周团队会议提醒",
+      "content": {
+        "meeting_time": "2026-02-14T15:00:00Z",
+        "agenda": [
+          "上周工作回顾",
+          "本周任务分配",
+          "技术难点讨论",
+          "Token使用情况通报"
+        ],
+        "location": "线上会议室",
+        "preparation": "请各位提前准备工作总结"
+      },
+      "actions": [
+        {
+          "label": "确认参加",
+          "action": "update_calendar",
+          "target": "../shared/tasks/meetings.md"
+        }
+      ],
+      "read_by": [],
+      "acknowledged_by": [],
+      "expires_at": "2026-02-14T15:00:00Z"
+    }
+  ],
+  "notification_stats": {
+    "total_sent": 3,
+    "total_read": 0,
+    "total_acknowledged": 0,
+    "by_priority": {
+      "high": 1,
+      "normal": 1,
+      "low": 1
+    },
+    "by_type": {
+      "task_assignment": 1,
+      "review_request": 1,
+      "information": 1
+    }
+  }
+}
