@@ -104,20 +104,99 @@
       "acknowledged_by": [],
       "expires_at": "2026-02-14T15:00:00Z"
     }
+    },
+    {
+      "id": "notif_004",
+      "timestamp": "2026-02-14T15:45:00Z",
+      "priority": "high",
+      "type": "technical_research",
+      "from": "max",
+      "to": "jarvis",
+      "subject": "Claude Code技术调研 - Agent成本控制项目",
+      "content": {
+        "project": "Agent成本控制产品开发",
+        "research_scope": [
+          "Claude Code网络流量分析",
+          "代理兼容性测试",
+          "配置机制研究",
+          "计费方式验证"
+        ],
+        "expected_duration": "2-3天",
+        "deliverable": "技术可行性报告",
+        "priority_reason": "技术方案依赖调研结果"
+      },
+      "actions": [
+        {
+          "label": "查看详细任务",
+          "action": "read_file",
+          "target": "../shared/tasks/claude_code_research.md"
+        },
+        {
+          "label": "开始调研",
+          "action": "update_status",
+          "target": "../shared/status.json"
+        }
+      ],
+      "read_by": [],
+      "acknowledged_by": [],
+      "expires_at": "2026-02-17T15:45:00Z"
+    },
+    {
+      "id": "notif_005",
+      "timestamp": "2026-02-23T07:29:00Z",
+      "priority": "urgent",
+      "type": "bug_fix_urgent",
+      "from": "max",
+      "to": "jarvis",
+      "subject": "🚨 紧急：用户反馈登录Bug需要立即修复",
+      "content": {
+        "bug_id": "login_btn_20260223_001",
+        "user_request": "用户直接要求修复登录按钮bug",
+        "file": "frontend/src/components/LoginForm.vue",
+        "issue": "登录按钮在特定场景下无响应",
+        "expected_behavior": "点击登录按钮应触发验证并提交",
+        "debug_hint": "重点检查 handleLogin 方法的事件绑定",
+        "impact": "影响用户登录体验，需要优先处理",
+        "estimated_time": "1-2小时"
+      },
+      "actions": [
+        {
+          "label": "开始修复",
+          "action": "update_status",
+          "target": "../shared/status.json",
+          "payload": {
+            "task": "登录按钮bug修复",
+            "status": "进行中",
+            "assignee": "jarvis"
+          }
+        },
+        {
+          "label": "查看文件",
+          "action": "read_file",
+          "target": "frontend/src/components/LoginForm.vue"
+        }
+      ],
+      "read_by": [],
+      "acknowledged_by": [],
+      "expires_at": "2026-02-24T07:29:00Z"
+    }
   ],
   "notification_stats": {
-    "total_sent": 3,
+    "total_sent": 5,
     "total_read": 0,
     "total_acknowledged": 0,
     "by_priority": {
-      "high": 1,
+      "urgent": 1,
+      "high": 2,
       "normal": 1,
       "low": 1
     },
     "by_type": {
+      "bug_fix_urgent": 1,
       "task_assignment": 1,
       "review_request": 1,
-      "information": 1
+      "information": 1,
+      "technical_research": 1
     }
   }
 }
