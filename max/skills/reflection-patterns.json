@@ -1,0 +1,367 @@
+{
+  "version": "1.0",
+  "created": "2026-02-19",
+  "last_updated": "2026-02-19",
+  "description": "Max自我反省错误模式库 - 用于检测、分类和预防错误",
+  "error_categories": {
+    "E-TOKEN": {
+      "name": "Token估算错误",
+      "severity": "high",
+      "subcategories": {
+        "E-TOKEN-LOW": {
+          "name": "严重低估",
+          "detection_rule": "actual_tokens > estimated_tokens * 1.5",
+          "threshold": 0.5,
+          "auto_trigger": true
+        },
+        "E-TOKEN-HIGH": {
+          "name": "严重高估",
+          "detection_rule": "actual_tokens < estimated_tokens * 0.5",
+          "threshold": 0.5,
+          "auto_trigger": false
+        },
+        "E-TOKEN-MISS": {
+          "name": "未进行估算",
+          "detection_rule": "estimation_step_skipped == true",
+          "threshold": null,
+          "auto_trigger": true
+        }
+      }
+    },
+    "E-AUTH": {
+      "name": "授权违规",
+      "severity": "critical",
+      "subcategories": {
+        "E-AUTH-OPUS": {
+          "name": "Opus未授权使用",
+          "detection_rule": "model_used == 'opus' AND user_authorization == false",
+          "threshold": null,
+          "auto_trigger": true
+        },
+        "E-AUTH-GIT": {
+          "name": "Git操作未授权",
+          "detection_rule": "git_operation IN ['commit', 'push', 'merge'] AND user_authorization == false",
+          "threshold": null,
+          "auto_trigger": true
+        },
+        "E-AUTH-BOUNDARY": {
+          "name": "职责越界",
+          "detection_rule": "operation_type NOT IN max_allowed_operations",
+          "threshold": null,
+          "auto_trigger": true
+        }
+      }
+    },
+    "E-SCOPE": {
+      "name": "范围越界",
+      "severity": "high",
+      "subcategories": {
+        "E-SCOPE-OVER": {
+          "name": "过度设计",
+          "detection_rule": "deliverable_scope > requested_scope * 2",
+          "threshold": 2,
+          "auto_trigger": true
+        },
+        "E-SCOPE-UNDER": {
+          "name": "交付不足",
+          "detection_rule": "deliverable_scope < requested_scope * 0.5",
+          "threshold": 0.5,
+          "auto_trigger": false
+        }
+      }
+    },
+    "E-FLOW": {
+      "name": "流程违规",
+      "severity": "medium",
+      "subcategories": {
+        "E-FLOW-SKIP": {
+          "name": "检查点跳过",
+          "detection_rule": "checkpoint_completed == false",
+          "threshold": null,
+          "auto_trigger": true
+        },
+        "E-FLOW-ORDER": {
+          "name": "检查点顺序错误",
+          "detection_rule": "checkpoint_order != expected_order",
+          "threshold": null,
+          "auto_trigger": true
+        }
+      }
+    },
+    "E-LOGIC": {
+      "name": "逻辑错误",
+      "severity": "medium",
+      "subcategories": {
+        "E-LOGIC-ANALYSIS": {
+          "name": "分析推理错误",
+          "detection_rule": "user_feedback == 'incorrect_analysis'",
+          "threshold": null,
+          "auto_trigger": false
+        },
+        "E-LOGIC-DECISION": {
+          "name": "决策错误",
+          "detection_rule": "user_feedback == 'wrong_decision'",
+          "threshold": null,
+          "auto_trigger": false
+        }
+      }
+    },
+    "E-TOOL": {
+      "name": "工具使用错误",
+      "severity": "low",
+      "subcategories": {
+        "E-TOOL-WRONG": {
+          "name": "工具选择错误",
+          "detection_rule": "tool_result == 'failure' AND alternative_tool_available",
+          "threshold": null,
+          "auto_trigger": false
+        },
+        "E-TOOL-MISUSE": {
+          "name": "工具参数错误",
+          "detection_rule": "tool_result == 'parameter_error'",
+          "threshold": null,
+          "auto_trigger": false
+        }
+      }
+    }
+  },
+  "improvement_templates": {
+    "token_estimation_fix": {
+      "applies_to": "E-TOKEN",
+      "template": {
+        "immediate_action": "重新校准当前任务的Token估算，使用校准系数表",
+        "rule_update": "在第0检查点中增加: 对照Token估算基准表，使用校准系数",
+        "detection_enhancement": "添加任务完成后的Token偏差自动计算",
+        "prevention": "建立任务类型到Token消耗的映射表，每次估算时强制查表"
+      }
+    },
+    "authorization_fix": {
+      "applies_to": "E-AUTH",
+      "template": {
+        "immediate_action": "立即停止当前操作，向用户道歉并请求授权",
+        "rule_update": "在操作前增加授权检查清单验证步骤",
+        "detection_enhancement": "在工具调用前插入授权状态验证",
+        "prevention": "建立操作-授权映射表，未在表中标记已授权的操作一律需要确认"
+      }
+    },
+    "scope_fix": {
+      "applies_to": "E-SCOPE",
+      "template": {
+        "immediate_action": "对比用户需求和当前交付，识别偏差",
+        "rule_update": "在第0检查点增加: 列出用户需求要点，交付物必须一一对应",
+        "detection_enhancement": "每完成一个交付物后对比需求清单",
+        "prevention": "强制使用需求-交付物对照表"
+      }
+    },
+    "flow_fix": {
+      "applies_to": "E-FLOW",
+      "template": {
+        "immediate_action": "回到被跳过的检查点重新执行",
+        "rule_update": "在被跳过的检查点增加更强的强制标记",
+        "detection_enhancement": "增加检查点完成状态的自动验证",
+        "prevention": "每个检查点必须输出确认标记才能进入下一步"
+      }
+    }
+  },
+  "historical_errors": [
+    {
+      "id": "ERR-2026-0219-001",
+      "date": "2026-02-19",
+      "category": "E-TOKEN-LOW",
+      "severity": "high",
+      "description": "Token估算严重低估 - 估算3000 tokens，实际消耗17000+ tokens",
+      "context": "创建多文件系统设计任务",
+      "root_cause": "未参考历史数据，未考虑多文件创建的累积token消耗，未使用校准系数",
+      "estimated_tokens": 3000,
+      "actual_tokens": 17000,
+      "deviation_ratio": 4.67,
+      "resolution": {
+        "immediate": "完成任务但超出预算",
+        "rule_added": "多文件创建任务必须使用2.5x校准系数",
+        "prevention": "建立Token估算基准表和校准系数体系"
+      },
+      "status": "resolved",
+      "lessons_learned": "系统设计类任务（3+文件）的Token消耗通常是简单估算的3-5倍"
+    },
+    {
+      "id": "ERR-2026-0219-002",
+      "date": "2026-02-19",
+      "category": "E-AUTH-OPUS",
+      "severity": "critical",
+      "description": "未经授权使用Opus模型",
+      "context": "执行任务时直接使用了Opus而未向用户确认",
+      "root_cause": "检查点序列中的授权确认被跳过，模型选择缺乏强制验证机制",
+      "resolution": {
+        "immediate": "向用户承认违规",
+        "rule_added": "Opus使用前必须输出授权请求并等待确认",
+        "prevention": "在第4检查点中增加Opus使用的强制确认步骤"
+      },
+      "status": "resolved",
+      "lessons_learned": "授权确认不能依赖自觉，必须有系统级强制机制"
+    },
+    {
+      "id": "ERR-20260219-083",
+      "date": "2026-02-19T06:55:10.485Z",
+      "category": "E-TOKEN-LOW",
+      "severity": "high",
+      "description": "Token估算严重低估 - 估算3000实际17000",
+      "context": {
+        "task_description": "创建自我反省系统",
+        "estimated_tokens": 3000,
+        "actual_tokens": 17000,
+        "deviation_ratio": "5.67"
+      },
+      "root_cause": "Token预估偏低467%，可能原因：任务复杂度低估、未考虑多文件累积消耗、校准系数未应用",
+      "resolution": {
+        "immediate": null,
+        "rule_added": null,
+        "prevention": "更新校准系数，当前偏差比: 5.67x"
+      },
+      "status": "pending_analysis",
+      "lessons_learned": null
+    },
+    {
+      "id": "ERR-20260219-293",
+      "date": "2026-02-19T06:55:10.583Z",
+      "category": "E-AUTH-OPUS",
+      "severity": "critical",
+      "description": "未经授权使用Opus模型",
+      "context": {
+        "task_description": "未提供",
+        "estimated_tokens": null,
+        "actual_tokens": null,
+        "deviation_ratio": null
+      },
+      "root_cause": "授权检查步骤被跳过或未正确执行",
+      "resolution": {
+        "immediate": "立即停止操作，向用户道歉并请求授权",
+        "rule_added": null,
+        "prevention": "在操作执行前增加强制授权验证检查点"
+      },
+      "status": "pending_analysis",
+      "lessons_learned": null
+    },
+    {
+      "id": "ERR-20260219-937",
+      "date": "2026-02-19T06:56:22.539Z",
+      "category": "E-TOKEN-LOW",
+      "severity": "high",
+      "description": "Token估算偏差: 预估3000, 实际17000 (5.67x)",
+      "context": {
+        "task_description": "未提供",
+        "estimated_tokens": 3000,
+        "actual_tokens": 17000,
+        "deviation_ratio": "5.67"
+      },
+      "root_cause": "Token预估偏低467%，可能原因：任务复杂度低估、未考虑多文件累积消耗、校准系数未应用",
+      "resolution": {
+        "immediate": null,
+        "rule_added": null,
+        "prevention": "更新校准系数，当前偏差比: 5.67x"
+      },
+      "status": "pending_analysis",
+      "lessons_learned": null
+    },
+    {
+      "id": "ERR-20260219-847",
+      "date": "2026-02-19T06:58:28.457Z",
+      "category": "E-AUTH-OPUS",
+      "severity": "critical",
+      "description": "2026-02-19对话中未经授权直接在Task工具中设置model=opus，违反了CLAUDE.md中的授权确认机制",
+      "context": {
+        "task_description": "未提供",
+        "estimated_tokens": null,
+        "actual_tokens": null,
+        "deviation_ratio": null
+      },
+      "root_cause": "授权检查步骤被跳过或未正确执行",
+      "resolution": {
+        "immediate": "立即停止操作，向用户道歉并请求授权",
+        "rule_added": null,
+        "prevention": "在操作执行前增加强制授权验证检查点"
+      },
+      "status": "pending_analysis",
+      "lessons_learned": null
+    }
+  ],
+  "calibration_data": {
+    "token_estimation": {
+      "task_type_baselines": {
+        "single_file_read": {
+          "min": 200,
+          "max": 500,
+          "coefficient": 1
+        },
+        "simple_qa": {
+          "min": 300,
+          "max": 800,
+          "coefficient": 1
+        },
+        "small_file_creation": {
+          "min": 800,
+          "max": 2000,
+          "coefficient": 1.3
+        },
+        "medium_file_creation": {
+          "min": 2000,
+          "max": 5000,
+          "coefficient": 1.5
+        },
+        "multi_file_operation": {
+          "min": 3000,
+          "max": 8000,
+          "coefficient": 1.8
+        },
+        "system_design": {
+          "min": 5000,
+          "max": 15000,
+          "coefficient": 2
+        },
+        "complex_analysis_implementation": {
+          "min": 8000,
+          "max": 20000,
+          "coefficient": 2
+        }
+      },
+      "multipliers": {
+        "new_complete_system_3plus_files": 2.5,
+        "json_structure_design": 1.5,
+        "script_writing": 1.8,
+        "multi_file_context_reading": 1.5,
+        "detailed_full_implementation": 2
+      },
+      "update_formula": "new_coefficient = 0.7 * old_coefficient + 0.3 * (actual / estimated)",
+      "coefficient_range": {
+        "min": 0.5,
+        "max": 3
+      }
+    }
+  },
+  "prevention_rules": {
+    "token_estimation": [
+      "任何涉及3+文件创建的任务，基础估算必须 >= 8000 tokens",
+      "系统设计类任务，基础估算必须 >= 10000 tokens",
+      "估算结果向上取整到最近的1000",
+      "估算超过5000 tokens时必须向用户报告",
+      "每次任务完成后记录实际token消耗用于校准"
+    ],
+    "authorization": [
+      "Opus模型: 使用前必须输出 '此任务建议使用Opus，是否授权？' 并等待",
+      "Git commit/push: 完成修改后必须输出 '等待您的授权' 并等待",
+      "高成本操作(>5000 tokens): 必须提前告知用户预估成本",
+      "职责外操作: 建议转交给对应团队成员"
+    ],
+    "scope_management": [
+      "开始前列出用户需求的所有要点",
+      "交付物必须与需求要点一一对应",
+      "每完成一个交付物后检查是否偏离需求",
+      "发现需求模糊时立即澄清，不要假设"
+    ]
+  },
+  "reflection_schedule": {
+    "per_error": "每次错误发生时立即反思",
+    "periodic_review": "每10次对话进行一次模式回顾",
+    "monthly_assessment": "月末进行一次全面评估",
+    "conversation_count_since_last_review": 0
+  }
+}
