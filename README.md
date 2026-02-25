@@ -150,11 +150,15 @@
 git clone https://github.com/yezannnnn/agnetGroup.git
 cd agnetGroup
 
-# 启动特定AI
-claude --project max      # 项目管理和个人助理
-claude --project ella     # UI/UX设计
-claude --project jarvis   # 开发任务
-claude --project kyle     # 测试验收
+# 启动特定AI (推荐方式)
+./start-max.sh           # 麦克斯 - 项目管理和个人助理
+./start-ella.sh          # 艾拉 - UI/UX设计
+./start-jarvis.sh        # 贾维斯 - 开发任务
+./start-kyle.sh          # 凯尔 - 测试验收
+
+# 可选：使用高级模型
+./start-max.sh opus      # 使用Opus模型启动麦克斯
+./start-ella.sh opus     # 使用Opus模型启动艾拉
 ```
 
 ### 📋 可用技能命令
