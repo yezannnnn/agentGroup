@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "description": "aiGroup shared team status",
+    "last_updated": "2026-03-11T00:00:00Z"
+  },
+  "team": {
+    "max": {
+      "role": "project_manager",
+      "status": "idle",
+      "current_task": "",
+      "updated_at": "2026-03-11T00:00:00Z"
+    },
+    "ella": {
+      "role": "designer",
+      "status": "idle",
+      "current_task": "",
+      "updated_at": "2026-03-11T00:00:00Z"
+    },
+    "jarvis": {
+      "role": "engineer",
+      "status": "idle",
+      "current_task": "",
+      "updated_at": "2026-03-11T00:00:00Z"
+    },
+    "kyle": {
+      "role": "qa",
+      "status": "idle",
+      "current_task": "",
+      "updated_at": "2026-03-11T00:00:00Z"
+    }
+  },
+  "recent_updates": [
+    {
+      "from": "system",
+      "to": "all",
+      "type": "workspace_initialized",
+      "task": "Initialize shared status files",
+      "files": [
+        "shared/status.json",
+        "shared/tasks/meetings.md",
+        "shared/tasks/todos.md",
+        "shared/tasks/projects.md"
+      ],
+      "message": "Shared workspace files are available for agent coordination.",
+      "timestamp": "2026-03-11T00:00:00Z"
+    }
+  ]
+}
