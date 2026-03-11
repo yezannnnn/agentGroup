@@ -16,3 +16,10 @@ shared/docs/*
 shared/designs/*
 shared/tasks/*.md
 shared/reviews/*.md
+
+# 保留启动所需的共享初始化文件
+!shared/status.json
+!shared/tasks/meetings.md
+!shared/tasks/todos.md
+!shared/tasks/projects.md
+!shared/tasks/claude_code_research.md
