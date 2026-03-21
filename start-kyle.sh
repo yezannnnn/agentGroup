@@ -1,21 +1,48 @@
 #!/bin/bash
-# 启动凯尔 (Kyle) - 质检测试
-# 用法: ./start-kyle.sh [opus]
+# 启动凯尔 (Kyle) - QA测试
+# 用法: ./start-kyle.sh [opus|haiku]
 
-cd "$(dirname "$0")/kyle"
+# 保存启动脚本目录
+SCRIPT_DIR="$(dirname "$0")"
 
-# 模型选择
+# 引入配置读取器
+source "${SCRIPT_DIR}/scripts/读取模型配置.sh"
+
+cd "${SCRIPT_DIR}/kyle"
+
+# 动态模型选择
 if [ "$1" = "opus" ]; then
-  MODEL="claude-opus-4-5-20251101"
-  MODEL_NAME="Opus 4.5"
+  MODEL=$(获取模型ID "opus")
+  MODEL_NAME=$(获取模型显示名称 "opus")
+  COST_INFO=$(获取模型成本信息 "opus")
+
+  # 检查Opus授权
+  if 检查Opus授权; then
+    echo "⚠️  $(获取授权机制说明)"
+    echo -n "继续使用Opus模型？ [y/N]: "
+    read -r response
+    if [[ ! "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+      echo "已取消，使用默认Sonnet模型"
+      MODEL=$(获取模型ID "sonnet")
+      MODEL_NAME=$(获取模型显示名称 "sonnet")
+      COST_INFO=$(获取模型成本信息 "sonnet")
+    fi
+  fi
+elif [ "$1" = "haiku" ]; then
+  MODEL=$(获取模型ID "haiku")
+  MODEL_NAME=$(获取模型显示名称 "haiku")
+  COST_INFO=$(获取模型成本信息 "haiku")
 else
-  MODEL="claude-sonnet-4-20250514"
-  MODEL_NAME="Sonnet 4"
+  MODEL=$(获取模型ID "sonnet")
+  MODEL_NAME=$(获取模型显示名称 "sonnet")
+  COST_INFO=$(获取模型成本信息 "sonnet")
 fi
 
 echo "=========================================="
-echo "  启动凯尔 (Kyle) - 质检测试"
+echo "  启动凯尔 (Kyle) - QA测试"
 echo "  模型: Claude $MODEL_NAME"
+echo "  成本: $COST_INFO"
+echo "  适用: $(获取适用场景 $(echo $MODEL_NAME | cut -d' ' -f1 | tr '[:upper:]' '[:lower:]'))"
 echo "=========================================="
 echo ""
 

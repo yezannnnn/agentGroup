@@ -4,6 +4,7 @@
 
 # 个人配置
 */.claude/settings.local.json
+.claude/settings.local.json
 
 # 文档目录
 docs/
