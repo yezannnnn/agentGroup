@@ -3,7 +3,13 @@
 # 功能：从模型配置.json读取模型信息的工具函数
 
 # 配置文件路径
-CONFIG_FILE="$(dirname "$0")/../模型配置.json"
+if [ -n "${SCRIPT_DIR}" ]; then
+    # 如果SCRIPT_DIR已设置（被start-*.sh脚本sourced时）
+    CONFIG_FILE="$(realpath "${SCRIPT_DIR}")/模型配置.json"
+else
+    # 直接运行时使用相对路径
+    CONFIG_FILE="$(dirname "$0")/../模型配置.json"
+fi
 
 # 检查配置文件是否存在
 if [ ! -f "$CONFIG_FILE" ]; then
