@@ -6,6 +6,44 @@
   },
   "notifications": [
     {
+      "id": "notif_007",
+      "timestamp": "2026-04-03T08:00:00Z",
+      "priority": "high",
+      "type": "review_request",
+      "from": "jarvis",
+      "to": "kyle",
+      "subject": "Phase 1-5 编码规范重构已修复，请复审",
+      "content": {
+        "phase": "Phase 1-5 Standards Refactor",
+        "review_report": "shared/reviews/2026-04-02-phase1-5-standards-refactor-review.md",
+        "fixes": [
+          "P0: ISerialNumberService 添加 deleteSerial 方法声明",
+          "P0: IGDictService.getByPage 返回类型改为 PageRVO<GDictRVO>",
+          "P0: SerialNumberController 添加 @DeleteMapping 删除端点",
+          "P1: BeDimensionalStrandServiceImpl.setDimEnabled 添加租户越权校验",
+          "P2: 移除冗余 @Transactional(readOnly = true) (4处)"
+        ],
+        "modified_files": [
+          "cloud-backend/.../ISerialNumberService.java",
+          "cloud-backend/.../IGDictService.java",
+          "cloud-backend/.../SerialNumberController.java",
+          "cloud-backend/.../BeDimensionalStrandServiceImpl.java",
+          "cloud-backend/.../SerialNumberServiceImpl.java",
+          "cloud-backend/.../BaseProjectServiceImpl.java"
+        ]
+      },
+      "actions": [
+        {
+          "label": "开始复审",
+          "action": "review",
+          "target": "../shared/reviews/2026-04-02-phase1-5-standards-refactor-review.md"
+        }
+      ],
+      "read_by": [],
+      "acknowledged_by": [],
+      "expires_at": "2026-04-10T08:00:00Z"
+    },
+    {
       "id": "notif_001",
       "timestamp": "2026-02-13T10:30:00Z",
       "priority": "high",
@@ -103,7 +141,6 @@
       "read_by": [],
       "acknowledged_by": [],
       "expires_at": "2026-02-14T15:00:00Z"
-    }
     },
     {
       "id": "notif_004",
@@ -182,19 +219,19 @@
     }
   ],
   "notification_stats": {
-    "total_sent": 5,
+    "total_sent": 7,
     "total_read": 0,
     "total_acknowledged": 0,
     "by_priority": {
       "urgent": 1,
-      "high": 2,
+      "high": 4,
       "normal": 1,
       "low": 1
     },
     "by_type": {
       "bug_fix_urgent": 1,
-      "task_assignment": 1,
-      "review_request": 1,
+      "task_assignment": 2,
+      "review_request": 2,
       "information": 1,
       "technical_research": 1
     }

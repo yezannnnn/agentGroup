@@ -8,6 +8,8 @@
 # 文档目录
 docs/
 
+**/.history
+
 # shared目录：保留框架，忽略具体内容
 shared/status.json
 shared/token-*.md

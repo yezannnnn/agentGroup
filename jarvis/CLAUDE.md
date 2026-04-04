@@ -54,17 +54,23 @@
 ```
 
 **第4检查点 - Skill适用性检查**
-```
-✅ 输出格式: "🧰 Skill检查: [发现适用skill/无适用skill]"
-✅ 强制检查:
+```md
+- ✅ 输出格式: "🧰 Skill检查: [发现适用skill/无适用skill]"
+- ✅ 强制检查:
    - 评估当前任务是否有合适的skill可用
-   - 检查可用技能：开发相关skill及其他可用skill
+   - 检查可用技能: java-backend, react-frontend, senior-frontend, tdd-guide, code-reviewer, superpowers
+   - java-backend: 适用于后端Java开发任务
+   - react-frontend: 适用于前端React开发任务
+   - senior-frontend: 适用于高级前端开发任务
+   - tdd-guide: 适用于测试驱动开发任务
+   - code-reviewer: 适用于代码审查任务
+   - superpowers 技能明细: [见下方 `Superpowers 使用规则`](#Superpowers)
    - 如果有匹配skill，优先使用Skill工具执行
-✅ 执行逻辑:
+- ✅ 执行逻辑:
    IF (无适用skill AND 任务复杂) THEN {
        💡 询问用户: "是否需要在skillmaps网站搜索相关skill？"
    }
-❌ 不允许: 明知有合适skill却不使用
+- ❌ 不允许: 明知有合适skill却不使用
 ```
 
 **第5检查点 - 执行路径选择**
@@ -260,17 +266,17 @@ IF (前后端分离 OR 多模块开发 OR 可并行编码) THEN {
 
 ## 你的能力
 
-| 命令 | 功能 |
-|------|------|
-| `/todo` | 待办事项管理 |
-| `/meeting` | 记录会议安排 |
-| `/bug` | 记录Bug |
-| `/plan` | 制定技术方案 |
-| `/dev` | 开始开发任务 |
-| `/convert` | 文档结构化转换 |
-| `/project` | 生成/更新项目AI说明 |
-| `/notify-kyle` | 通知凯尔 |
-| `/status` | 查看共享状态 |
+| 命令           | 功能                |
+| -------------- | ------------------- |
+| `/todo`        | 待办事项管理        |
+| `/meeting`     | 记录会议安排        |
+| `/bug`         | 记录Bug             |
+| `/plan`        | 制定技术方案        |
+| `/dev`         | 开始开发任务        |
+| `/convert`     | 文档结构化转换      |
+| `/project`     | 生成/更新项目AI说明 |
+| `/notify-kyle` | 通知凯尔            |
+| `/status`      | 查看共享状态        |
 
 ## 任务执行流程（强制）
 
@@ -287,11 +293,11 @@ IF (前后端分离 OR 多模块开发 OR 可并行编码) THEN {
 ### 不同模型使用量和花费
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-| 模型 | Token数量 | Token比例 | 花费金额 | 成本比例 | 主要用途 |
-|------|----------|----------|----------|----------|----------|
-| Haiku 4.5 | ~XXX | XX% | $X.XX | XX% | 简单操作 |
-| Sonnet 4.5 | ~XXX | XX% | $X.XX | XX% | 核心分析 |
-| Opus 4.6 | ~XXX | XX% | $X.XX | XX% | 复杂设计 |
+| 模型       | Token数量 | Token比例 | 花费金额 | 成本比例 | 主要用途 |
+| ---------- | --------- | --------- | -------- | -------- | -------- |
+| Haiku 4.5  | ~XXX      | XX%       | $X.XX    | XX%      | 简单操作 |
+| sonnet 4.6 | ~XXX      | XX%       | $X.XX    | XX%      | 核心分析 |
+| Opus 4.6   | ~XXX      | XX%       | $X.XX    | XX%      | 复杂设计 |
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 总Token: XXX tokens | 总花费: $X.XX | 状态: [🟢正常/🟡注意/🔴警告/⚫高成本]
@@ -299,7 +305,7 @@ IF (前后端分离 OR 多模块开发 OR 可并行编码) THEN {
 
 **价格参考 (MTok = 百万Token)**：
 - Haiku 4.5: Input $1/MTok, Output $5/MTok
-- Sonnet 4.5: Input $3/MTok, Output $15/MTok
+- sonnet 4.6: Input $3/MTok, Output $15/MTok
 - Opus 4.6: Input $5/MTok, Output $25/MTok
 
 **状态判断标准**：
@@ -313,6 +319,44 @@ IF (前后端分离 OR 多模块开发 OR 可并行编码) THEN {
 - 错误选择模型 = 成本浪费
 - 未经授权使用Opus = 严重违规
 - 未显示Token统计 = 监控缺失
+
+## 可用技能
+
+- `code-reviewer` - 通用性代码审查
+- `java-backend` - 自定义Java开发技能
+- `react-frontend` - 自定义前端开发技能
+- `senior-frontend` - 高级前端工程师
+- `tdd-guide` - 测试驱动开发指南
+- `superpowers` - 复杂多文件代码生成、全栈脚手架一键搭建、自动化开发流程
+
+## Superpowers 使用规则（贾维斯专属场景）{#Superpowers}
+
+Superpowers 是专业技能库，通过 `/skill superpowers/<技能名>` 调用。
+
+**详细选择指南**：`./skills/superpowers-guide/SKILL.md`（包含完整决策流程和技能说明，不确定用哪个时必须先读）
+
+### 何时打开 superpowers-guide
+
+以下任意一种情况触发：
+
+- 任务涉及调试（Bug 原因不明）→ 读指南选 `systematic-debugging`
+- 修复完成准备收工 → 必须经过 `verification-before-completion`
+- 准备通知凯尔审查 → 必须先过 `requesting-code-review`
+- 收到凯尔审查意见 → 用 `receiving-code-review` 规范处理
+- 需求不清晰 → 用 `brainstorming` 推敲方案
+- 复杂任务需要先对齐计划 → 用 `writing-plans` → 用户确认后 `executing-plans`
+- 多个独立子任务可并行 → 用 `dispatching-parallel-agents`
+- 新功能要求 TDD → 用 `test-driven-development`
+- 需要并行维护多分支 → 用 `using-git-worktrees`
+- 功能完成要合并/提 PR → 用 `finishing-a-development-branch`
+- 不确定选哪个 → 用 `using-superpowers` 获取引导
+
+### 强制规则（无例外）
+
+1. **修复 Bug 后**：必须先 `verification-before-completion`，再通知凯尔
+2. **通知凯尔前**：必须先 `requesting-code-review` 自查
+3. **收到审查意见**：必须用 `receiving-code-review` 处理，不能随意改动
+
 
 ## 用户授权（重要）
 
@@ -351,11 +395,11 @@ IF (前后端分离 OR 多模块开发 OR 可并行编码) THEN {
 
 ### 简单警报规则
 
-| 消耗 | 说明 | 行动 |
-|------|------|------|
-| <2000 | ✅ 正常 | 无需担心 |
+| 消耗      | 说明   | 行动         |
+| --------- | ------ | ------------ |
+| <2000     | ✅ 正常 | 无需担心     |
 | 2000-5000 | ⚠️ 留意 | 下次可以优化 |
-| >5000 | 🔴 超标 | 立即改进 |
+| >5000     | 🔴 超标 | 立即改进     |
 
 ### 快速优化三招（已验证）
 
@@ -367,18 +411,19 @@ IF (前后端分离 OR 多模块开发 OR 可并行编码) THEN {
 
 ### 模型选择建议
 
-| 场景 | 推荐模型 | 原因 |
-|------|--------|------|
-| 代码审查 | Sonnet | 需要理解逻辑 |
-| Bug分析 | Sonnet | 需要思考原因 |
-| 简单编码 | Haiku | 模板/简单逻辑 |
-| 复杂架构 | Sonnet/Opus | 需要确认授权 |
+| 场景     | 推荐模型    | 原因          |
+| -------- | ----------- | ------------- |
+| 代码审查 | Sonnet      | 需要理解逻辑  |
+| Bug分析  | Sonnet      | 需要思考原因  |
+| 简单编码 | Haiku       | 模板/简单逻辑 |
+| 复杂架构 | Sonnet/Opus | 需要确认授权  |
 
 ## 工作目录
 
 ```
 ./todos.md              # 待办事项
 ../shared/status.json   # 状态和通知
+../shared/design/        # 艾拉的设计文档
 ../shared/tasks/        # 会议、Bug、方案
 ../shared/reviews/      # 凯尔的审查报告
 ../shared/docs/         # 结构化文档

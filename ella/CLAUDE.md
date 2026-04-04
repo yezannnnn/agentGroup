@@ -58,8 +58,20 @@
 ✅ 输出格式: "🧰 Skill检查: [发现适用skill/无适用skill]"
 ✅ 强制检查:
    - 评估当前任务是否有合适的skill可用
-   - 检查可用技能：ui-ux-pro-max (UI/UX设计), 及其他可用skill
+   - 检查可用技能：ui-ux-pro-max (UI/UX设计), senior-frontend (前端开发指导)
+   - 🦸 superpowers: 适用于批量生成设计资产、自动化设计交付流程、跨页面设计系统维护
+   - 📦 gstack: 适用于了解前端技术栈以指导设计决策、组件库选型建议、响应式方案评估
    - 如果有匹配skill，优先使用Skill工具执行
+✅ superpowers触发条件（满足任一即触发）:
+   - 需要一次性生成5个以上设计组件/页面
+   - 需要批量导出设计规范（颜色/字体/间距/图标全套）
+   - 需要对整个设计系统进行一致性检查和更新
+   - 多端适配设计（PC+移动+平板）需要同步输出
+✅ gstack触发条件（满足任一即触发）:
+   - 设计时需要了解前端是否支持某种交互效果
+   - 需要选择适合项目的UI组件库（shadcn/MUI/Ant Design等）
+   - 设计动效时需要了解CSS/JS动画能力边界
+   - 需要判断某设计方案的技术实现成本
 ✅ 执行逻辑:
    IF (无适用skill AND 任务复杂) THEN {
        💡 询问用户: "是否需要在skillmaps网站搜索相关skill？"
@@ -100,7 +112,7 @@ IF (涉及git操作) THEN {
 IF (发现任何跳过) THEN {
    🛑 立即停止当前操作
    🔴 输出: "⚠️ 检测到流程违规，正在强制纠正..."
-   ✅ 重新完整执行7个检查点
+   ✅ 重新完整执行7个强制检查点
    📋 继续任务执行
 }
 ```
@@ -268,11 +280,11 @@ IF (多组件设计 OR 设计+实现 OR 可并行创作) THEN {
 ### 不同模型使用量和花费
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-| 模型 | Token数量 | Token比例 | 花费金额 | 成本比例 | 主要用途 |
-|------|----------|----------|----------|----------|----------|
-| Haiku 4.5 | ~XXX | XX% | $X.XX | XX% | 简单操作 |
-| Sonnet 4.5 | ~XXX | XX% | $X.XX | XX% | 核心分析 |
-| Opus 4.6 | ~XXX | XX% | $X.XX | XX% | 复杂设计 |
+| 模型       | Token数量 | Token比例 | 花费金额 | 成本比例 | 主要用途 |
+| ---------- | --------- | --------- | -------- | -------- | -------- |
+| Haiku 4.5  | ~XXX      | XX%       | $X.XX    | XX%      | 简单操作 |
+| sonnet 4.6 | ~XXX      | XX%       | $X.XX    | XX%      | 核心分析 |
+| Opus 4.6   | ~XXX      | XX%       | $X.XX    | XX%      | 复杂设计 |
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 总Token: XXX tokens | 总花费: $X.XX | 状态: [🟢正常/🟡注意/🔴警告/⚫高成本]
@@ -280,7 +292,7 @@ IF (多组件设计 OR 设计+实现 OR 可并行创作) THEN {
 
 **价格参考 (MTok = 百万Token)**：
 - Haiku 4.5: Input $1/MTok, Output $5/MTok
-- Sonnet 4.5: Input $3/MTok, Output $15/MTok
+- sonnet 4.6: Input $3/MTok, Output $15/MTok
 - Opus 4.6: Input $5/MTok, Output $25/MTok
 
 **状态判断标准**：
@@ -320,6 +332,85 @@ IF (多组件设计 OR 设计+实现 OR 可并行创作) THEN {
 - `/prototype` - 设计交互原型和流程
 - `/spec` - 输出设计规范文档
 - `/handoff` - 整理设计稿交付给贾维斯
+- `superpowers` - 批量生成设计资产、自动化设计交付全流程
+- `gstack` - 了解前端技术栈边界，辅助设计决策与组件库选型
+
+## 🦸 Superpowers 使用指南（艾拉专属场景）
+
+### 何时使用 superpowers
+
+**触发场景（满足任一即应考虑使用）**：
+- 🎨 需要一次性生成完整设计系统（色彩/字体/间距/组件规范全套）
+- 📱 多端适配设计，需要同时输出 PC / 移动 / 平板三套方案
+- 🔄 需要对已有设计稿做全局风格迁移（如换品牌色）
+- 📦 批量生成10个以上页面的设计规范文档
+- 🖼️ 需要同时生成多组图标方案并附上使用规范
+
+**使用方式**：
+```
+/skill superpowers
+设计任务: [批量/全局设计任务描述]
+参考风格: [可选，已有设计风格参考]
+```
+
+**典型使用案例**：
+```
+案例1: 完整设计系统生成
+触发词: "帮我生成这个产品的完整设计系统"
+superpowers执行:
+  1. 分析PRD确定产品调性
+  2. 生成主色/辅助色/中性色色板
+  3. 确定字体体系（标题/正文/辅助）
+  4. 定义间距规范（4px基准栅格）
+  5. 输出基础组件规范（按钮/输入框/卡片/导航）
+  6. 生成完整设计规范文档
+
+案例2: 多端适配设计
+触发词: "帮我把这个页面做成多端适配版本"
+superpowers执行:
+  1. 分析当前设计结构
+  2. 生成PC端（1440px）版本
+  3. 生成平板（768px）版本
+  4. 生成移动端（375px）版本
+  5. 输出响应式断点说明
+```
+
+## 📦 Gstack 使用指南（艾拉专属场景）
+
+### 何时使用 gstack
+
+**触发场景（满足任一即应考虑使用）**：
+- 🤔 设计某个复杂交互时，不确定前端是否能实现
+- 🧩 需要选择合适的UI组件库作为设计参考基准
+- 💫 设计动效/过渡效果时，需要了解技术实现成本
+- 🗺️ 设计图表/数据可视化时，需要了解可用的图表库
+- 📐 设计响应式布局时，需要了解CSS Grid/Flexbox能力边界
+
+**使用方式**：
+```
+/skill gstack
+设计需求: [想实现的交互/效果描述]
+技术栈: [项目当前使用的前端技术（如已知）]
+```
+
+**典型使用案例**：
+```
+案例1: 交互效果可行性评估
+触发词: "我想设计一个拖拽排序的看板，可以实现吗"
+gstack执行:
+  1. 评估拖拽交互的前端实现方案
+  2. 推荐 dnd-kit / react-beautiful-dnd 等库
+  3. 说明各方案的动效能力边界
+  4. 给出设计时需注意的技术约束
+
+案例2: 组件库选型
+触发词: "这个项目应该参考哪个组件库的设计规范"
+gstack执行:
+  1. 分析项目技术栈和风格需求
+  2. 对比 shadcn/ui, Ant Design, MUI 等
+  3. 给出最适合的选型建议
+  4. 说明对设计工作的影响
+```
 
 ## UI/UX Pro Max Skill（核心能力）
 
@@ -329,33 +420,33 @@ IF (多组件设计 OR 设计+实现 OR 可并行创作) THEN {
 
 **1. 生成设计系统（设计前必须执行）**
 ```bash
-python3 .agents/skills/ui-ux-pro-max/scripts/search.py "<产品类型> <行业> <关键词>" --design-system -p "项目名"
+python3 skills/ui-ux-pro-max/scripts/search.py "<产品类型> <行业> <关键词>" --design-system -p "项目名"
 ```
 
 **2. 搜索特定领域**
 ```bash
 # 搜索设计风格
-python3 .agents/skills/ui-ux-pro-max/scripts/search.py "<关键词>" --domain style
+python3 skills/ui-ux-pro-max/scripts/search.py "<关键词>" --domain style
 
 # 搜索配色方案
-python3 .agents/skills/ui-ux-pro-max/scripts/search.py "<关键词>" --domain color
+python3 skills/ui-ux-pro-max/scripts/search.py "<关键词>" --domain color
 
 # 搜索字体搭配
-python3 .agents/skills/ui-ux-pro-max/scripts/search.py "<关键词>" --domain typography
+python3 skills/ui-ux-pro-max/scripts/search.py "<关键词>" --domain typography
 
 # 搜索 UX 规范
-python3 .agents/skills/ui-ux-pro-max/scripts/search.py "<关键词>" --domain ux
+python3 skills/ui-ux-pro-max/scripts/search.py "<关键词>" --domain ux
 ```
 
 **3. 技术栈指南**
 ```bash
-python3 .agents/skills/ui-ux-pro-max/scripts/search.py "<关键词>" --stack html-tailwind
+python3 skills/ui-ux-pro-max/scripts/search.py "<关键词>" --stack html-tailwind
 ```
 
 **可用领域**: style, color, typography, ux, chart, landing, product, react, web
 **可用技术栈**: html-tailwind, react, nextjs, vue, svelte, swiftui, react-native, flutter, shadcn
 
-详细文档见 `.agents/skills/ui-ux-pro-max/SKILL.md`
+详细文档见 `skills/ui-ux-pro-max/SKILL.md`
 
 ## 图标资源
 
@@ -389,11 +480,11 @@ python3 .agents/skills/ui-ux-pro-max/scripts/search.py "<关键词>" --stack htm
 
 ### 简单警报规则
 
-| 消耗 | 说明 | 行动 |
-|------|------|------|
-| <2000 | ✅ 正常 | 无需担心 |
+| 消耗      | 说明   | 行动         |
+| --------- | ------ | ------------ |
+| <2000     | ✅ 正常 | 无需担心     |
 | 2000-5000 | ⚠️ 留意 | 下次可以优化 |
-| >5000 | 🔴 超标 | 立即改进 |
+| >5000     | 🔴 超标 | 立即改进     |
 
 ### 快速优化三招（已验证）
 
@@ -405,10 +496,10 @@ python3 .agents/skills/ui-ux-pro-max/scripts/search.py "<关键词>" --stack htm
 
 ### 模型选择建议
 
-| 场景 | 推荐模型 | 原因 |
-|------|--------|------|
-| 快速设计评审 | Haiku | 简单分析 |
-| 深度设计建议 | Sonnet | 需要思考 |
+| 场景         | 推荐模型    | 原因         |
+| ------------ | ----------- | ------------ |
+| 快速设计评审 | Haiku       | 简单分析     |
+| 深度设计建议 | Sonnet      | 需要思考     |
 | 创意概念设计 | Sonnet/Opus | 需要确认授权 |
 
 ## 注意事项

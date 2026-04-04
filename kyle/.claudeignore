@@ -1,0 +1,22 @@
+# 构建和缓存目录
+.history
+target
+node_modules
+dist
+build
+
+# Git 目录
+.git
+
+# 日志文件
+*.log
+logs
+
+# IDE 配置
+.idea
+*.iml
+
+# 临时文件
+*.tmp
+*.swp
+~
