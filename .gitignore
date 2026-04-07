@@ -4,6 +4,8 @@
 
 # 个人配置
 */.claude/settings.local.json
+.claude/settings.local.json
+.claude/
 
 # 文档目录
 docs/
@@ -16,3 +18,13 @@ shared/docs/*
 shared/designs/*
 shared/tasks/*.md
 shared/reviews/*.md
+shared/.cache/
+
+# Python缓存
+**/__pycache__/
+*.pyc
+*.pyo
+
+# 运行时日志和状态
+shared/scripts/heartbeat.log
+shared/scripts/heartbeat_state.json
