@@ -1,0 +1,15 @@
+{
+  "date": "2026-03-05",
+  "entries": [
+    {
+      "timestamp": "2026-03-05T16:48:42+0800",
+      "type": "bugfix",
+      "description": "修复bug-003: wx_accounts模型id字段错误",
+      "keywords": ["bug修复", "wx_accounts", "v1_messages", "SQLAlchemy"],
+      "input": "修复bug-003: wx_accounts模型id字段错误",
+      "output": "修复v1_messages.py第449行: id->auth_key, 因WxAccount模型主键是auth_key而非id",
+      "actions": ["GET /api/v1/messages/chat/28 报错Entity namespace for wx_accounts has no property id"],
+      "status": "completed"
+    }
+  ]
+}

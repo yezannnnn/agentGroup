@@ -1,0 +1,20 @@
+{
+  "timestamp": "2026-03-03T17:15:00+08:00",
+  "task": "紧急CPU性能诊断 - Docker容器CPU超1000%",
+  "keywords": ["CPU", "Docker", "性能诊断", "连接池", "webhook"],
+  "input_summary": "1238端口服务CPU超1000%，需诊断原因",
+  "output_summary": "发现wechatpad_official容器无限重试导致CPU飙升",
+  "root_causes": [
+    "webhook无限重试循环(114次错误)",
+    "数据库连接池耗尽(72次连接失败)",
+    "消息同步间隔过短(500ms)",
+    "无资源限制配置"
+  ],
+  "deliverables": [
+    "根因分析报告",
+    "紧急缓解命令",
+    "配置优化方案",
+    "预防措施"
+  ],
+  "status": "已完成"
+}

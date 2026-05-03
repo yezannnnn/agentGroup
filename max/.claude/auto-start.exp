@@ -1,0 +1,32 @@
+#!/usr/bin/expect -f
+
+# 自动启动脚本
+set timeout 30
+
+# 获取参数
+set work_dir [lindex $argv 0]
+set startup_file [lindex $argv 1]
+
+# 读取启动指令
+set fp [open $startup_file r]
+set startup_cmd [read $fp]
+close $fp
+
+# 启动 kimi
+spawn kimi -w $work_dir
+
+# 等待 kimi 启动完成（等待提示符或特定输出）
+expect {
+    "Welcome to Kimi Code CLI" {
+        sleep 2
+    }
+    timeout {
+        puts "等待超时，继续执行..."
+    }
+}
+
+# 发送启动指令
+send "$startup_cmd\r"
+
+# 进入交互模式
+interact

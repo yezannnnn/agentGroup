@@ -1,0 +1,5 @@
+version: 1
+agent:
+  extend: default
+  name: kyle
+  system_prompt_path: ./.kimi/system.md

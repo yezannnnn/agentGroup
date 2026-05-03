@@ -1,0 +1,22 @@
+{
+  "agent": "ella",
+  "created_at": "2026-03-02T22:16:00+0800",
+  "last_updated": "2026-03-03T01:03:58+0800",
+  "total_entries": 1,
+  "total_days": 1,
+  "daily_files": [
+    {
+      "date": "2026-03-03",
+      "entries": 1,
+      "file": "2026-03-03.json"
+    }
+  ],
+  "topic_index": {},
+  "hot_keywords": [
+    "cleanup",
+    "design",
+    "ui",
+    "skills"
+  ],
+  "session_count": 0
+}

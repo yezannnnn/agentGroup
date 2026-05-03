@@ -1,0 +1,9 @@
+version: 1
+agent:
+  name: ella
+  extend: default
+  system_prompt_path: ../CLAUDE.md
+  system_prompt_args:
+    AGENT_NAME: "艾拉"
+    AGENT_ROLE: "UI/UX设计师"
+    AGENT_DIR: "ella"

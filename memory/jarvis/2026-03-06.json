@@ -1,0 +1,85 @@
+{
+  "date": "2026-03-06",
+  "entries": [
+    {
+      "timestamp": "2026-03-06T10:38:56+0800",
+      "type": "配置管理",
+      "description": "为chatBotBinary配置Docker二进制文件支持",
+      "keywords": [
+        "docker",
+        "binary",
+        "wechatpadpro"
+      ],
+      "input": "为chatBotBinary配置Docker二进制文件支持",
+      "output": "完整Docker配置+启动脚本+文档",
+      "actions": [
+        "新项目需要1238端口走二进制文件"
+      ],
+      "status": "completed"
+    },
+    {
+      "timestamp": "2026-03-06T11:10:34+0800",
+      "type": "故障排查",
+      "description": "修复chatBotBinary后端依赖和健康检查问题",
+      "keywords": [
+        "docker",
+        "backend",
+        "dependencies"
+      ],
+      "input": "修复chatBotBinary后端依赖和健康检查问题",
+      "output": "完全解决全部问题,服务正常运行",
+      "actions": [
+        "容器名冲突+依赖缺失+健康检查失败"
+      ],
+      "status": "completed"
+    },
+    {
+      "timestamp": "2026-03-06T11:19:17+0800",
+      "type": "系统优化",
+      "description": "优化chatBotBinary复用原MySQL数据库",
+      "keywords": [
+        "docker",
+        "mysql",
+        "optimization"
+      ],
+      "input": "优化chatBotBinary复用原MySQL数据库",
+      "output": "复用原mysql容器+数据,节省资源",
+      "actions": [
+        "独立mysql-binary容器"
+      ],
+      "status": "completed"
+    },
+    {
+      "timestamp": "2026-03-06T11:26:27+0800",
+      "type": "架构设计",
+      "description": "配置前后端Docker外运行混合架构",
+      "keywords": [
+        "docker",
+        "development",
+        "architecture"
+      ],
+      "input": "配置前后端Docker外运行混合架构",
+      "output": "混合架构:前后端宿主机+基础设施Docker",
+      "actions": [
+        "前后端都在容器内运行"
+      ],
+      "status": "completed"
+    },
+    {
+      "timestamp": "2026-03-06T11:58:19+0800",
+      "type": "bug_fix",
+      "description": "WebSocket连接建立调试",
+      "keywords": [
+        "websocket",
+        "debug",
+        "database"
+      ],
+      "input": "WebSocket连接建立调试",
+      "output": "发现数据库账号状态错误,更新为在线状态,连接成功建立",
+      "actions": [
+        "后端WebSocket服务初始化但不建立连接"
+      ],
+      "status": "completed"
+    }
+  ]
+}

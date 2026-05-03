@@ -1,0 +1,9 @@
+version: 1
+agent:
+  name: max
+  extend: default
+  system_prompt_path: ../CLAUDE.md
+  system_prompt_args:
+    AGENT_NAME: "麦克斯"
+    AGENT_ROLE: "项目经理/产品顾问"
+    AGENT_DIR: "max"

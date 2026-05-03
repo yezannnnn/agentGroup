@@ -16,3 +16,7 @@ shared/docs/*
 shared/designs/*
 shared/tasks/*.md
 shared/reviews/*.md
+
+# Kimi 相关
+kimi/
+kimi*

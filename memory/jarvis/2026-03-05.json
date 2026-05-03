@@ -1,0 +1,201 @@
+{
+  "date": "2026-03-05",
+  "entries": [
+    {
+      "timestamp": "2026-03-05T16:38:45+0800",
+      "type": "bugfix",
+      "description": "修复数据库字段映射错误",
+      "keywords": [
+        "数据库",
+        "字段映射",
+        "API修复"
+      ],
+      "input": "修复数据库字段映射错误",
+      "output": "修复为auth_key字段",
+      "actions": [
+        "wx_account_id字段不存在"
+      ],
+      "status": "completed"
+    },
+    {
+      "timestamp": "2026-03-05T19:04:40+0800",
+      "type": "analysis",
+      "description": "深度分析webhook重复推送问题",
+      "keywords": [
+        "webhook",
+        "重复推送",
+        "WeChatPadPro",
+        "多通道",
+        "并发竞态"
+      ],
+      "input": "深度分析webhook重复推送问题",
+      "output": "找到根因:多消息通道+Worker Pool竞态,提出三层防御方案",
+      "actions": [
+        "3条相同消息间隔22ms推送"
+      ],
+      "status": "completed"
+    },
+    {
+      "timestamp": "2026-03-05T19:10:49+0800",
+      "type": "configuration",
+      "description": "分析WeChatPadPro消息管道配置",
+      "keywords": [
+        "WeChatPadPro",
+        "消息管道",
+        "配置",
+        "WebSocket"
+      ],
+      "input": "分析WeChatPadPro消息管道配置",
+      "output": "NEWS_SYN_WXID可关闭,WebSocket不能关闭,轮询可延长间隔",
+      "actions": [
+        "哪些管道可以关闭"
+      ],
+      "status": "completed"
+    },
+    {
+      "timestamp": "2026-03-05T19:11:51+0800",
+      "type": "config",
+      "description": "关闭NEWS_SYN_WXID配置",
+      "keywords": [
+        "NEWS_SYN_WXID",
+        "WeChatPadPro配置",
+        "重复推送修复"
+      ],
+      "input": "关闭NEWS_SYN_WXID配置",
+      "output": "NEWS_SYN_WXID=false，添加注释说明",
+      "actions": [
+        "NEWS_SYN_WXID=true"
+      ],
+      "status": "completed"
+    },
+    {
+      "timestamp": "2026-03-05T19:15:19+0800",
+      "type": "optimization",
+      "description": "优化消息实时性配置并重启容器",
+      "keywords": [
+        "实时性",
+        "TASK_EXEC_WAIT_TIMES",
+        "Docker重启"
+      ],
+      "input": "优化消息实时性配置并重启容器",
+      "output": "降低等待时间到800ms并重启容器",
+      "actions": [
+        "消息变慢"
+      ],
+      "status": "completed"
+    },
+    {
+      "timestamp": "2026-03-05T19:17:00+0800",
+      "type": "optimization",
+      "description": "进一步优化消息等待时间到500ms",
+      "keywords": [
+        "TASK_EXEC_WAIT_TIMES",
+        "实时性优化"
+      ],
+      "input": "进一步优化消息等待时间到500ms",
+      "output": "800ms→500ms并重启容器",
+      "actions": [
+        "需要更快实时性"
+      ],
+      "status": "completed"
+    },
+    {
+      "timestamp": "2026-03-05T19:42:05+0800",
+      "type": "bugfix",
+      "description": "修复被改回的去重优化配置",
+      "keywords": [
+        "配置修复",
+        "重复推送",
+        "WORKER_POOL_SIZE",
+        "TASK_RETRY"
+      ],
+      "input": "修复被改回的去重优化配置",
+      "output": "重新应用所有去重优化配置并重启",
+      "actions": [
+        "重复消息变成11次推送"
+      ],
+      "status": "completed"
+    },
+    {
+      "timestamp": "2026-03-05T21:02:49+0800",
+      "type": "bugfix",
+      "description": "修复Flask数据库连接问题",
+      "keywords": [
+        "数据库连接",
+        "MySQL",
+        "localhost改mysql"
+      ],
+      "input": "修复Flask数据库连接问题",
+      "output": "修改为mysql:3306并重启服务",
+      "actions": [
+        "Flask无法连接MySQL localhost"
+      ],
+      "status": "completed"
+    },
+    {
+      "timestamp": "2026-03-05T21:04:02+0800",
+      "type": "verification",
+      "description": "确认数据库问题修复完成",
+      "keywords": [
+        "数据库修复确认",
+        "Flask正常运行",
+        "系统恢复"
+      ],
+      "input": "确认数据库问题修复完成",
+      "output": "数据库连接成功,所有服务正常运行",
+      "actions": [
+        "检查Flask后端日志"
+      ],
+      "status": "completed"
+    },
+    {
+      "timestamp": "2026-03-05T21:25:43+0800",
+      "type": "platform",
+      "description": "检查WeChatPadPro二进制文件兼容性",
+      "keywords": [
+        "WeChatPadPro",
+        "二进制文件",
+        "平台兼容性"
+      ],
+      "input": "检查WeChatPadPro二进制文件兼容性",
+      "output": "Linux二进制无法在macOS运行,建议继续使用Docker",
+      "actions": [
+        "是否可用二进制文件替代Docker"
+      ],
+      "status": "completed"
+    },
+    {
+      "timestamp": "2026-03-05T21:31:54+0800",
+      "type": "solution",
+      "description": "创建Docker二进制文件运行方案",
+      "keywords": [
+        "Docker",
+        "二进制文件",
+        "Linux容器"
+      ],
+      "input": "创建Docker二进制文件运行方案",
+      "output": "创建docker-compose-binary.yml配置,用Ubuntu镜像挂载二进制文件",
+      "actions": [
+        "在Docker中运行Linux二进制文件"
+      ],
+      "status": "completed"
+    },
+    {
+      "timestamp": "2026-03-05T21:33:47+0800",
+      "type": "success",
+      "description": "确认Docker二进制文件成功运行",
+      "keywords": [
+        "Docker",
+        "二进制文件",
+        "Ubuntu容器",
+        "成功部署"
+      ],
+      "input": "确认Docker二进制文件成功运行",
+      "output": "GIN Web服务启动成功,用户登录正常,心跳健康",
+      "actions": [
+        "检查二进制版本运行状态"
+      ],
+      "status": "completed"
+    }
+  ]
+}

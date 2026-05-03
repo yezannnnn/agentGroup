@@ -1,0 +1,9 @@
+version: 1
+agent:
+  name: jarvis
+  extend: default
+  system_prompt_path: ../CLAUDE.md
+  system_prompt_args:
+    AGENT_NAME: "贾维斯"
+    AGENT_ROLE: "全栈开发工程师"
+    AGENT_DIR: "jarvis"

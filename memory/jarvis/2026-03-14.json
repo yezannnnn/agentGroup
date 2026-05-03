@@ -1,0 +1,55 @@
+{
+  "date": "2026-03-14",
+  "entries": [
+    {
+      "timestamp": "2026-03-14T15:08:11+0800",
+      "type": "diagnosis",
+      "description": "ChatBotBinary AI回复问题诊断",
+      "keywords": [
+        "chatbotbinary",
+        "ai_reply",
+        "sse",
+        "webhook",
+        "debug"
+      ],
+      "input": "ChatBotBinary AI回复问题诊断",
+      "output": "诊断出两个根本原因：1) processGeweMessageWithAuthKey未调用generateAndSendAIReply导致无SSE推送 2) messageRecordId设为用户消息ID导致更新而非创建新记录",
+      "actions": [
+        "用户报告AI回复时无ai_typing推送且消息未入库"
+      ],
+      "status": "completed"
+    },
+    {
+      "timestamp": "2026-03-14T16:40:12+0800",
+      "type": "代码分析",
+      "description": "WeChatPadPro AI消息流程分析",
+      "keywords": [
+        "流程图",
+        "AI回复",
+        "消息处理"
+      ],
+      "input": "WeChatPadPro AI消息流程分析",
+      "output": "识别出4个潜在问题和重点检查点",
+      "actions": [
+        "用户要求分析AI消息核心业务"
+      ],
+      "status": "completed"
+    },
+    {
+      "timestamp": "2026-03-14T16:47:39+0800",
+      "type": "Bug修复",
+      "description": "修复消息排序API问题",
+      "keywords": [
+        "API修复",
+        "排序算法",
+        "分页逻辑"
+      ],
+      "input": "修复消息排序API问题",
+      "output": "修复beforeId分页逻辑+添加调试日志+双重排序",
+      "actions": [
+        "消息排序API返回顺序错误"
+      ],
+      "status": "completed"
+    }
+  ]
+}

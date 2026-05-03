@@ -63,7 +63,7 @@ TRIGGER self-reflection WHEN:
 
 ```
 每10次对话自动触发一次错误模式回顾:
-- 检查 ./memory/reflection-log.json 中的错误记录
+- 检查 ../memory/reflection-log.json 中的错误记录
 - 分析是否存在重复模式
 - 更新检测规则和阈值
 ```
@@ -149,7 +149,7 @@ OUTPUT: 可执行的改进行动清单
 ```
 STEP 4: 记录和更新
 
-1. 写入错误日志: ./memory/reflection-log.json
+1. 写入错误日志: ../memory/reflection-log.json
 2. 更新错误模式库: ./skills/reflection-patterns.json
 3. 更新CLAUDE.md: 添加新规则/检查点
 4. 更新MEMORY.md: 记录关键教训
@@ -354,7 +354,7 @@ Token估算校准流程:
 3. 执行4阶段反思流程
 4. 输出反思报告
 5. 询问用户是否需要更新CLAUDE.md
-6. 记录到 ./memory/reflection-log.json
+6. 记录到 ../memory/reflection-log.json
 7. 继续原任务（如适用）
 ```
 
@@ -362,7 +362,7 @@ Token估算校准流程:
 
 ```
 每次新会话启动时:
-1. 读取 ./memory/reflection-log.json
+1. 读取 ../memory/reflection-log.json
 2. 检查是否有未处理的改进措施
 3. 验证最近的错误是否已预防
 4. 更新错误模式统计

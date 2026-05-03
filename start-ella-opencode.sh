@@ -1,0 +1,113 @@
+#!/bin/bash
+# 启动 Ella-OpenCode 模式 - 使用 OpenCode AI 引擎，启用代码智能
+# 用法: ./start-ella-opencode.sh
+
+cd "$(dirname "$0")"
+
+echo "=========================================="
+echo "  启动 Ella-OpenCode 模式"
+echo "  AI引擎: OpenCode (Code Intelligence)"
+echo "  人设来源: ella/CLAUDE.md"
+echo "  Code Intelligence: 已启用 (UI/UX代码优化)"
+echo "  角色: UI设计师 / 前端专家"
+echo "=========================================="
+echo ""
+
+# 检查 ella 目录是否存在
+if [ ! -d "./ella" ]; then
+    echo "❌ 错误: ella 目录不存在"
+    exit 1
+fi
+
+# 检查 OpenCode 是否可用
+if command -v opencode >/dev/null 2>&1; then
+    echo "✅ OpenCode 已安装"
+    echo "   📁 工作模式: TUI界面"
+    echo "   👥 团队成员:"
+    echo "      - 艾拉 (ella): UI设计师"
+    echo "      - 麦克斯 (max): 项目经理"
+    echo "      - 贾维斯 (jarvis): 开发工程师"
+    echo "      - 凯尔 (kyle): 测试工程师"
+else
+    echo "❌ 错误: OpenCode 未安装"
+    echo "请安装 OpenCode: npm install -g opencode-ai"
+    exit 1
+fi
+
+echo ""
+cd "./ella"
+echo "✅ 工作目录: $(pwd)"
+echo ""
+
+# 检查并显示已加载的人设文档
+echo "📄 已加载的人设文档:"
+[ -f "./CLAUDE.md" ] && echo "   ✅ CLAUDE.md - 核心人设（Claude版）"
+[ -f "./PERSONA.md" ] && echo "   ✅ PERSONA.md - 基础人设"
+[ -f "./skills-config.json" ] && echo "   ✅ skills-config.json - 技能配置"
+[ -d "./skills" ] && echo "   ✅ skills/ - 技能目录 ($(ls ./skills 2>/dev/null | wc -l) 个技能)"
+[ -d "./memory" ] && echo "   ✅ memory/ - 记忆目录"
+
+echo ""
+echo "💡 提示: OpenCode 将使用 Ella(Claude) 的人设和技能"
+echo "💡 Code Intelligence: UI组件生成、样式优化、设计系统智能"
+echo "💡 与 ./start-ella.sh 的区别: AI引擎不同，专注UI代码智能"
+echo ""
+
+# ==========================================
+# 会话继承选择
+# ==========================================
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  🔄 会话继承选项"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "  1) 🆕 新建会话 (默认)"
+echo "  2) 📜 继续最近会话 (--continue)"
+echo "  3) 📋 列出所有会话 (--list-sessions)"
+echo ""
+echo -n "请选择 [1-3] (默认: 1): "; read choice < /dev/tty || choice="1"
+echo ""
+
+# 处理用户选择
+SESSION_OPTION=""
+case "$choice" in
+    2)
+        echo "✅ 已选择: 继续最近会话"
+        SESSION_OPTION="--continue"
+        ;;
+    3)
+        echo "📋 正在列出所有可用会话..."
+        echo ""
+        cd "./ella" && opencode session list
+        echo ""
+        echo -n "请输入要恢复的会话 ID (直接回车新建会话): "; read session_id < /dev/tty || session_id=""
+        if [ -n "$session_id" ]; then
+            SESSION_OPTION="--session $session_id"
+            echo "✅ 已选择: 恢复会话 $session_id"
+        else
+            echo "✅ 已选择: 新建会话"
+        fi
+        cd ".."
+        ;;
+    *)
+        echo "✅ 已选择: 新建会话"
+        SESSION_OPTION=""
+        ;;
+esac
+
+echo ""
+echo "正在启动 OpenCode..."
+echo ""
+
+# 启动 OpenCode
+# 根据OpenCode的实际命令行接口启动
+echo "🚀 启动参数: opencode . $SESSION_OPTION"
+echo ""
+
+# 启动 OpenCode TUI 界面
+if [ -n "$SESSION_OPTION" ]; then
+    # 带会话选项启动
+    opencode . $SESSION_OPTION
+else
+    # 默认启动（在当前目录）
+    opencode .
+fi

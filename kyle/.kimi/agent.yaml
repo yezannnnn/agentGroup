@@ -1,0 +1,9 @@
+version: 1
+agent:
+  name: kyle
+  extend: default
+  system_prompt_path: ../CLAUDE.md
+  system_prompt_args:
+    AGENT_NAME: "凯尔"
+    AGENT_ROLE: "测试工程师"
+    AGENT_DIR: "kyle"

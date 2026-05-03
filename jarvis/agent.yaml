@@ -1,0 +1,5 @@
+version: 1
+agent:
+  extend: default
+  name: jarvis
+  system_prompt_path: ./.kimi/system.md

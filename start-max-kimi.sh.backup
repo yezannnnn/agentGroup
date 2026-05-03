@@ -1,0 +1,118 @@
+#!/bin/bash
+# 启动 Max-Kimi 模式 - 使用 Kimi AI 引擎，启用 Agent Swarm
+# 用法: ./start-max-kimi.sh
+
+cd "$(dirname "$0")"
+
+echo "=========================================="
+echo "  启动 Max-Kimi 模式"
+echo "  AI引擎: Kimi K2.5 (Moonshot AI)"
+echo "  人设来源: max/CLAUDE.md"
+echo "  Agent Swarm: 已启用 (最多100子代理)"
+echo "  角色: 项目经理 / 产品顾问"
+echo "=========================================="
+echo ""
+
+# 检查 max 目录是否存在
+if [ ! -d "./max" ]; then
+    echo "❌ 错误: max 目录不存在"
+    exit 1
+fi
+
+# 检查 Agent Swarm 配置是否存在
+AGENT_CONFIG="./max/.kimi-agents/main-controller.yaml"
+AGENT_CONFIG_ABS="$(pwd)/max/.kimi-agents/main-controller.yaml"
+if [ -f "$AGENT_CONFIG" ]; then
+    echo "✅ Agent Swarm 配置已加载"
+    echo "   📁 配置路径: $AGENT_CONFIG"
+    echo "   👥 团队成员:"
+    echo "      - 麦克斯 (max): 项目经理"
+    echo "      - 艾拉 (ella): UI设计师"  
+    echo "      - 贾维斯 (jarvis): 开发工程师"
+    echo "      - 凯尔 (kyle): 测试工程师"
+    USE_AGENT_CONFIG=true
+else
+    echo "⚠️  Agent Swarm 配置未找到，使用默认配置"
+    USE_AGENT_CONFIG=false
+fi
+
+echo ""
+cd "./max"
+echo "✅ 工作目录: $(pwd)"
+echo ""
+
+# 检查并显示已加载的人设文档
+echo "📄 已加载的人设文档:"
+[ -f "./CLAUDE.md" ] && echo "   ✅ CLAUDE.md - 核心人设（Claude版）"
+[ -f "./PERSONA.md" ] && echo "   ✅ PERSONA.md - 基础人设"
+[ -f "./skills-config.json" ] && echo "   ✅ skills-config.json - 技能配置"
+[ -d "./skills" ] && echo "   ✅ skills/ - 技能目录 ($(ls ./skills 2>/dev/null | wc -l) 个技能)"
+[ -d "./memory" ] && echo "   ✅ memory/ - 记忆目录"
+
+echo ""
+echo "💡 提示: Kimi 将使用 Max(Claude) 的人设和技能"
+echo "💡 Agent Swarm: 复杂任务可分解给多个子代理并行处理"
+echo "💡 与 ./start-max.sh 的区别: AI引擎不同，人设相同"
+echo ""
+
+# ==========================================
+# 会话继承选择
+# ==========================================
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  🔄 会话继承选项"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "  1) 🆕 新建会话 (默认)"
+echo "  2) 📜 继续最近会话 (--continue)"
+echo "  3) 📋 列出所有会话 (--list-sessions)"
+echo ""
+read -p "请选择 [1-3] (默认: 1): " choice
+echo ""
+
+# 处理用户选择
+SESSION_OPTION=""
+case "$choice" in
+    2)
+        echo "✅ 已选择: 继续最近会话"
+        SESSION_OPTION="--continue"
+        ;;
+    3)
+        echo "📋 正在列出所有可用会话..."
+        echo ""
+        cd "./max" && kimi --list-sessions
+        echo ""
+        read -p "请输入要恢复的会话 ID (直接回车新建会话): " session_id
+        if [ -n "$session_id" ]; then
+            SESSION_OPTION="--session $session_id"
+            echo "✅ 已选择: 恢复会话 $session_id"
+        else
+            echo "✅ 已选择: 新建会话"
+        fi
+        cd ".."
+        ;;
+    *)
+        echo "✅ 已选择: 新建会话"
+        SESSION_OPTION=""
+        ;;
+esac
+
+echo ""
+echo "正在启动 Kimi..."
+echo ""
+
+# 启动 Kimi
+# 如果存在 Agent 配置，则加载；否则使用默认配置
+if [ "$USE_AGENT_CONFIG" = true ]; then
+    # 使用绝对路径加载 agent 配置
+    if [ -n "$SESSION_OPTION" ]; then
+        kimi --work-dir . --agent-file "$AGENT_CONFIG_ABS" $SESSION_OPTION
+    else
+        kimi --work-dir . --agent-file "$AGENT_CONFIG_ABS"
+    fi
+else
+    if [ -n "$SESSION_OPTION" ]; then
+        kimi --work-dir . $SESSION_OPTION
+    else
+        kimi --work-dir .
+    fi
+fi

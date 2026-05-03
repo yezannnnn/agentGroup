@@ -1,0 +1,228 @@
+# Agent Spawn 权限矩阵
+# 定义谁可以 spawn 谁，以及限制条件
+
+version: 1.0
+
+# ==================== 角色定义 ====================
+
+roles:
+  max:
+    name: "麦克斯"
+    title: "项目经理/协调者"
+    layer: 1  # 始终从 Layer 1 开始
+    
+  ella:
+    name: "艾拉"
+    title: "UI/UX设计师"
+    layer: 2  # 被 Max spawn 后位于 Layer 2
+    
+  jarvis:
+    name: "贾维斯"
+    title: "开发工程师"
+    layer: 2  # 被 Max spawn 后位于 Layer 2
+    
+  kyle:
+    name: "凯尔"
+    title: "测试工程师"
+    layer: 2  # 被 Max spawn 后位于 Layer 2
+
+# ==================== 权限矩阵 ====================
+
+permissions:
+  # Max: 可以 spawn 任何人，无限制
+  max:
+    can_spawn:
+      - target: ella
+        scenarios:
+          - "需要UI/UX设计"
+          - "需要评估设计方案"
+          - "需要设计资源"
+        max_layer: 3  # spawn ella 后，ella 可以再 spawn 到 Layer 3
+        
+      - target: jarvis
+        scenarios:
+          - "需要技术开发"
+          - "需要技术评估"
+          - "需要代码实现"
+          - "需要Bug修复"
+        max_layer: 3
+        
+      - target: kyle
+        scenarios:
+          - "需要测试验收"
+          - "需要代码审查"
+          - "需要质量评估"
+        max_layer: 3  # Kyle 是终点，不会再 spawn
+        
+    notes:
+      - "Max 是唯一可以 spawn 所有角色的人"
+      - "Max 可以随时介入任何进行中的任务"
+      - "Max 负责决策是否继续循环或中止"
+
+  # Ella: 禁止 spawn 任何人
+  ella:
+    can_spawn: []  # 空列表表示禁止 spawn
+          
+    cannot_spawn:
+      - target: jarvis
+        reason: "技术问题应通过 Max 协调，或由 Max spawn Jarvis"
+      - target: kyle
+        reason: "测试验收不是设计阶段的职责"
+      - target: max
+        reason: "不应该反向指挥协调者，应通过状态更新通知"
+      - target: ella
+        reason: "不应该 spawn 自己，分解任务应自行完成"
+        
+    notes:
+      - "Ella 是设计阶段的执行者，专注于设计本身"
+      - "遇到技术问题通知 Max，由 Max 决定是否 spawn Jarvis 评估"
+
+  # Jarvis: 禁止 spawn 任何人
+  jarvis:
+    can_spawn: []  # 空列表表示禁止 spawn
+          
+    cannot_spawn:
+      - target: ella
+        reason: "如果发现设计问题，应通知 Max 协调"
+      - target: kyle
+        reason: "Kyle 可以主动 spawn 我进行 Bug 修复，我不需要主动 spawn 他"
+      - target: max
+        reason: "不应该反向指挥协调者，应通过状态更新通知"
+      - target: jarvis
+        reason: "不应该 spawn 自己，分解任务应自行完成"
+        
+    notes:
+      - "Jarvis 专注于开发执行"
+      - "Kyle 发现 Bug 后会直接 spawn 我修复"
+      - "我修复前必须检查轮次，超过3轮拒绝并通知 Max"
+
+  # Kyle: 可以 spawn Jarvis (Bug修复专用)
+  kyle:
+    can_spawn:
+      - target: jarvis
+        scenarios:
+          - "发现Bug需要修复"
+          - "Bug修复后需要验证"
+        max_layer: 3  # Jarvis 在 Layer 3，修复后返回 Kyle
+        conditions:
+          - "必须记录 Bug 详情到 shared/bugs/bug-{id}.md"
+          - "必须更新任务状态文件"
+          - "Jarvis 修复前必须检查轮次，超过3轮拒绝并通知 Max"
+        
+    cannot_spawn:
+      - target: ella
+        reason: "设计问题应通过 Max 协调"
+      - target: max
+        reason: "不应该反向指挥协调者，应通过状态更新通知"
+      - target: kyle
+        reason: "不应该 spawn 自己"
+        
+    notes:
+      - "Kyle 可以 spawn Jarvis 进行 Bug 修复"
+      - "修复循环最多3轮，第4轮 Jarvis 会拒绝并通知 Max"
+      - "这是为了加快 Bug 修复效率，同时防止无限循环"
+
+# ==================== 特殊场景 ====================
+
+special_scenarios:
+  # Bug修复循环
+  bug_fix_loop:
+    description: "Bug发现到修复的标准流程"
+    flow:
+      - actor: kyle
+        action: "发现 Bug"
+        output: "记录到 shared/bugs/bug-{id}.md"
+        
+      - actor: kyle
+        action: "通知 Max"
+        output: "更新 shared/status.json"
+        
+      - actor: max
+        action: "决策并 spawn Jarvis"
+        condition: "第1-3轮"
+        
+      - actor: jarvis
+        action: "修复 Bug"
+        output: "更新 bug 记录"
+        
+      - actor: jarvis
+        action: "通知 Kyle 验证"
+        output: "更新 shared/status.json"
+        
+      - actor: kyle
+        action: "验证"
+        
+      - actor: max
+        action: "介入决策"
+        condition: "第4轮+，强制停止spawn"
+        
+    max_rounds: 3
+    intervention_trigger: "第4轮未通过"
+    
+  # 设计评审
+  design_review:
+    description: "设计方案技术评审"
+    flow:
+      - actor: max
+        action: "spawn Ella 设计"
+        
+      - actor: ella
+        action: "并行 spawn Jarvis 评估"
+        note: "这是允许的，因为 Jarvis 评估是设计阶段的子任务"
+        
+      - actor: jarvis
+        action: "技术评估"
+        output: "返回 Ella"
+        
+      - actor: ella
+        action: "整合设计"
+        output: "返回 Max"
+        
+    note: "Ella → Jarvis 是设计阶段的正常流程，不是反向spawn"
+
+# ==================== 违规处理 ====================
+
+violations:
+  level_overrun:
+    description: "尝试 spawn 导致层级超过 Layer 3"
+    action: "拒绝spawn，立即通知 Max 介入"
+    log: "记录到 shared/logs/violations.log"
+    
+  permission_denied:
+    description: "尝试 spawn 无权限的角色"
+    action: "拒绝spawn，建议正确的流程"
+    example: "Kyle 想 spawn Jarvis → 应改为通知 Max"
+    
+  loop_exceeded:
+    description: "Bug修复超过3轮"
+    action: "强制停止，Max介入，汇报用户"
+    log: "记录到 shared/logs/loop-exceeded.log"
+    
+  self_spawn:
+    description: "尝试 spawn 自己"
+    action: "拒绝spawn，建议自行分解任务"
+
+# ==================== 快速查询表 ====================
+
+quick_reference:
+  "我在Layer 1 (Max)":
+    - "可以spawn: Ella, Jarvis, Kyle"
+    - "注意: 规划好并行任务，减少串行等待"
+    
+  "我在Layer 2 (Ella)":
+    - "可以spawn: Jarvis (仅技术评估)"
+    - "禁止: spawn Kyle, spawn Max, spawn 自己"
+    
+  "我在Layer 2 (Jarvis)":
+    - "可以spawn: Kyle (仅代码审查/测试)"
+    - "禁止: spawn Ella, spawn Max, spawn 自己"
+    - "Bug修复: 等待 Max spawn，不要直接处理 Kyle 的通知"
+    
+  "我在Layer 2 (Kyle)":
+    - "可以spawn: 无"
+    - "必须: 发现Bug时通知 Max"
+    - "禁止: 直接 spawn Jarvis 修复"
+    
+  "我在Layer 3":
+    - "可以spawn: 无 (终点)"
+    - "必须: 完成任务后通知父级"
