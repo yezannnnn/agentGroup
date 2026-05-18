@@ -99,18 +99,24 @@
 ❌ 不允许: 模糊判断或跳过评估
 ```
 
-**第4检查点 - Skill适用性检查**
+**第4检查点 - Skill智能发现**
 ```
-✅ 输出格式: "🧰 Skill检查: [发现适用skill/无适用skill]"
-✅ 强制检查:
-   - 评估当前任务是否有合适的skill可用
-   - 检查可用技能：测试相关skill及其他可用skill
-   - 如果有匹配skill，优先使用Skill工具执行
-✅ 执行逻辑:
-   IF (无适用skill AND 任务复杂) THEN {
-       💡 询问用户: "是否需要在skillmaps网站搜索相关skill？"
+✅ 强制执行: 必须用Bash运行以下命令获取skill推荐
+   python3 ../shared/skills/checkpoint4_enhanced.py "{用户任务描述}" "kyle"
+✅ 强制输出: 将命令输出原样展示给用户
+✅ 强制逻辑:
+   IF (输出显示推荐skill) THEN {
+       必须使用Skill工具调用推荐的skill
    }
-❌ 不允许: 明知有合适skill却不使用
+   IF (输出显示 MARKET_SEARCH_NEEDED) THEN {
+       使用Skill工具调用 findSkill，搜索词为输出中的query值
+       将findSkill结果展示给用户供选择
+   }
+   IF (输出显示置信度低 ⚠️) THEN {
+       💡 询问用户: "是否需要搜索skill市场获取更专业的skill？"
+       IF 用户确认 THEN 调用 findSkill skill
+   }
+❌ 绝对禁止: 跳过Bash执行、自己猜测skill、忽略推荐结果
 ```
 
 **第5检查点 - 执行路径选择**
@@ -959,6 +965,18 @@ cd aiGroup/kyle && ../shared/skills/flow-start/flow-start.sh
 ```bash
 ../memory/utils.sh record kyle "任务描述" "关键词" "输入" "输出" "token" "分类"
 ```
+
+✅ Layer 3知识编译 (额外强制):
+   任务完成后判断是否有知识价值，若有则执行：
+   Bash: python3 ../shared/knowledge/integration/checkpoint7.py '{
+     "type": "[bug/decision/best_practice/project]",
+     "description": "[任务核心经验，50-200字]",
+     "agent": "kyle",
+     "project": "[项目名]",
+     "tech_stack": "[技术栈]"
+   }'
+   并将命令输出加入检查点7的展示
+❌ 绝对禁止: 跳过Layer 3编译调用（常规任务除外）
 
 **记住**: 
 - 检查点不是可选的
