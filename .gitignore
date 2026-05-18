@@ -53,6 +53,7 @@ ella/shared/
 
 # Skills（本地安装，不提交）
 */skills/*
+jarvis/skills/debugging
 shared/knowledge/setup.py
 shared/knowledge/*.canvas
 shared/knowledge/.obsidian/
