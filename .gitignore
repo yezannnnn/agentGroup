@@ -40,3 +40,13 @@ platform.conf
 add_column.js
 fix_database.js
 docker-compose-final.yml
+
+# 工作日志/报告（本地生成，不提交）
+jarvis/*-memory.md
+jarvis/OPUS_TASK_COMPLETION.md
+jarvis/db_schema_comparison_report.md
+shared/FIX-*.md
+shared/bugs/
+shared/*.sql
+shared/generate-password.js
+ella/shared/
