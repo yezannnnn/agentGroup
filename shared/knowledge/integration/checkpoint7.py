@@ -16,13 +16,10 @@ def run_checkpoint7(task_data: dict) -> str:
     """
     执行知识编译，返回格式化输出字符串供Agent展示。
     编译失败时静默返回，不阻断任务完成。
-    当 ANTHROPIC_API_KEY 未设置时自动使用 mock LLM。
     """
-    import os
     try:
         from compiler import KnowledgeCompiler
-        use_mock = not bool(os.environ.get("ANTHROPIC_API_KEY"))
-        compiler = KnowledgeCompiler(use_mock_llm=use_mock)
+        compiler = KnowledgeCompiler()
         result = compiler.compile(task_data)
 
         if result["written"]:
