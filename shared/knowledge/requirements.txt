@@ -1,0 +1,19 @@
+# aiGroup Knowledge Base System Dependencies
+
+# Core AI and API
+anthropic>=0.25.0
+
+# Vector search and embeddings
+sentence-transformers>=2.2.2
+chromadb>=0.4.15
+
+# Document processing
+markdown>=3.4.4
+beautifulsoup4>=4.12.2
+
+# Configuration and data formats
+pyyaml>=6.0
+
+# Optional enhanced features
+numpy>=1.21.0
+requests>=2.31.0

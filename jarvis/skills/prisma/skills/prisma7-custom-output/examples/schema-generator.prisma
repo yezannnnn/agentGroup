@@ -1,0 +1,30 @@
+// ✅ Prisma 7 — correct generator with custom output
+// The output path is RELATIVE to the schema file's location.
+
+// Example 1: Schema at prisma/schema.prisma, output to packages/db/src/generated/prisma
+generator client {
+  provider = "prisma-client"
+  output   = "../packages/db/src/generated/prisma"
+}
+
+// Example 2: Schema at packages/db/prisma/schema.prisma, output to packages/db/src/generated/prisma
+// generator client {
+//   provider = "prisma-client"
+//   output   = "../src/generated/prisma"
+// }
+
+// Example 3: Schema at root schema.prisma, output to src/generated/prisma
+// generator client {
+//   provider = "prisma-client"
+//   output   = "./src/generated/prisma"
+// }
+
+// ❌ DEPRECATED — do NOT use
+// generator client {
+//   provider = "prisma-client-js"
+//   // no output = generates into node_modules/.prisma/client/
+// }
+
+datasource db {
+  provider = "postgresql"
+}

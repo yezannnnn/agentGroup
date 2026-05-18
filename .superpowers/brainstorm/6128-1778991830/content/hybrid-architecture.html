@@ -1,0 +1,114 @@
+<h2>混合范式架构设计 - 第一部分：总体架构</h2>
+<p class="subtitle">aiGroup 8检查点 + Superpowers Skills 的集成架构</p>
+
+<div class="section">
+  <h3>🏗️ 双层架构设计</h3>
+  <div class="mockup">
+    <div class="mockup-header">aiGroup混合开发范式架构</div>
+    <div class="mockup-body">
+      <div style="display: grid; grid-template-rows: auto auto auto; gap: 16px; padding: 16px;">
+
+        <!-- 第一层：检查点层 -->
+        <div style="background: #e3f2fd; padding: 16px; border-radius: 8px; border: 2px solid #2196F3;">
+          <h4>🛡️ 检查点层 (aiGroup DNA)</h4>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; font-size: 0.8em;">
+            <div style="background: white; padding: 8px; border-radius: 4px; text-align: center;">0.范围确认</div>
+            <div style="background: white; padding: 8px; border-radius: 4px; text-align: center;">1.Token优化</div>
+            <div style="background: white; padding: 8px; border-radius: 4px; text-align: center;">2.通知检查</div>
+            <div style="background: white; padding: 8px; border-radius: 4px; text-align: center;">3.任务分解</div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; font-size: 0.8em;">
+            <div style="background: white; padding: 8px; border-radius: 4px; text-align: center;">4.Skill检查</div>
+            <div style="background: white; padding: 8px; border-radius: 4px; text-align: center;">5.执行方式</div>
+            <div style="background: white; padding: 8px; border-radius: 4px; text-align: center;">6.Git检测</div>
+            <div style="background: white; padding: 8px; border-radius: 4px; text-align: center;">7.记忆记录</div>
+          </div>
+        </div>
+
+        <!-- 连接箭头 -->
+        <div style="text-align: center; font-size: 1.5em; color: #666;">⬇️ 集成接口 ⬇️</div>
+
+        <!-- 第二层：技能层 -->
+        <div style="background: #e8f5e8; padding: 16px; border-radius: 8px; border: 2px solid #4CAF50;">
+          <h4>🧰 技能执行层 (Superpowers Integration)</h4>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 8px;">
+            <div style="background: white; padding: 12px; border-radius: 4px;">
+              <strong>核心Skills</strong><br>
+              <span style="font-size: 0.8em;">brainstorming<br>writing-plans<br>test-driven-development</span>
+            </div>
+            <div style="background: white; padding: 12px; border-radius: 4px;">
+              <strong>团队Skills</strong><br>
+              <span style="font-size: 0.8em;">agent-coordination<br>spawn-management<br>status-tracking</span>
+            </div>
+            <div style="background: white; padding: 12px; border-radius: 4px;">
+              <strong>Runtime Skills</strong><br>
+              <span style="font-size: 0.8em;">claude-code-integration<br>harness-management<br>workflow-orchestration</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>🔗 集成接口设计</h3>
+  <div class="split">
+    <div style="background: #f8f9fa; padding: 16px; border-radius: 8px;">
+      <h4>检查点 → Skills 触发</h4>
+      <div style="font-size: 0.9em; line-height: 1.6; margin-top: 8px;">
+        <code>检查点4: Skill检查</code><br>
+        ↓<br>
+        <strong>自动触发</strong>: 识别需要的skill<br>
+        ↓<br>
+        <code>技能执行层</code>: 按SKILL.md格式执行<br>
+        ↓<br>
+        <code>检查点5: 执行方式</code>: 基于skill结果决策
+      </div>
+    </div>
+    <div style="background: #f8f9fa; padding: 16px; border-radius: 8px;">
+      <h4>Skills → 检查点 反馈</h4>
+      <div style="font-size: 0.9em; line-height: 1.6; margin-top: 8px;">
+        <code>skill执行结果</code><br>
+        ↓<br>
+        <strong>状态更新</strong>: shared/status.json<br>
+        ↓<br>
+        <code>检查点7: 记忆记录</code>: 自动记录技能使用<br>
+        ↓<br>
+        <strong>下次优化</strong>: token-optimization.md更新
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>📋 核心创新点</h3>
+  <div style="background: #fff3e0; padding: 16px; border-radius: 8px;">
+    <ol style="line-height: 1.8;">
+      <li><strong>保持aiGroup基因</strong>: 8检查点作为"质量防线"不变</li>
+      <li><strong>Skill智能识别</strong>: 检查点4自动识别当前任务需要哪些skills</li>
+      <li><strong>团队协作增强</strong>: 新增专门的团队协作类skills</li>
+      <li><strong>渐进式集成</strong>: 先集成核心skills，再扩展生态</li>
+      <li><strong>双向反馈</strong>: skill执行结果自动更新检查点系统</li>
+    </ol>
+  </div>
+</div>
+
+<div class="section">
+  <h3>🎯 与纯Superpowers的区别</h3>
+  <div class="options">
+    <div class="option" data-choice="aigroup-advantage" onclick="toggleSelect(this)">
+      <div class="letter">✨</div>
+      <div class="content">
+        <h3>aiGroup独有优势</h3>
+        <ul style="font-size: 0.9em; line-height: 1.6;">
+          <li><strong>团队协调内置</strong>: Max/Ella/Jarvis/Kyle的spawn机制</li>
+          <li><strong>质量防线强化</strong>: 8检查点 + skill验证双重保险</li>
+          <li><strong>中文工作流</strong>: 适合国内团队的工作习惯</li>
+          <li><strong>AI团队特化</strong>: 专门为AI团队设计的协作模式</li>
+          <li><strong>成本意识</strong>: Token优化作为核心检查点</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

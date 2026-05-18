@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 知识编译器 — 检查点7入口
-流程: 原始任务数据 → LLM过滤 → ChromaDB写入 + Markdown副本
+流程: Agent自评数据 → 阈值判断 → ChromaDB写入 + Markdown副本
+Agent 在调用前已完成质量评估，task_data 中包含 quality_score/collection/refined_content。
 """
 
 import hashlib
@@ -40,11 +41,17 @@ class KnowledgeCompiler:
         编译一条任务经验。
 
         task_data 结构:
-          type        (str) — bug/decision/best_practice/project/routine/general
-          description (str) — 任务描述或经验
-          agent       (str) — 执行的agent名称
-          project     (str, optional) — 项目名
-          tech_stack  (str, optional) — 技术栈
+          type           (str)   — bug/decision/best_practice/project/routine/general
+          description    (str)   — 原始任务描述
+          agent          (str)   — 执行的agent名称
+          project        (str, optional) — 项目名
+          tech_stack     (str, optional) — 技术栈
+          --- Agent自评字段（有则直接写入，无则走mock/拒绝）---
+          quality_score  (float) — Agent自评质量分 0.0-1.0
+          collection     (str)   — bugs/decisions/best_practices/projects
+          refined_content(str)   — Agent提炼的核心知识（50-200字）
+          title          (str, optional) — 简短标题
+          key_tags       (list, optional) — 标签列表
 
         Returns:
           {"written": bool, "collection": str, "quality_score": float,
@@ -60,7 +67,18 @@ class KnowledgeCompiler:
             "compiled_at": datetime.now().isoformat(),
         }
 
-        result = self.llm_filter.filter(content, task_type, extra_metadata)
+        # 检测 Agent 自评字段：有则直接使用，不走LLM
+        pre_evaluated = None
+        if all(k in task_data for k in ("quality_score", "collection", "refined_content")):
+            pre_evaluated = {
+                "quality_score": task_data["quality_score"],
+                "collection": task_data["collection"],
+                "refined_content": task_data["refined_content"],
+                "title": task_data.get("title", ""),
+                "key_tags": task_data.get("key_tags", []),
+            }
+
+        result = self.llm_filter.filter(content, task_type, extra_metadata, pre_evaluated)
 
         if not result.passed:
             return {

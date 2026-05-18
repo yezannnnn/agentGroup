@@ -1,3 +1,7 @@
+---
+name: swarm-task-manager
+description: Agent Swarm 协作规范 - 多Agent任务分配、层级控制、通知协议
+---
 # 🤖 Agent Swarm 任务管理规范
 
 **技能名称**: `swarm-task-manager`  

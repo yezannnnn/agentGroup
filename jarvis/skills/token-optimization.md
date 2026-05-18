@@ -1,3 +1,7 @@
+---
+name: token-optimization
+description: Token优化策略 - 减少AI消耗、提高效率的最佳实践
+---
 # 项目管理 Token 优化 Skill
 
 **作者**: 麦克斯 (Max) - 项目经理

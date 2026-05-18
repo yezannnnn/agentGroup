@@ -1,0 +1,22 @@
+{
+  "discovery_settings": {
+    "scan_directories": [
+      "../../max/skills",
+      ".",
+      "../../ella/skills",
+      "../../jarvis/skills",
+      "../../kyle/skills"
+    ],
+    "market_settings": {
+      "enabled": true,
+      "search_timeout_ms": 3000,
+      "quality_threshold": 0.7,
+      "max_results": 10
+    },
+    "matching_thresholds": {
+      "high_confidence": 0.8,
+      "medium_confidence": 0.6,
+      "low_confidence": 0.3
+    }
+  }
+}

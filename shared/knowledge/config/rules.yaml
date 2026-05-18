@@ -1,0 +1,143 @@
+# aiGroup知识库编译规则配置
+
+# 知识编译规则
+compilation:
+  # 自动编译触发条件
+  triggers:
+    - task_completion
+    - skill_usage
+    - error_resolution
+    - pattern_discovery
+
+  # 编译质量标准
+  quality:
+    min_description_length: 10
+    required_fields:
+      - task_id
+      - description
+      - type
+    skill_threshold: 1  # 最少使用技能数
+
+# 知识分类规则
+categorization:
+  task_types:
+    - bug
+    - feature
+    - optimization
+    - research
+    - maintenance
+
+  skill_categories:
+    - debugging
+    - development
+    - testing
+    - design
+    - management
+
+  severity_levels:
+    - low
+    - medium
+    - high
+    - critical
+
+# 交叉引用规则
+cross_reference:
+  auto_link:
+    - similar_bugs
+    - related_skills
+    - shared_files
+    - team_members
+
+  link_threshold: 0.7  # 相似度阈值
+
+# 模式识别规则
+patterns:
+  # Bug模式
+  bug_patterns:
+    - name: "frontend_event_handling"
+      keywords: ["event", "handler", "click", "response", "callback"]
+      category: "frontend"
+
+    - name: "api_integration_issue"
+      keywords: ["api", "request", "response", "timeout", "connection"]
+      category: "backend"
+
+    - name: "permission_error"
+      keywords: ["permission", "access", "denied", "unauthorized"]
+      category: "security"
+
+  # Skill组合模式
+  skill_combinations:
+    - name: "tdd_debugging"
+      skills: ["systematic-debugging", "test-driven-development"]
+      effectiveness: 0.9
+
+    - name: "frontend_design"
+      skills: ["frontend-design", "verification-before-completion"]
+      effectiveness: 0.8
+
+# 压缩策略
+compression:
+  # 不同类型任务的压缩等级
+  levels:
+    bug: 0.8      # 保留80%核心信息
+    feature: 0.7  # 保留70%核心信息
+    research: 0.5 # 保留50%核心信息
+
+  # 保留优先级
+  preserve_priority:
+    - root_cause
+    - solution
+    - skills_used
+    - lessons_learned
+    - prevention_measures
+
+# 知识库维护
+maintenance:
+  # 自动清理规则
+  cleanup:
+    max_similar_entries: 5  # 相似条目最大数量
+    merge_threshold: 0.9    # 自动合并阈值
+    archive_age_months: 12  # 超过12个月归档
+
+  # 更新频率
+  update_frequency:
+    skill_stats: "daily"
+    cross_references: "weekly"
+    pattern_analysis: "monthly"
+
+# AI Agent配置
+agents:
+  query_agent:
+    model: "claude-3-haiku-20240307"
+    max_results: 5
+    confidence_threshold: 0.6
+
+  compiler_agent:
+    model: "claude-3-haiku-20240307"
+    max_tokens: 1000
+    analysis_depth: "medium"
+
+# 团队配置
+team:
+  members:
+    - max
+    - ella
+    - jarvis
+    - kyle
+
+  roles:
+    max: "project_manager"
+    ella: "designer"
+    jarvis: "developer"
+    kyle: "tester"
+
+# 通知设置
+notifications:
+  knowledge_compilation:
+    enabled: true
+    channels: ["status.json"]
+
+  pattern_discovery:
+    enabled: true
+    threshold: 3  # 发现3个相似模式时通知

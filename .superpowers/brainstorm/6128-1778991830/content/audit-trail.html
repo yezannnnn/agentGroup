@@ -1,0 +1,149 @@
+<h2>留痕机制：完整的审计追踪</h2>
+<p class="subtitle">这套范式会在各个层面留下可追溯的记录</p>
+
+<div class="section">
+  <h3>📂 文档留痕体系</h3>
+  <div class="split">
+    <div style="background: #e3f2fd; padding: 16px; border-radius: 8px;">
+      <h4>问题追踪文档</h4>
+      <code style="display: block; margin: 8px 0; font-size: 0.9em;">
+shared/bugs/2026-05-16-aegis-approval-bug/<br>
+├── diagnosis.md          # 问题分析<br>
+├── architecture-trace.md # 架构诊断<br>
+├── solution-design.md    # 解决方案<br>
+├── test-plan.md         # 测试计划<br>
+└── post-mortem.md       # 事后复盘
+      </code>
+    </div>
+    <div style="background: #f3e5f5; padding: 16px; border-radius: 8px;">
+      <h4>技能演进文档</h4>
+      <code style="display: block; margin: 8px 0; font-size: 0.9em;">
+shared/skills/approval-handling/<br>
+├── skill-definition.md   # 技能定义<br>
+├── version-history.md    # 版本历史<br>
+├── known-issues.md      # 已知问题<br>
+└── best-practices.md    # 最佳实践
+      </code>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>🔍 决策留痕</h3>
+  <div class="options">
+    <div class="option" data-choice="why-trace" onclick="toggleSelect(this)">
+      <div class="letter">❓</div>
+      <div class="content">
+        <h3>"为什么"留痕</h3>
+        <ul style="font-size: 0.9em; line-height: 1.6;">
+          <li>为什么选择这个修复方案？</li>
+          <li>为什么不用更简单的方法？</li>
+          <li>为什么测试这样设计？</li>
+          <li>为什么影响了这些组件？</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="option" data-choice="who-trace" onclick="toggleSelect(this)">
+      <div class="letter">👤</div>
+      <div class="content">
+        <h3>"谁做的"留痕</h3>
+        <ul style="font-size: 0.9em; line-height: 1.6;">
+          <li>Max: 问题分析和方案设计</li>
+          <li>Jarvis: 代码实现和技能更新</li>
+          <li>Kyle: 测试验证和质量保证</li>
+          <li>Ella: 相关UI/UX影响评估</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="option" data-choice="when-trace" onclick="toggleSelect(this)">
+      <div class="letter">⏰</div>
+      <div class="content">
+        <h3>"时间线"留痕</h3>
+        <ul style="font-size: 0.9em; line-height: 1.6;">
+          <li>问题发现: 2026-05-16 10:30</li>
+          <li>诊断完成: 2026-05-16 11:15</li>
+          <li>修复完成: 2026-05-16 14:20</li>
+          <li>验证通过: 2026-05-16 15:00</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>💾 代码留痕</h3>
+  <div style="background: #f8f9fa; padding: 16px; border-radius: 8px;">
+    <h4>Git提交历史 + 语义化消息</h4>
+    <code style="display: block; margin: 8px 0; font-size: 0.9em; line-height: 1.6;">
+fix(aegis): approval button click responsiveness<br><br>
+
+- 🐛 Problem: ApprovalModal click events not triggering<br>
+- 🔍 Root cause: Event handler callback missing return<br>
+- ✅ Solution: Added proper event response handling<br>
+- 🧪 Tests: Added click response integration test<br>
+- 📚 Skill: Updated approval-handling skill v1.2.1<br><br>
+
+Closes: bug-aegis-approval-20260516<br>
+Related-Skills: approval-handling, frontend-interaction<br>
+Harness-Impact: event-system, ui-components
+    </code>
+  </div>
+</div>
+
+<div class="section">
+  <h3>🔗 关联留痕网络</h3>
+  <div class="mockup">
+    <div class="mockup-header">问题关联图</div>
+    <div class="mockup-body">
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; font-size: 0.9em;">
+        <div style="text-align: center; padding: 8px; background: #ffebee; border-radius: 4px;">
+          <strong>相似问题</strong><br>
+          bug-modal-freeze-20260401<br>
+          bug-click-lag-20260315
+        </div>
+        <div style="text-align: center; padding: 8px; background: #e8f5e8; border-radius: 4px;">
+          <strong>当前问题</strong><br>
+          bug-aegis-approval-20260516
+        </div>
+        <div style="text-align: center; padding: 8px; background: #e3f2fd; border-radius: 4px;">
+          <strong>影响组件</strong><br>
+          ApprovalModal.vue<br>
+          event-bus.js
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>📊 积累价值分析</h3>
+  <div class="pros-cons">
+    <div class="pros">
+      <h4>长期价值</h4>
+      <ul>
+        <li><strong>知识资产</strong>: 每个bug变成团队知识库</li>
+        <li><strong>模式识别</strong>: 类似问题快速定位</li>
+        <li><strong>技能进化</strong>: skills持续改进</li>
+        <li><strong>新人onboarding</strong>: 完整的学习材料</li>
+      </ul>
+    </div>
+    <div class="cons">
+      <h4>维护成本</h4>
+      <ul>
+        <li><strong>文档维护</strong>: 需要定期整理</li>
+        <li><strong>搜索能力</strong>: 信息多了要能找到</li>
+        <li><strong>过时清理</strong>: 老的traces需要归档</li>
+        <li><strong>存储空间</strong>: 留痕文件会增长</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="background: #fff3e0; padding: 16px; border-radius: 8px;">
+  <h4>🎯 关键差异</h4>
+  <p><strong>传统方式</strong>: 改完代码，提交，完事 → 知识消失</p>
+  <p><strong>新范式</strong>: 每次修复都留下完整的学习路径 → 团队智慧积累</p>
+  <p style="margin-top: 12px; font-weight: bold;">六个月后，类似问题能在5分钟内定位到解决方案。</p>
+</div>

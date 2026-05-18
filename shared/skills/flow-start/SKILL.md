@@ -1,3 +1,7 @@
+---
+name: flow-start
+description: 通用Agent启动流程 - 自动检测角色并执行4个标准启动检查点
+---
 # 🚀 /flow:start - 通用启动流程
 
 > 自动检测当前Agent角色并执行4个标准启动检查点

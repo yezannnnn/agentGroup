@@ -1,0 +1,162 @@
+pipeline {
+    agent any
+
+    environment {
+        SERVER_IP = '121.199.46.101'
+        SERVER_USER = 'root'
+        REMOTE_DIR = '/opt/chatbot'
+        BACKUP_DIR = '/opt/backup'
+        BACKEND_IMAGE = 'chatbot-backend'
+        FRONTEND_IMAGE = 'chatbot-frontend'
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        timeout(time: 30, unit: 'MINUTES')
+        disableConcurrentBuilds()
+    }
+
+    stages {
+        stage('1. 检出代码') {
+            steps {
+                echo '📥 检出后端代码...'
+                checkout scm
+
+                echo '📥 检出前端代码...'
+                dir('vue-frontend') {
+                    git(
+                        url: 'git@gitee.com:chat-bot_1/chatBotTenantWeb.git',
+                        branch: 'master',
+                        credentialsId: 'gitee-ssh-key'
+                    )
+                }
+            }
+        }
+
+        stage('2. 备份当前版本') {
+            steps {
+                script {
+                    env.PREV_BACKEND_TAG = sh(
+                        script: 'docker inspect --format="{{.Config.Image}}" chatbot-backend 2>/dev/null | cut -d: -f2 || echo "latest"',
+                        returnStdout: true
+                    ).trim()
+
+                    env.PREV_FRONTEND_TAG = sh(
+                        script: 'docker inspect --format="{{.Config.Image}}" chatbot-frontend 2>/dev/null | cut -d: -f2 || echo "latest"',
+                        returnStdout: true
+                    ).trim()
+
+                    echo "当前版本: 后端=${PREV_BACKEND_TAG}, 前端=${PREV_FRONTEND_TAG}"
+                }
+            }
+        }
+
+        stage('3. 数据库备份') {
+            steps {
+                script {
+                    env.BUILD_TAG = sh(
+                        script: 'date +%Y%m%d%H%M%S',
+                        returnStdout: true
+                    ).trim()
+                }
+
+                sh """
+                    chmod +x .jenkins/backup-db.sh
+                    .jenkins/backup-db.sh ${BUILD_TAG}
+                """
+            }
+        }
+
+        stage('4. 构建后端') {
+            steps {
+                dir('backend-nestjs') {
+                    sh """
+                        docker build -t ${BACKEND_IMAGE}:${BUILD_TAG} .
+                        docker tag ${BACKEND_IMAGE}:${BUILD_TAG} ${BACKEND_IMAGE}:latest
+                    """
+                }
+            }
+        }
+
+        stage('5. 构建前端') {
+            steps {
+                dir('vue-frontend') {
+                    sh """
+                        docker build -t ${FRONTEND_IMAGE}:${BUILD_TAG} .
+                        docker tag ${FRONTEND_IMAGE}:${BUILD_TAG} ${FRONTEND_IMAGE}:latest
+                    """
+                }
+            }
+        }
+
+        stage('6. 数据库迁移') {
+            steps {
+                sh """
+                    docker run --rm \
+                        --env-file ${REMOTE_DIR}/.env \
+                        --network chatbot-network \
+                        ${BACKEND_IMAGE}:${BUILD_TAG} \
+                        sh -c 'npx prisma migrate deploy'
+                """
+            }
+        }
+
+        stage('7. 部署服务') {
+            steps {
+                sh '''
+                    docker stop chatbot-backend chatbot-frontend 2>/dev/null || true
+                    docker rm chatbot-backend chatbot-frontend 2>/dev/null || true
+
+                    docker run -d \
+                        --name chatbot-backend \
+                        --restart always \
+                        -p 127.0.0.1:3001:3001 \
+                        --env-file /opt/chatbot/.env \
+                        -e TZ=Asia/Shanghai \
+                        --network chatbot-network \
+                        chatbot-backend:${BUILD_TAG}
+
+                    docker run -d \
+                        --name chatbot-frontend \
+                        --restart always \
+                        -p 127.0.0.1:3000:80 \
+                        --network chatbot-network \
+                        chatbot-frontend:${BUILD_TAG}
+
+                    docker restart chatbot-nginx
+                '''
+            }
+        }
+
+        stage('8. 健康检查') {
+            steps {
+                sh """
+                    chmod +x .jenkins/health-check.sh
+                    .jenkins/health-check.sh
+                """
+            }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ 部署成功！'
+            sh """
+                docker images ${BACKEND_IMAGE} --format "{{.Tag}}" | grep -E '^[0-9]{14}$' | sort -r | tail -n +6 | xargs -r docker rmi ${BACKEND_IMAGE}:{} 2>/dev/null || true
+                docker images ${FRONTEND_IMAGE} --format "{{.Tag}}" | grep -E '^[0-9]{14}$' | sort -r | tail -n +6 | xargs -r docker rmi ${FRONTEND_IMAGE}:{} 2>/dev/null || true
+            """
+        }
+
+        failure {
+            echo '❌ 部署失败，执行回滚...'
+            sh """
+                chmod +x .jenkins/rollback.sh
+                .jenkins/rollback.sh ${PREV_BACKEND_TAG} ${PREV_FRONTEND_TAG}
+            """
+        }
+
+        always {
+            cleanWs()
+        }
+    }
+}

@@ -1,0 +1,109 @@
+<h2>AI Runtime 开发范式 - 完整流程</h2>
+<p class="subtitle">Harness架构 + SDD + TDD 的集成开发方法论</p>
+
+<div class="section">
+  <h3>1. 流程概览 - 四层架构</h3>
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 16px 0;">
+    <div style="background: #e3f2fd; padding: 16px; border-radius: 8px; text-align: center;">
+      <h4>概念层</h4>
+      <p style="font-size: 0.9em;">需求 → Skill定义</p>
+    </div>
+    <div style="background: #f3e5f5; padding: 16px; border-radius: 8px; text-align: center;">
+      <h4>设计层</h4>
+      <p style="font-size: 0.9em;">Harness架构设计</p>
+    </div>
+    <div style="background: #e8f5e8; padding: 16px; border-radius: 8px; text-align: center;">
+      <h4>开发层</h4>
+      <p style="font-size: 0.9em;">TDD + SDD实现</p>
+    </div>
+    <div style="background: #fff3e0; padding: 16px; border-radius: 8px; text-align: center;">
+      <h4>Runtime层</h4>
+      <p style="font-size: 0.9em;">Claude Code集成</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>2. 核心范式组合</h3>
+  <div class="options">
+    <div class="option" data-choice="sdd-first" onclick="toggleSelect(this)">
+      <div class="letter">A</div>
+      <div class="content">
+        <h3>SDD-First 范式</h3>
+        <p><strong>流程</strong>: 先定义Skill → 后设计架构 → TDD实现</p>
+        <div style="margin-top: 8px; font-size: 0.9em;">
+          <strong>优点</strong>: 以能力为中心，自然模块化<br>
+          <strong>适用</strong>: AI Agent能力开发
+        </div>
+      </div>
+    </div>
+
+    <div class="option" data-choice="harness-first" onclick="toggleSelect(this)">
+      <div class="letter">B</div>
+      <div class="content">
+        <h3>Harness-First 范式</h3>
+        <p><strong>流程</strong>: 先架构设计 → Skill适配 → TDD验证</p>
+        <div style="margin-top: 8px; font-size: 0.9em;">
+          <strong>优点</strong>: 稳定的运行时基础<br>
+          <strong>适用</strong>: Runtime框架开发
+        </div>
+      </div>
+    </div>
+
+    <div class="option" data-choice="hybrid" onclick="toggleSelect(this)">
+      <div class="letter">C</div>
+      <div class="content">
+        <h3>混合驱动范式</h3>
+        <p><strong>流程</strong>: Skill定义 ↔ Harness设计 ↔ TDD迭代</p>
+        <div style="margin-top: 8px; font-size: 0.9em;">
+          <strong>优点</strong>: 灵活适应，双向验证<br>
+          <strong>适用</strong>: 复杂AI系统开发
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>3. Harness架构模式选择</h3>
+  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+    <div class="mockup">
+      <div class="mockup-header">Plugin-Based Harness</div>
+      <div class="mockup-body" style="font-size: 0.9em;">
+        <code style="display: block; margin: 8px 0;">
+harness/<br>
+├── core/           # 核心runtime<br>
+├── plugins/        # skill插件<br>
+├── registry/       # 技能注册<br>
+└── lifecycle/      # 生命周期管理
+        </code>
+      </div>
+    </div>
+
+    <div class="mockup">
+      <div class="mockup-header">Event-Driven Harness</div>
+      <div class="mockup-body" style="font-size: 0.9em;">
+        <code style="display: block; margin: 8px 0;">
+harness/<br>
+├── events/         # 事件总线<br>
+├── handlers/       # skill处理器<br>
+├── middleware/     # 中间件链<br>
+└── orchestrator/   # 编排器
+        </code>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>4. 开发检查点集成</h3>
+  <div style="background: #f8f9fa; padding: 16px; border-radius: 8px;">
+    <p><strong>当前aiGroup的8检查点</strong> + <strong>新的开发范式检查点</strong></p>
+    <div style="margin-top: 12px; font-size: 0.9em;">
+      ✅ 0-7: 现有检查点（范围确认、token优化...）<br>
+      🆕 <strong>8. Skill适配检查</strong>: 新功能是否已包装为skill<br>
+      🆕 <strong>9. Harness集成检查</strong>: 是否正确集成到runtime<br>
+      🆕 <strong>10. TDD覆盖检查</strong>: 测试是否先于实现编写
+    </div>
+  </div>
+</div>

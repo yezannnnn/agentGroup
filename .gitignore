@@ -20,3 +20,23 @@ shared/reviews/*.md
 # Kimi 相关
 kimi/
 kimi*
+
+# 本地生成内容（不提交）
+memory/**/*.json
+shared/knowledge/chromadb/
+**/__pycache__/
+**/*.pyc
+jarvis/test-*.tmp
+jarvis/.opencode/
+jarvis/.skills/
+jarvis/Desktop/
+*.backup
+*.backup.*
+share/
+
+# 临时文件
+nginx-ssl-fixed.conf
+platform.conf
+add_column.js
+fix_database.js
+docker-compose-final.yml

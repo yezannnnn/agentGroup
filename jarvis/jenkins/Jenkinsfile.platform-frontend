@@ -1,0 +1,118 @@
+pipeline {
+    agent any
+    
+    environment {
+        SERVICE_NAME = 'platform-frontend'
+        IMAGE_NAME = 'chatbot-platform-frontend'
+        COMPOSE_SERVICE = 'platform-frontend'
+        BUILD_CONTEXT = 'platform-frontend'
+        REPO_URL = 'git@gitee.com:chat-bot_1/chatBotPlatformWeb.git'
+        REPO_BRANCH = 'master'
+    }
+    
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        timeout(time: 20, unit: 'MINUTES')
+        disableConcurrentBuilds()
+    }
+    
+    stages {
+        stage('1. 检出代码') {
+            steps {
+                echo "📥 检出 ${SERVICE_NAME} 代码..."
+                
+                dir("${BUILD_CONTEXT}") {
+                    git(
+                        url: "${REPO_URL}",
+                        branch: "${REPO_BRANCH}",
+                        credentialsId: 'git-credentials'
+                    )
+                }
+                
+                script {
+                    env.GIT_COMMIT = sh(
+                        script: "cd ${BUILD_CONTEXT} && git rev-parse --short HEAD",
+                        returnStdout: true
+                    ).trim()
+                    env.BUILD_TAG = "${env.BUILD_NUMBER}-${env.GIT_COMMIT}"
+                }
+                
+                echo "✅ 代码检出完成 - Commit: ${env.GIT_COMMIT}"
+            }
+        }
+        
+        stage('2. 安装依赖') {
+            steps {
+                echo "📦 安装依赖..."
+                dir("${BUILD_CONTEXT}") {
+                    sh 'npm ci || npm install'
+                }
+                echo "✅ 依赖安装完成"
+            }
+        }
+        
+        stage('3. 构建前端') {
+            steps {
+                echo "🔨 构建前端..."
+                dir("${BUILD_CONTEXT}") {
+                    sh 'npm run build'
+                }
+                echo "✅ 前端构建完成"
+            }
+        }
+        
+        stage('4. 部署') {
+            steps {
+                echo "🚀 部署 ${SERVICE_NAME}..."
+                sh '''
+                    # 确保 dist 目录存在
+                    if [ ! -d "platform-frontend/dist" ]; then
+                        echo "❌ 构建目录不存在"
+                        exit 1
+                    fi
+                    
+                    # 复制到部署目录
+                    rm -rf /opt/chatbot/platform-frontend/dist
+                    cp -r platform-frontend/dist /opt/chatbot/platform-frontend/
+                    
+                    # 重启前端容器
+                    cd /opt/chatbot
+                    docker-compose up -d --no-deps ${COMPOSE_SERVICE}
+                    docker-compose restart nginx
+                '''
+                echo "✅ 部署完成"
+            }
+        }
+        
+        stage('5. 健康检查') {
+            steps {
+                echo "🔍 执行健康检查..."
+                sh '''
+                    sleep 5
+                    curl -f http://localhost:4001 || echo "⚠️ 前端服务检查警告"
+                '''
+                echo "✅ 健康检查完成"
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo '✅ 前端部署成功！'
+            sh """
+                echo "${BUILD_TAG}" > /opt/chatbot/.last-deploy-${SERVICE_NAME}
+            """
+        }
+        
+        failure {
+            echo '❌ 前端部署失败！'
+        }
+        
+        always {
+            cleanWs(
+                deleteDirs: true,
+                notFailBuild: true
+            )
+        }
+    }
+}

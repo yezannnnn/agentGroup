@@ -1,0 +1,186 @@
+// AI脚本推荐系统 - 数据库表设计
+// 需要添加到 chatBotBinary/backend-nestjs/prisma/schema.prisma 文件末尾
+
+// 1. AI脚本表 - 存储生成的话术脚本
+model ai_scripts {
+  id               BigInt    @id @default(autoincrement())
+  script_id        String    @unique @db.VarChar(50) // 脚本唯一标识
+  tenant_id        BigInt                             // 租户ID
+  title            String    @db.VarChar(200)         // 脚本标题
+  content          String    @db.Text                 // 话术内容
+  scenario         String?   @db.VarChar(500)         // 适用场景描述
+  expected_outcome String?   @db.VarChar(300)         // 预期效果
+  product_key      String?   @db.VarChar(100)         // 关联产品标识
+  sales_stage      String?   @db.VarChar(50)          // 销售阶段
+  confidence       Decimal?  @db.Decimal(4,3)         // 生成置信度 [0,1]
+  status           String    @default("active") @db.VarChar(20) // active, inactive, archived
+  created_at       DateTime  @default(now()) @db.Timestamp(0)
+  updated_at       DateTime  @default(now()) @db.Timestamp(0)
+  expires_at       DateTime? @db.Timestamp(0)         // 过期时间
+  metadata         Json?                               // 扩展元数据
+
+  // 关联关系
+  script_effectiveness script_effectiveness[]
+  script_usage_logs    script_usage_logs[]
+  tenants              tenants @relation(fields: [tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([tenant_id], map: "idx_scripts_tenant")
+  @@index([product_key, sales_stage], map: "idx_scripts_product_stage")
+  @@index([status, expires_at], map: "idx_scripts_status_expire")
+  @@index([created_at], map: "idx_scripts_created")
+}
+
+// 2. 脚本效果评估表 - 存储话术使用效果数据
+model script_effectiveness {
+  id                       BigInt    @id @default(autoincrement())
+  script_id                String    @db.VarChar(50)              // 关联脚本ID
+  customer_id              BigInt?                                // 客户ID (wx_friends.id)
+  product_key              String?   @db.VarChar(100)             // 产品标识
+  sales_stage              String?   @db.VarChar(50)              // 销售阶段
+
+  // 基础效果指标
+  sentiment_improvement    Decimal?  @db.Decimal(5,4)             // 情感改善度 [-1, 1]
+  stage_progression_rate   Decimal?  @db.Decimal(5,4)             // 阶段推进速度 [0, 1]
+  interaction_quality      Decimal?  @db.Decimal(5,4)             // 交互质量 [0, 1]
+  conversion_rate          Decimal?  @db.Decimal(5,4)             // 转化率 [0, 1]
+
+  // 上下文因子
+  product_category         String?   @db.VarChar(100)             // 产品类别
+  customer_segment         String?   @db.VarChar(100)             // 客户细分
+  time_decay_factor        Decimal?  @db.Decimal(5,4)             // 时间衰减因子 [0, 1]
+
+  // 统计元数据
+  sample_size              Int?      @default(1)                  // 样本量
+  statistical_significance Decimal?  @db.Decimal(5,4)             // 统计显著性
+  vs_default_improvement   Decimal?  @db.Decimal(5,4)             // vs默认话术提升率
+  vs_avg_improvement       Decimal?  @db.Decimal(5,4)             // vs平均表现差异
+
+  // 综合评分
+  final_score              Decimal?  @db.Decimal(5,4)             // 最终综合得分
+  score_version            String?   @default("v1.0") @db.VarChar(10) // 评分算法版本
+
+  measured_at              DateTime  @default(now()) @db.Timestamp(0)
+  metadata                 Json?                                  // 扩展元数据
+
+  // 关联关系
+  ai_scripts ai_scripts @relation(fields: [script_id], references: [script_id], onDelete: Cascade)
+
+  @@index([script_id], map: "idx_effectiveness_script")
+  @@index([customer_id], map: "idx_effectiveness_customer")
+  @@index([product_key, sales_stage], map: "idx_effectiveness_product_stage")
+  @@index([final_score], map: "idx_effectiveness_score")
+  @@index([measured_at], map: "idx_effectiveness_measured")
+}
+
+// 3. 脚本使用日志表 - 记录话术的实际使用情况
+model script_usage_logs {
+  id              BigInt    @id @default(autoincrement())
+  script_id       String?   @db.VarChar(50)              // 关联脚本ID
+  customer_id     BigInt?                                // 客户ID
+  message_id      BigInt?                                // 消息ID
+  tenant_id       BigInt                                 // 租户ID
+  product_key     String?   @db.VarChar(100)             // 产品标识
+  sales_stage     String?   @db.VarChar(50)              // 销售阶段
+  usage_context   Json?                                  // 使用上下文
+  ai_adopted      Boolean   @default(true)               // AI是否采纳了推荐
+  user_feedback   Int?      @db.SmallInt                 // 用户反馈评分 1-5
+  response_time   Int?                                   // 响应时间(ms)
+  created_at      DateTime  @default(now()) @db.Timestamp(0)
+
+  // 关联关系
+  ai_scripts  ai_scripts? @relation(fields: [script_id], references: [script_id], onDelete: SetNull)
+  messages    messages?   @relation(fields: [message_id], references: [id], onDelete: SetNull)
+  tenants     tenants     @relation(fields: [tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([script_id], map: "idx_usage_script")
+  @@index([customer_id], map: "idx_usage_customer")
+  @@index([tenant_id], map: "idx_usage_tenant")
+  @@index([created_at], map: "idx_usage_created")
+  @@index([ai_adopted], map: "idx_usage_adopted")
+}
+
+// 4. 评分配置表 - 存储动态权重和阈值配置
+model scoring_configs {
+  id                    BigInt    @id @default(autoincrement())
+  tenant_id             BigInt                                 // 租户ID
+  config_name           String    @db.VarChar(100)             // 配置名称
+  weights               Json      // 权重配置 {sentiment: 0.3, progression: 0.4, interaction: 0.3, conversion: 0.0}
+  context_multipliers   Json      @default("{}") // 上下文权重 {"AI工具": 1.2, "营销软件": 0.9}
+  minimum_sample_size   Int       @default(10)                // 最小样本量要求
+  retention_thresholds  Json      // 保留决策阈值配置
+  is_active             Boolean   @default(true)              // 是否启用
+  created_at            DateTime  @default(now()) @db.Timestamp(0)
+  updated_at            DateTime  @default(now()) @db.Timestamp(0)
+
+  // 关联关系
+  tenants tenants @relation(fields: [tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([tenant_id, config_name], map: "uk_tenant_config_name")
+  @@index([tenant_id, is_active], map: "idx_config_tenant_active")
+}
+
+// 5. 脚本生成历史表 - 记录脚本生成的历史和统计
+model script_generation_logs {
+  id                BigInt    @id @default(autoincrement())
+  tenant_id         BigInt                                 // 租户ID
+  request_id        String?   @db.VarChar(100)             // 请求唯一标识
+  input_context     Json                                   // 输入上下文
+  generated_script  Json?                                  // 生成的脚本内容
+  generation_time   Int?                                   // 生成耗时(ms)
+  model_used        String?   @db.VarChar(50)              // 使用的AI模型
+  prompt_tokens     Int?                                   // 输入token数
+  completion_tokens Int?                                   // 输出token数
+  total_cost        Decimal?  @db.Decimal(10,6)            // 生成成本
+  status            String    @default("success") @db.VarChar(20) // success, failed, timeout
+  error_message     String?   @db.Text                     // 错误信息
+  created_at        DateTime  @default(now()) @db.Timestamp(0)
+
+  // 关联关系
+  tenants tenants @relation(fields: [tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([tenant_id], map: "idx_gen_logs_tenant")
+  @@index([status], map: "idx_gen_logs_status")
+  @@index([created_at], map: "idx_gen_logs_created")
+  @@index([request_id], map: "idx_gen_logs_request")
+}
+
+// 6. 脚本A/B测试表 - 支持话术效果对比实验
+model script_ab_tests {
+  id              BigInt    @id @default(autoincrement())
+  tenant_id       BigInt                                 // 租户ID
+  test_name       String    @db.VarChar(200)             // 实验名称
+  description     String?   @db.Text                     // 实验描述
+  script_a_id     String    @db.VarChar(50)              // 对照组脚本ID
+  script_b_id     String    @db.VarChar(50)              // 实验组脚本ID
+  target_criteria Json                                   // 目标用户条件
+  allocation_rate Decimal   @default(0.5) @db.Decimal(3,2) // 流量分配比例
+  status          String    @default("draft") @db.VarChar(20) // draft, running, paused, completed
+  start_date      DateTime? @db.Timestamp(0)
+  end_date        DateTime? @db.Timestamp(0)
+  winner_script   String?   @db.VarChar(50)              // 获胜脚本ID
+  significance    Decimal?  @db.Decimal(5,4)             // 统计显著性
+  created_at      DateTime  @default(now()) @db.Timestamp(0)
+  updated_at      DateTime  @default(now()) @db.Timestamp(0)
+
+  // 关联关系
+  tenants tenants @relation(fields: [tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([tenant_id], map: "idx_ab_tests_tenant")
+  @@index([status], map: "idx_ab_tests_status")
+  @@index([start_date, end_date], map: "idx_ab_tests_date_range")
+}
+
+// 更新tenants表，添加新的关联关系
+// 在tenants model中添加以下关联（需要手动添加到原有tenants model中）:
+/*
+  ai_scripts             ai_scripts[]
+  script_usage_logs      script_usage_logs[]
+  scoring_configs        scoring_configs[]
+  script_generation_logs script_generation_logs[]
+  script_ab_tests        script_ab_tests[]
+*/
+
+// 更新messages表，添加脚本关联（需要手动添加到原有messages model中）:
+/*
+  script_usage_logs script_usage_logs[]
+*/

@@ -28,6 +28,7 @@ def test_compile_routine_skipped(tmp_path):
         "agent": "max",
     })
     assert result["written"] is False
+    # LLMFilter.reject_reason always starts with "质量分" when score < 0.6
     assert "质量分" in result["reason"]
 
 def test_compile_writes_markdown_backup(tmp_path):
@@ -66,3 +67,12 @@ def test_compile_entry_id_not_empty_on_success(tmp_path):
     })
     assert result["written"] is True
     assert result["entry_id"] != ""
+
+def test_make_id_is_deterministic(tmp_path):
+    compiler = KnowledgeCompiler(db_path=str(tmp_path / "db"), use_mock_llm=True,
+                                  vault_path=str(tmp_path / "vault"))
+    id1 = compiler._make_id("bugs", "same content")
+    id2 = compiler._make_id("bugs", "same content")
+    assert id1 == id2
+    id3 = compiler._make_id("bugs", "different content")
+    assert id1 != id3

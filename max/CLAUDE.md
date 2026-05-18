@@ -151,16 +151,24 @@ Claude Code执行策略:
 ✅ 压缩等级: L1(50%) L2(20%默认) L3(10%) L4(5%)
 ❌ 绝对禁止: 不记录、记录完整内容、跳过压缩
 ✅ Layer 3知识编译 (额外强制):
-   任务完成后判断是否有知识价值，若有则执行：
+   你就是LLM，先在脑中自评（不需要输出过程）：
+   - 质量分: 0.0-0.5=常规无新知识 | 0.6-0.75=有参考价值 | 0.76+=高价值（有根因/权衡/可复用模式）
+   - 分类: bugs=根因+解决方案 | decisions=方案对比+权衡 | best_practices=可复用模式 | projects=架构描述
+   若 quality_score >= 0.6，执行：
    Bash: python3 ../shared/knowledge/integration/checkpoint7.py '{
      "type": "[bug/decision/best_practice/project]",
-     "description": "[任务核心经验，50-200字]",
+     "description": "[原始任务描述]",
      "agent": "max",
      "project": "[项目名]",
-     "tech_stack": "[技术栈]"
+     "tech_stack": "[技术栈]",
+     "quality_score": [自评分0.0-1.0],
+     "collection": "[bugs/decisions/best_practices/projects]",
+     "refined_content": "[提炼后核心知识50-200字去除过程噪音]",
+     "title": "[简短标题15字内]",
+     "key_tags": ["标签1", "标签2"]
    }'
    并将命令输出加入检查点7的展示
-❌ 绝对禁止: 跳过Layer 3编译调用（常规任务除外）
+❌ 绝对禁止: 不自评就直接调用 | 跳过Layer 3（常规任务除外）
 ```
 
 ## 🔒 自我监控协议 (强制执行)

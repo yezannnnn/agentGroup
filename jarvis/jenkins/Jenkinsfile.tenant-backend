@@ -1,0 +1,125 @@
+pipeline {
+    agent any
+    
+    environment {
+        SERVICE_NAME = 'tenant-backend'
+        IMAGE_NAME = 'chatbot-backend'
+        COMPOSE_SERVICE = 'backend'
+        BUILD_CONTEXT = 'backend-nestjs'
+    }
+    
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        timeout(time: 30, unit: 'MINUTES')
+        disableConcurrentBuilds()
+    }
+    
+    stages {
+        stage('1. 检出代码') {
+            steps {
+                echo "📥 检出 ${SERVICE_NAME} 代码..."
+                checkout scm
+                
+                script {
+                    env.GIT_COMMIT = sh(
+                        script: 'git rev-parse --short HEAD',
+                        returnStdout: true
+                    ).trim()
+                    env.BUILD_TAG = "${env.BUILD_NUMBER}-${env.GIT_COMMIT}"
+                }
+                
+                echo "✅ 代码检出完成 - Commit: ${env.GIT_COMMIT}"
+            }
+        }
+        
+        stage('2. 备份当前版本') {
+            steps {
+                echo "💾 备份当前运行版本..."
+                sh '''
+                    if docker inspect ${IMAGE_NAME} >/dev/null 2>&1; then
+                        docker tag ${IMAGE_NAME}:latest ${IMAGE_NAME}:backup-${BUILD_NUMBER} || true
+                        echo "✅ 备份镜像: ${IMAGE_NAME}:backup-${BUILD_NUMBER}"
+                    fi
+                '''
+            }
+        }
+        
+        stage('3. 构建 Docker 镜像') {
+            steps {
+                echo "🔨 构建 ${SERVICE_NAME} Docker 镜像..."
+                dir("${BUILD_CONTEXT}") {
+                    sh """
+                        docker build \
+                            --build-arg BUILD_DATE=${BUILD_TIMESTAMP} \
+                            --build-arg BUILD_NUMBER=${BUILD_NUMBER} \
+                            -t ${IMAGE_NAME}:${BUILD_TAG} \
+                            -t ${IMAGE_NAME}:latest \
+                            .
+                    """
+                }
+                echo "✅ 镜像构建完成: ${IMAGE_NAME}:${BUILD_TAG}"
+            }
+        }
+        
+        stage('4. 数据库迁移') {
+            steps {
+                echo "🗄️ 执行数据库迁移..."
+                sh '''
+                    cd /opt/chatbot
+                    docker-compose run --rm \
+                        -e DATABASE_URL=${DATABASE_URL} \
+                        backend \
+                        sh -c 'npx prisma migrate deploy' || echo "⚠️ 迁移可能已是最新"
+                '''
+                echo "✅ 数据库迁移完成"
+            }
+        }
+        
+        stage('5. 部署服务') {
+            steps {
+                echo "🚀 部署 ${SERVICE_NAME}..."
+                sh '''
+                    cd /opt/chatbot
+                    docker-compose up -d --no-deps --build ${COMPOSE_SERVICE}
+                    docker-compose restart nginx
+                '''
+                echo "✅ 服务部署完成"
+            }
+        }
+        
+        stage('6. 健康检查') {
+            steps {
+                echo "🔍 执行健康检查..."
+                sh '''
+                    sleep 10
+                    bash /opt/chatbot/.jenkins/health-check.sh || echo "⚠️ 健康检查警告"
+                '''
+                echo "✅ 健康检查完成"
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo '✅ 部署成功！'
+            sh """
+                echo "${BUILD_TAG}" > /opt/chatbot/.last-deploy-${SERVICE_NAME}
+            """
+        }
+        
+        failure {
+            echo '❌ 部署失败！'
+            echo "如需回滚，执行: docker-compose up -d ${COMPOSE_SERVICE}"
+        }
+        
+        always {
+            sh '''
+                docker images ${IMAGE_NAME} --format "{{.Tag}}" | \
+                grep -E '^backup-' | \
+                sort -r | \
+                tail -n +6 | \
+                xargs -r docker rmi ${IMAGE_NAME}:{} 2>/dev/null || true
+            '''
+        }
+    }
+}

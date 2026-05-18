@@ -1,0 +1,136 @@
+<h2>实战案例：Aegis 审批按钮无响应修复</h2>
+<p class="subtitle">SDD + TDD + Harness范式完整流程演示</p>
+
+<div class="section">
+  <h3>问题输入</h3>
+  <div style="background: #ffebee; padding: 16px; border-radius: 8px;">
+    <strong>🐛 Bug报告</strong>: "Aegis审批弹窗，点击批准/拒绝按钮没反应"<br>
+    <strong>🎯 期望</strong>: 点击后执行对应操作并关闭弹窗
+  </div>
+</div>
+
+<div class="section">
+  <h3>范式流程应用</h3>
+
+  <div style="margin: 24px 0;">
+    <h4>🔍 阶段1: 问题分析 (概念层)</h4>
+    <div style="background: #e3f2fd; padding: 16px; border-radius: 8px; margin: 8px 0;">
+      <strong>SDD视角</strong>: 哪个skill出了问题？<br>
+      → 识别为 <code>approval-handling</code> skill故障<br><br>
+
+      <strong>Harness视角</strong>: 哪个组件失效？<br>
+      → 前端事件处理器 or 后端API调用链<br><br>
+
+      <strong>输出</strong>: <code>diagnosis-aegis-approval-bug.md</code>
+    </div>
+  </div>
+
+  <div style="margin: 24px 0;">
+    <h4>🏗️ 阶段2: 架构诊断 (设计层)</h4>
+    <div style="background: #f3e5f5; padding: 16px; border-radius: 8px; margin: 8px 0;">
+      <strong>Harness分析</strong>: 组件间通信失败<br>
+      → ApprovalModal.vue → Backend API → Database<br>
+      → 哪一环断了？<br><br>
+
+      <strong>SDD分析</strong>: 相关技能梳理<br>
+      → <code>frontend-interaction</code>, <code>api-integration</code>, <code>database-operation</code><br><br>
+
+      <strong>输出</strong>: <code>architecture-trace-aegis.md</code>
+    </div>
+  </div>
+
+  <div style="margin: 24px 0;">
+    <h4>🧪 阶段3: TDD修复 (开发层)</h4>
+    <div style="background: #e8f5e8; padding: 16px; border-radius: 8px; margin: 8px 0;">
+      <strong>1. 先写失败测试</strong><br>
+      <code>test-approval-click-response.js</code><br>
+      ```js<br>
+      it('should respond to approval click', () => {<br>
+      &nbsp;&nbsp;clickApprove(); // 当前会失败<br>
+      &nbsp;&nbsp;expect(modal).toBeHidden();<br>
+      });<br>
+      ```<br><br>
+
+      <strong>2. 定位具体故障点</strong><br>
+      → 发现: API调用成功，但前端没有处理response<br><br>
+
+      <strong>3. 最小修复</strong><br>
+      → 修复事件处理器回调<br><br>
+
+      <strong>输出</strong>: 修复代码 + 通过的测试
+    </div>
+  </div>
+
+  <div style="margin: 24px 0;">
+    <h4>🚀 阶段4: Runtime集成 (Runtime层)</h4>
+    <div style="background: #fff3e0; padding: 16px; border-radius: 8px; margin: 8px 0;">
+      <strong>Harness更新</strong>: 修复集成到runtime<br>
+      → 更新 approval-handling skill版本<br>
+      → 验证Harness兼容性<br><br>
+
+      <strong>SDD验证</strong>: Skill功能完整性<br>
+      → 确保相关skills协同正常<br><br>
+
+      <strong>输出</strong>: 部署包 + 集成测试报告
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>🎯 交付物清单</h3>
+  <div class="split">
+    <div style="background: #f8f9fa; padding: 16px; border-radius: 8px;">
+      <h4>文档输出</h4>
+      <ul style="font-size: 0.9em; line-height: 1.6;">
+        <li><code>diagnosis-aegis-approval-bug.md</code></li>
+        <li><code>architecture-trace-aegis.md</code></li>
+        <li><code>fix-approval-click-prd.md</code></li>
+        <li><code>test-results-report.md</code></li>
+      </ul>
+    </div>
+    <div style="background: #f8f9fa; padding: 16px; border-radius: 8px;">
+      <h4>代码输出</h4>
+      <ul style="font-size: 0.9em; line-height: 1.6;">
+        <li>修复的组件代码</li>
+        <li>新增测试用例</li>
+        <li>更新的skill定义</li>
+        <li>Harness配置更新</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="options">
+  <div class="option" data-choice="pros" onclick="toggleSelect(this)">
+    <div class="letter">✅</div>
+    <div class="content">
+      <h3>优点分析</h3>
+      <ul style="font-size: 0.9em; line-height: 1.6;">
+        <li><strong>可追溯性</strong>: 每个阶段有明确文档</li>
+        <li><strong>标准化</strong>: 不同人修bug流程一致</li>
+        <li><strong>质量保证</strong>: TDD确保不引入新bug</li>
+        <li><strong>技能积累</strong>: Bug修复变成技能资产</li>
+        <li><strong>架构改进</strong>: Harness不断完善</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="option" data-choice="cons" onclick="toggleSelect(this)">
+    <div class="letter">⚠️</div>
+    <div class="content">
+      <h3>缺点分析</h3>
+      <ul style="font-size: 0.9em; line-height: 1.6;">
+        <li><strong>过度工程</strong>: 简单bug走复杂流程</li>
+        <li><strong>时间成本</strong>: 比直接改代码慢</li>
+        <li><strong>学习曲线</strong>: 团队需要适应范式</li>
+        <li><strong>工具依赖</strong>: 依赖Harness和skill体系</li>
+        <li><strong>灵活性降低</strong>: 紧急修复可能被流程拖累</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="background: #e8f5e8; padding: 16px; border-radius: 8px;">
+  <h4>💡 关键洞察</h4>
+  <p>这套范式适合 <strong>重复性、可积累的开发工作</strong>，让每次bug修复都变成团队资产。但需要在 <strong>标准化收益</strong> vs <strong>敏捷性</strong> 之间找平衡点。</p>
+</div>

@@ -1,0 +1,96 @@
+<h2>GitHub 优秀 Harness 架构参考</h2>
+<p class="subtitle">看看这些项目如何组织开发流程和工具链，选择你想借鉴的特点</p>
+
+<div class="options" data-multiselect>
+  <div class="option" data-choice="anthropic-claude-code" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Anthropic Claude Code</h3>
+      <p><strong>特点</strong>: Skill-based architecture + Hook system</p>
+      <div style="margin-top: 8px; font-size: 0.9em; color: #666;">
+        • <code>/skills/</code> - 标准化能力模块<br>
+        • <code>settings.json</code> - 统一配置管理<br>
+        • <code>hooks/</code> - 事件驱动自动化<br>
+        • 强制检查点流程
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="linear" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Linear (项目管理)</h3>
+      <p><strong>特点</strong>: Issue状态机 + 自动化workflow</p>
+      <div style="margin-top: 8px; font-size: 0.9em; color: #666;">
+        • 精确的状态流转控制<br>
+        • 自动分配和通知<br>
+        • 强类型的Issue模板<br>
+        • Integration-first设计
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="nx-monorepo" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Nx Monorepo</h3>
+      <p><strong>特点</strong>: 任务依赖图 + 缓存机制</p>
+      <div style="margin-top: 8px; font-size: 0.9em; color: #666;">
+        • <code>nx.json</code> - 全局任务定义<br>
+        • 智能依赖分析<br>
+        • 增量构建和测试<br>
+        • 工作空间协调
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="kubernetes" onclick="toggleSelect(this)">
+    <div class="letter">D</div>
+    <div class="content">
+      <h3>Kubernetes</h3>
+      <p><strong>特点</strong>: 声明式配置 + Controller模式</p>
+      <div style="margin-top: 8px; font-size: 0.9em; color: #666;">
+        • YAML配置标准化<br>
+        • 状态协调循环<br>
+        • 资源管理和调度<br>
+        • 可观测性内置
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="github-actions" onclick="toggleSelect(this)">
+    <div class="letter">E</div>
+    <div class="content">
+      <h3>GitHub Actions</h3>
+      <p><strong>特点</strong>: 事件触发 + 可组合workflow</p>
+      <div style="margin-top: 8px; font-size: 0.9em; color: #666;">
+        • <code>.github/workflows/</code> - 标准目录<br>
+        • on: 事件触发机制<br>
+        • jobs 和 steps 分层<br>
+        • marketplace生态
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="bazel" onclick="toggleSelect(this)">
+    <div class="letter">F</div>
+    <div class="content">
+      <h3>Bazel (Google)</h3>
+      <p><strong>特点</strong>: BUILD文件 + 精确依赖</p>
+      <div style="margin-top: 8px; font-size: 0.9em; color: #666;">
+        • 每个包都有BUILD规则<br>
+        • 最小重构策略<br>
+        • 确定性构建<br>
+        • 语言无关抽象
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 24px;">
+  <h3>当前 aiGroup 架构对比</h3>
+  <div style="background: #f5f5f5; padding: 16px; border-radius: 8px;">
+    <p><strong>现状</strong>: 基础的目录结构 + Agent Swarm 通知</p>
+    <p><strong>缺失</strong>: 标准化的skill集成、任务依赖管理、状态机流程</p>
+  </div>
+</div>

@@ -1,0 +1,131 @@
+<h2>GitHub上的类似开发范式</h2>
+<p class="subtitle">发现了5个与你们SDD+TDD+Harness范式高度匹配的项目</p>
+
+<div class="section">
+  <h3>🏆 最匹配项目排名</h3>
+
+  <div class="option" data-choice="superpowers" onclick="toggleSelect(this)" style="border: 3px solid #4CAF50;">
+    <div class="letter" style="background: #4CAF50; color: white;">95%</div>
+    <div class="content">
+      <h3>Superpowers (⭐ 150K+)</h3>
+      <p><strong>obra/superpowers</strong> - 技能驱动的AI编程代理框架</p>
+      <div style="margin-top: 8px; font-size: 0.9em;">
+        ✅ <strong>Skill-Driven</strong>: 强制SKILL.md文件<br>
+        ✅ <strong>TDD</strong>: 内置test-driven-development skill<br>
+        ✅ <strong>Harness</strong>: AI代理执行环境<br>
+        ✅ <strong>Audit Trail</strong>: worktree + verification steps<br>
+        <div style="color: #666; margin-top: 4px;">工作流: brainstorm → worktree → plan → execute</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="openharness" onclick="toggleSelect(this)">
+    <div class="letter">85%</div>
+    <div class="content">
+      <h3>OpenHarness (最新v0.1.2)</h3>
+      <p><strong>HKUDS/OpenHarness</strong> - "Agent = Model + Harness"架构</p>
+      <div style="margin-top: 8px; font-size: 0.9em;">
+        ✅ <strong>Harness</strong>: 核心架构理念<br>
+        ✅ <strong>Audit Trail</strong>: 内置监控观察<br>
+        ⚠️ <strong>Skill-Driven</strong>: 部分支持<br>
+        ⚠️ <strong>TDD</strong>: 未明确集成
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="agent-skills" onclick="toggleSelect(this)">
+    <div class="letter">85%</div>
+    <div class="content">
+      <h3>Agent Skills生态 (⭐ 38K+)</h3>
+      <p><strong>addyosmani/agent-skills</strong> - 5,700+社区技能库</p>
+      <div style="margin-top: 8px; font-size: 0.9em;">
+        ✅ <strong>Skill-Driven</strong>: 技能是核心资产<br>
+        ✅ <strong>Audit Trail</strong>: 社区评级追踪<br>
+        ⚠️ <strong>TDD</strong>: 有测试skills但非强制<br>
+        ⚠️ <strong>Harness</strong>: 依赖各平台harness
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="claude-code-ecosystem" onclick="toggleSelect(this)">
+    <div class="letter">80%</div>
+    <div class="content">
+      <h3>Claude Code生态系统</h3>
+      <p><strong>多项目</strong> - 135代理+35技能+20钩子工具包</p>
+      <div style="margin-top: 8px; font-size: 0.9em;">
+        ✅ <strong>Skill-Driven</strong>: 35+ curated skills<br>
+        ✅ <strong>TDD</strong>: TDD Guard自动执行<br>
+        ✅ <strong>Harness</strong>: Claude Code runtime<br>
+        ✅ <strong>Audit Trail</strong>: 完整hooks监控
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>🔍 关键发现</h3>
+  <div class="split">
+    <div style="background: #e8f5e8; padding: 16px; border-radius: 8px;">
+      <h4>✅ 你们的方向是对的</h4>
+      <ul style="font-size: 0.9em; line-height: 1.6;">
+        <li><strong>SKILL.md标准</strong>已成行业规范</li>
+        <li><strong>"Agent = Model + Harness"</strong>理念被广泛采用</li>
+        <li><strong>工作流标准化</strong>趋势明显</li>
+        <li><strong>技能生态系统</strong>正在爆发</li>
+      </ul>
+    </div>
+    <div style="background: #fff3e0; padding: 16px; border-radius: 8px;">
+      <h4>🎯 可借鉴的亮点</h4>
+      <ul style="font-size: 0.9em; line-height: 1.6;">
+        <li><strong>Superpowers</strong>: 强制检查点流程</li>
+        <li><strong>OpenHarness</strong>: Harness工程模式</li>
+        <li><strong>Agent Skills</strong>: 大规模技能管理</li>
+        <li><strong>Claude生态</strong>: 生产级权限管理</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>📊 标准工作流对比</h3>
+  <div class="mockup">
+    <div class="mockup-header">行业标准 vs aiGroup当前</div>
+    <div class="mockup-body">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div>
+          <h4>Superpowers标准流程</h4>
+          <code style="display: block; font-size: 0.9em; line-height: 1.6;">
+1. brainstorm (skill: brainstorming)<br>
+2. worktree (skill: using-git-worktrees)<br>
+3. plan (skill: writing-plans)<br>
+4. execute (skill: executing-plans)<br>
+5. review (skill: requesting-code-review)<br>
+6. ship (skill: finishing-development)
+          </code>
+        </div>
+        <div>
+          <h4>aiGroup当前流程</h4>
+          <code style="display: block; font-size: 0.9em; line-height: 1.6;">
+1. 📋 任务范围确认<br>
+2. 📖 读取token-optimization<br>
+3. 🔔 通知检查<br>
+4. 🎯 任务分解评估<br>
+5. 🧰 Skill检查<br>
+6. 🤖 执行方式选择<br>
+7. ⚠️ Git操作检测<br>
+8. 🧠 记忆系统记录
+          </code>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="background: #e3f2fd; padding: 16px; border-radius: 8px;">
+  <h3>💡 核心洞察</h3>
+  <p><strong>你们不是在重新发明轮子</strong> - 你们的SDD+TDD+Harness+AuditTrail方法正是当前AI开发的前沿趋势！</p>
+
+  <p style="margin-top: 12px;"><strong>差异化优势</strong>: 你们专注于AI团队协作，而现有项目多专注于单个AI代理。这个空白领域很有价值。</p>
+
+  <p style="margin-top: 12px; font-weight: bold;">建议: 深入研究Superpowers项目，它与你们的理念最接近。</p>
+</div>

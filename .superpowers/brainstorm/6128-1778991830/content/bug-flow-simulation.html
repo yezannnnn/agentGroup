@@ -1,0 +1,175 @@
+<h2>实战模拟：Aegis审批按钮Bug的混合范式流程</h2>
+<p class="subtitle">完整演示 8检查点 + Skills 的协同工作过程</p>
+
+<div class="section">
+  <h3>🚀 任务输入</h3>
+  <div style="background: #ffebee; padding: 16px; border-radius: 8px; border-left: 4px solid #f44336;">
+    <strong>用户请求</strong>: "给我项目aegis修服，审批点击没反应"<br>
+    <strong>期望</strong>: 修复Aegis审批按钮功能
+  </div>
+</div>
+
+<div class="section">
+  <h3>🛡️ 检查点层处理流程</h3>
+
+  <div style="margin: 16px 0;">
+    <div style="background: #e3f2fd; padding: 12px; border-radius: 8px; border-left: 4px solid #2196F3;">
+      <strong>📋 检查点0: 任务范围确认</strong><br>
+      <span style="font-size: 0.9em;">
+        ✅ 确认: Bug修复任务，范围明确<br>
+        ✅ Token预估: ~3000 tokens (中等复杂度)<br>
+        ✅ MVP原则: 优先恢复基本功能
+      </span>
+    </div>
+  </div>
+
+  <div style="margin: 16px 0;">
+    <div style="background: #e3f2fd; padding: 12px; border-radius: 8px; border-left: 4px solid #2196F3;">
+      <strong>📖 检查点1: Token优化策略</strong><br>
+      <span style="font-size: 0.9em;">
+        ✅ 读取: token-optimization.md<br>
+        ✅ Bug修复标准策略: 先诊断后修复，避免盲目猜测
+      </span>
+    </div>
+  </div>
+
+  <div style="margin: 16px 0;">
+    <div style="background: #e3f2fd; padding: 12px; border-radius: 8px; border-left: 4px solid #2196F3;">
+      <strong>🔔 检查点2: 通知检查</strong><br>
+      <span style="font-size: 0.9em;">
+        ✅ 检查: ../shared/scripts/check_notifications_simple.sh max<br>
+        ✅ 无新通知，继续处理
+      </span>
+    </div>
+  </div>
+
+  <div style="margin: 16px 0;">
+    <div style="background: #e3f2fd; padding: 12px; border-radius: 8px; border-left: 4px solid #2196F3;">
+      <strong>🎯 检查点3: 任务分解评估</strong><br>
+      <span style="font-size: 0.9em;">
+        ✅ 判断: 可分解 (诊断 + 修复 + 测试)<br>
+        ✅ 决策: 使用Task分解，并行处理
+      </span>
+    </div>
+  </div>
+
+  <!-- 关键的集成接口 -->
+  <div style="margin: 16px 0;">
+    <div style="background: #fff3e0; padding: 12px; border-radius: 8px; border-left: 4px solid #ff9800; border: 2px dashed #ff9800;">
+      <strong>🧰 检查点4: Skill智能识别 [集成接口]</strong><br>
+      <span style="font-size: 0.9em;">
+        🔍 <strong>触发Skills</strong>:<br>
+        → systematic-debugging (Superpowers核心技能)<br>
+        → test-driven-development (TDD集成)<br>
+        → verification-before-completion (质量保证)<br>
+        → aegis-specific-troubleshooting (团队自定义技能)
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>🧰 Skills执行层处理流程</h3>
+
+  <div style="background: #e8f5e8; padding: 16px; border-radius: 8px; margin: 16px 0;">
+    <h4>🔧 Skill 1: systematic-debugging</h4>
+    <div style="font-size: 0.9em; margin-top: 8px; line-height: 1.6;">
+      <strong>执行步骤</strong>:<br>
+      1. Read SKILL.md guidance<br>
+      2. 创建诊断文档: <code>debug-aegis-approval-2026-05-16.md</code><br>
+      3. 问题复现 → 定位组件 → 识别根因<br>
+      4. 输出: "前端事件处理器回调缺失"
+    </div>
+  </div>
+
+  <div style="background: #e8f5e8; padding: 16px; border-radius: 8px; margin: 16px 0;">
+    <h4>🧪 Skill 2: test-driven-development</h4>
+    <div style="font-size: 0.9em; margin-top: 8px; line-height: 1.6;">
+      <strong>执行步骤</strong>:<br>
+      1. 先写失败测试: <code>approval-click-response.test.js</code><br>
+      2. 确认测试失败 (当前bug重现)<br>
+      3. 最小修复: 添加事件处理回调<br>
+      4. 测试通过确认
+    </div>
+  </div>
+
+  <div style="background: #e8f5e8; padding: 16px; border-radius: 8px; margin: 16px 0;">
+    <h4>🎯 Skill 3: aegis-specific-troubleshooting (团队自定义)</h4>
+    <div style="font-size: 0.9em; margin-top: 8px; line-height: 1.6;">
+      <strong>执行步骤</strong>:<br>
+      1. 检查Aegis架构特定的日志<br>
+      2. 验证ApprovalModal组件状态<br>
+      3. 确认与后端API通信正常<br>
+      4. 更新团队的Aegis troubleshooting知识库
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>🔄 集成接口：反馈回检查点层</h3>
+
+  <div style="margin: 16px 0;">
+    <div style="background: #f3e5f5; padding: 12px; border-radius: 8px; border-left: 4px solid #e91e63;">
+      <strong>🤖 检查点5: 执行方式确认</strong><br>
+      <span style="font-size: 0.9em;">
+        ✅ 基于skills反馈: 直接修复 (非复杂架构问题)<br>
+        ✅ 模型选择: Haiku (简单修复 + 测试验证)
+      </span>
+    </div>
+  </div>
+
+  <div style="margin: 16px 0;">
+    <div style="background: #f3e5f5; padding: 12px; border-radius: 8px; border-left: 4px solid #e91e63;">
+      <strong>⚠️ 检查点6: Git操作检测</strong><br>
+      <span style="font-size: 0.9em;">
+        ✅ 涉及代码修改，需要用户授权<br>
+        ✅ 等待用户确认: "可以提交修复"
+      </span>
+    </div>
+  </div>
+
+  <div style="margin: 16px 0;">
+    <div style="background: #f3e5f5; padding: 12px; border-radius: 8px; border-left: 4px solid #e91e63;">
+      <strong>🧠 检查点7: 记忆系统记录</strong><br>
+      <span style="font-size: 0.9em;">
+        ✅ 记录使用的skills: systematic-debugging, TDD, aegis-troubleshooting<br>
+        ✅ 记录解决方案模式: 前端事件处理器缺失<br>
+        ✅ 更新团队知识库: Aegis常见问题解决方案
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>📦 最终交付物</h3>
+  <div class="split">
+    <div style="background: #f8f9fa; padding: 16px; border-radius: 8px;">
+      <h4>📄 文档输出</h4>
+      <ul style="font-size: 0.9em; line-height: 1.6;">
+        <li><code>debug-aegis-approval-2026-05-16.md</code></li>
+        <li><code>approval-click-response.test.js</code></li>
+        <li><code>aegis-troubleshooting-update.md</code></li>
+        <li><code>memory/max/2026-05-16.json</code></li>
+      </ul>
+    </div>
+    <div style="background: #f8f9fa; padding: 16px; border-radius: 8px;">
+      <h4>💻 代码输出</h4>
+      <ul style="font-size: 0.9em; line-height: 1.6;">
+        <li>修复的ApprovalModal.vue</li>
+        <li>新增测试用例</li>
+        <li>更新的aegis-troubleshooting skill</li>
+        <li>Git提交记录 (带skill标签)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="background: #e8f5e8; padding: 16px; border-radius: 8px;">
+  <h3>✨ 混合范式的独特价值</h3>
+  <div style="margin-top: 12px; line-height: 1.8;">
+    <p><strong>质量保证升级</strong>: 8检查点 + Superpowers验证 = 双重质量防线</p>
+    <p><strong>知识积累加速</strong>: 每次使用skill都自动更新团队知识库</p>
+    <p><strong>团队协作无缝</strong>: 保持Max/Jarvis协作模式，但流程更标准化</p>
+    <p><strong>成本意识保持</strong>: Token优化依然是核心，但执行更高效</p>
+  </div>
+</div>
