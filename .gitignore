@@ -52,20 +52,10 @@ shared/generate-password.js
 ella/shared/
 
 # Skills（本地安装，不提交）
-shared/skills/frontend-design/
-shared/skills/security-monitor/
-shared/skills/tavily-search/
-shared/skills/ui-ux-pro-max/
-shared/skills/using-superpowers/
-shared/skills/skill-discovery-engine.py
-shared/skills/skill-market-client.py
-shared/skills/skill-matcher.py
-shared/skills/skill_matcher_demo.py
-shared/skills/test_*.py
+*/skills/*
 shared/knowledge/setup.py
 shared/knowledge/*.canvas
-jarvis/skills/debugging/
-kyle/skills/playwright/
+shared/knowledge/.obsidian/
 
 # Memory索引（本地生成）
 memory/
